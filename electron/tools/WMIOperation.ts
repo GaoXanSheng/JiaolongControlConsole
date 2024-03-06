@@ -51,7 +51,7 @@ class WMIOperation {
     public async isAdmin() {
         return await this.execCMD(`isAdmin`)
     }
-    public execCMD(CMD: string): Promise<string | any> {
+    private execCMD(CMD: string): Promise<string | any> {
         return new Promise((resolve, reject) => {
             if (!this.isInit) return reject("False")
             exec(`"${this.JiaoLongWMIFilePath}" ${CMD}`, {encoding: "utf8"}, (error, stdout, stderr) => {

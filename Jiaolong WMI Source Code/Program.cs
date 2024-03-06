@@ -67,8 +67,7 @@ namespace JiaoLong16Pro
                         break;
                     case "isAdmin":
                         //isAdmin-1
-                        UacAdmin.isAdmin();
-                        Console.WriteLine(true);
+                        Console.WriteLine(UacAdmin.isAdmin());
                         break;
                     default:
                         exit();
