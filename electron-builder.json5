@@ -25,6 +25,9 @@
     "artifactName": "${productName}-Windows-${version}-Setup.${ext}",
     icon: "./public/electron-icon.icon"
   },
+  "portable": {
+    "requestExecutionLevel": "admin"
+  },
   "nsis": {
     "oneClick": false,
     "perMachine": false,

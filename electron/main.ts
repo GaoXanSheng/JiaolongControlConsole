@@ -1,6 +1,6 @@
 import {app,BrowserWindow} from 'electron'
 import path from 'node:path'
-import {wMIOperation, WMIOperation} from "./tools/WMIOperation.ts";
+import {wMIOperation} from "./tools/WMIOperation.ts";
 // The built directory structure
 //
 // ├─┬─┬ dist
@@ -48,9 +48,9 @@ function createWindow() {
     }
     let FilePath
     if (app.isPackaged) {
-        FilePath = path.join(app.getAppPath(), '..\\JiaoLongWMI\\JiaoLongWMI.exe')
+        FilePath = path.join(app.getAppPath(), '..\\JiaoLongWMI\\ClassLibrary.dll')
     } else {
-        FilePath = path.join(app.getAppPath(), '\\JiaoLongWMI\\JiaoLongWMI.exe')
+        FilePath = path.join(app.getAppPath(), '\\JiaoLongWMI\\ClassLibrary.dll')
     }
     wMIOperation.init(FilePath)
 

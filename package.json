@@ -4,15 +4,14 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
-    "build": "vite build && electron-builder && node BuildCopyExeFile.js",
+    "build": "vite build && electron-builder && npx BuildCopyExeFile",
     "BuildCopyExeFile": "node BuildCopyExeFile.js",
     "preview": "vite preview"
   },
   "dependencies": {
     "@rollup/plugin-commonjs": "^25.0.7",
     "adm-zip": "^0.5.10",
-    "child_process": "^1.0.2",
-    "is-elevated": "^4.0.0",
+    "electron-edge-js": "^28.0.1",
     "primevue": "^3.49.1",
     "sass": "^1.71.1",
     "vue": "^3.3.4",
@@ -20,7 +19,7 @@
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.3.4",
-    "electron": "20.3.8",
+    "electron": "^28.2.6",
     "electron-builder": "^24.6.4",
     "typescript": "^5.2.2",
     "vite": "^4.4.9",
@@ -29,8 +28,5 @@
     "vite-plugin-require-transform": "^1.0.21",
     "vue-tsc": "^1.8.8"
   },
-  "main": "dist-electron/main.js",
-  "browser": {
-    "child_process": false
-  }
+  "main": "dist-electron/main.js"
 }
