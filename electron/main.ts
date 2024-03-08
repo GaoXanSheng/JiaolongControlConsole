@@ -1,6 +1,6 @@
-import {app,BrowserWindow} from 'electron'
+import {app, BrowserWindow, ipcMain} from 'electron'
 import path from 'node:path'
-import {wMIOperation} from "./tools/WMIOperation.ts";
+import wMIOperation from "./tools/WMIOperation";
 // The built directory structure
 //
 // ├─┬─┬ dist
@@ -12,7 +12,18 @@ import {wMIOperation} from "./tools/WMIOperation.ts";
 // │
 process.env.DIST = path.join(__dirname, '../dist')
 process.env.VITE_PUBLIC = app.isPackaged ? process.env.DIST : path.join(process.env.DIST, '../public')
-
+let rootDirectory = ""
+if (app.isPackaged) {
+    rootDirectory = path.join(app.getAppPath(), '..\\JiaoLongWMI')
+} else {
+    rootDirectory = path.join(app.getAppPath(), '\\JiaoLongWMI')
+}
+console.log = function(message) {
+    ipcMain.on('custom-event-NodeJS-Debug',async (event, _args)=>{
+        event.sender.send('custom-event-NodeJS-Debug',  message);
+    })
+    process.stdout.write(message + '\n');
+};
 
 let win: BrowserWindow | null
 // 🚧 Use ['ENV_NAME'] avoid vite:define plugin - Vite@2.x
@@ -39,21 +50,14 @@ function createWindow() {
 
     if (VITE_DEV_SERVER_URL) {
         win.loadURL(VITE_DEV_SERVER_URL)
-        win.webContents.openDevTools({
-            mode: "detach"
-        })
     } else {
         // win.loadFile('dist/index.html')
         win.loadFile(path.join(process.env.DIST, 'index.html'))
     }
-    let FilePath
-    if (app.isPackaged) {
-        FilePath = path.join(app.getAppPath(), '..\\JiaoLongWMI\\ClassLibrary.dll')
-    } else {
-        FilePath = path.join(app.getAppPath(), '\\JiaoLongWMI\\ClassLibrary.dll')
-    }
-    wMIOperation.init(FilePath)
-
+    win.webContents.openDevTools({
+        mode: "detach"
+    })
+   wMIOperation.init(path.join(rootDirectory, '\\JiaoLongWMI.exe'))
 }
 
 // Quit when all windows are closed, except on macOS. There, it's common

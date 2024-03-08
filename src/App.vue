@@ -2,8 +2,7 @@
 // import LeftSide from "./components/leftSide.vue";
 // import RightSide from "./components/rightSide.vue";
 
-import store from "./store.ts";
-import {eumPerformaceMode} from "./IPCRenderer.ts";
+import IpcRenderer from "./IPCRenderer.ts";
 function randomRGB() {
   const r = Math.floor(Math.random() * 256); // 生成 0 到 255 之间的随机整数
   const g = Math.floor(Math.random() * 256);
@@ -16,11 +15,11 @@ function randomIntFrom1To4() {
   return Math.floor(Math.random() * 4) + 1; // 生成 1 到 4 之间的随机整数
 }
 setInterval(()=>{
-  store.state.IpcRenderer.SetRGBKeyboardColor(randomRGB().r,randomRGB().g,randomRGB().b).then(e=>{
-    console.log(e)
+  IpcRenderer.SetRGBKeyboardColor(randomRGB().r,randomRGB().g,randomRGB().b).then(r=>{
+    console.log(r)
   })
-  store.state.IpcRenderer.testFalse().then(e=>{
-    console.log(e)
+  IpcRenderer.testFalse().then(r=>{
+    console.log(r)
   })
 },1000)
 </script>

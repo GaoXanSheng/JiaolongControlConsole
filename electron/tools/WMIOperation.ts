@@ -1,35 +1,28 @@
+import {exec} from 'child_process'
 import {ipcMain} from 'electron';
-const edge = require("electron-edge-js");
+
 interface ResultState {
     ON:1,
     OFF:0
 }
 enum eumPerformaceMode
 {
-    BalanceMode,
-    PerformanceMode,
-    QuietMode,
-    Unknow = 255
+        BalanceMode,
+        PerformanceMode,
+        QuietMode,
+        Unknow = 255
 }
 class WMIOperation {
     private isInit = false;
     private JiaoLongWMIFilePath: string = "";
-    private dotnetFunction:any;
     constructor() {
         ipcMain.on('custom-event-execCmd',async (event, args)=>{
-            event.sender.send('custom-event-execCmd-callback',  await this.execCMD(args));
+            event.sender.send('custom-event-execCmd-callback', JSON.stringify({
+                to:args,
+                from: JSON.stringify(await this.execCMD(args))
+            }));
         })
     }
-
-    private execDLL (parameter:any) {
-        this.dotnetFunction  = edge.func(this.JiaoLongWMIFilePath);
-        if (this.dotnetFunction !== null) {
-            return this.dotnetFunction(parameter, true)
-        } else {
-            return 'dotnetFunction is null'
-        }
-    }
-
     public init(assemblyFilePathJiaoLongWMI: string) {
         this.isInit = true;
         this.JiaoLongWMIFilePath = assemblyFilePathJiaoLongWMI;
@@ -61,12 +54,19 @@ class WMIOperation {
     public async isAdmin() {
         return await this.execCMD(`isAdmin`)
     }
-    private execCMD(CMD: string): Promise<string | any> {
+    public execCMD(CMD: string): Promise<string | any> {
         return new Promise((resolve, reject) => {
-            resolve(this.execDLL(CMD))
             if (!this.isInit) return reject("False")
+            exec(`"${this.JiaoLongWMIFilePath}" ${CMD}`, {encoding: "utf8"}, (error, stdout, stderr) => {
+                if (error) reject(error)
+                resolve({
+                    stdout,
+                    stderr
+                })
+            })
         })
     }
 }
+const wMIOperation = new WMIOperation()
+export default wMIOperation
 
-export const wMIOperation = new WMIOperation()

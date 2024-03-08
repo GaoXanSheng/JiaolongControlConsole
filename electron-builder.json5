@@ -14,24 +14,19 @@
     "dist-electron"
   ],
   "win": {
+    "requestedExecutionLevel": "highestAvailable",
     "target": [
       {
-        "target": "nsis",
+        "target": "portable",
         "arch": [
           "x64"
         ]
       }
     ],
-    "artifactName": "${productName}-Windows-${version}-Setup.${ext}",
+    "artifactName": "${productName}-Windows-X64-${version}.${ext}",
     icon: "./public/electron-icon.icon"
   },
   "portable": {
-    "requestExecutionLevel": "admin"
-  },
-  "nsis": {
-    "oneClick": false,
-    "perMachine": false,
-    "allowToChangeInstallationDirectory": true,
-    "deleteAppDataOnUninstall": false
+    useZip: true,
   }
 }

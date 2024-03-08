@@ -13,11 +13,3 @@ exec(`xcopy /E /I /Y "${sourceDir}" "${destDir}"`, (error, stdout, stderr) => {
     console.log(stderr)
 })
 
-fs.readdirSync(delFileDir).forEach(file => {
-    const filePath = path.join(delFileDir, file);
-    console.log(file)
-    if (file == "JiaolongControlConsole-Windows-0.0.0-Setup.exe" || file == "JiaolongControlConsole-Windows-0.0.0-Setup.exe.blockmap") {
-        fs.unlinkSync(filePath);
-        console.log(`Deleted file: ${filePath}`);
-    }
-});

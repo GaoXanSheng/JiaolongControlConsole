@@ -4,14 +4,13 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
-    "build": "vite build && electron-builder && npx BuildCopyExeFile",
+    "build": "vite build && electron-builder && node BuildCopyExeFile.js",
     "BuildCopyExeFile": "node BuildCopyExeFile.js",
     "preview": "vite preview"
   },
   "dependencies": {
     "@rollup/plugin-commonjs": "^25.0.7",
     "adm-zip": "^0.5.10",
-    "electron-edge-js": "^28.0.1",
     "primevue": "^3.49.1",
     "sass": "^1.71.1",
     "vue": "^3.3.4",

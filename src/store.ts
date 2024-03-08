@@ -1,5 +1,5 @@
 import {createStore} from 'vuex';
-import {IPCRenderer} from "./IPCRenderer";
+
 export enum HomeTab {
     HOME,
     CPU,
@@ -10,7 +10,6 @@ export enum HomeTab {
 
 const store = createStore({
     state: {
-        IpcRenderer:new IPCRenderer(),
         SwitchPages:HomeTab.HOME,
         HomeTab:{
             SetLogoLight:false
