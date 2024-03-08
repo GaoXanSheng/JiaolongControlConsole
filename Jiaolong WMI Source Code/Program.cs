@@ -1,9 +1,4 @@
-﻿using System.Diagnostics;
-using System.Reflection;
-using System.Security.Principal;
-using JiaoLong16Pro.BLD.WMIOperation;
-using JiaoLong16Pro.Models;
-using JiaoLong16Pro.tools;
+﻿using JiaoLong16Pro.Models;
 
 
 namespace JiaoLong16Pro
@@ -27,17 +22,17 @@ namespace JiaoLong16Pro
                 {
                     case "SetCpuLongPower":
                         //SetCpuLongPower-number
-                        CPUPower.SetCpuLongPower(input);
+                        CPU.SetCpuLongPower(input);
                         Console.WriteLine(true);
                         break;
                     case "SetCpuShortPower":
                         //SetCpuShortPower-number
-                        CPUPower.SetCpuShortPower(input);
+                        CPU.SetCpuShortPower(input);
                         Console.WriteLine(true);
                         break;
                     case "SetCPUTempWall":
                         //SetCPUTempWall-number
-                        CPUTempWall.SetCPUTempWall(input);
+                        CPU.SetCPUTempWall(input);
                         Console.WriteLine(true);
                         break;
                     case "SetRGBKeyboardColor":
@@ -52,7 +47,7 @@ namespace JiaoLong16Pro
                         break;
                     case "SetGpuMode":
                         //SetGpuMode-1
-                        GpuMode.CLISetGpuMode(input);
+                        GPU.CLISetGpuMode(input);
                         Console.WriteLine(true);
                         break;
                     case "SetPerformaceMode":

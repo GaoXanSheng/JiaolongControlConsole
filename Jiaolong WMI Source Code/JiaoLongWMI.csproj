@@ -8,6 +8,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Models\CPUTempWall.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="LibreHardwareMonitorLib" Version="0.9.3" />
     <PackageReference Include="System.Diagnostics.EventLog" Version="9.0.0-preview.1.24080.9" />
     <PackageReference Include="System.Management" Version="8.0.0" />
   </ItemGroup>

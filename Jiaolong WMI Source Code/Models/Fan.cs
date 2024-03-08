@@ -1,5 +1,4 @@
 ﻿using JiaoLong16Pro.BLD.WMIOperation;
-
 namespace JiaoLong16Pro.Models;
 
 public class Fan

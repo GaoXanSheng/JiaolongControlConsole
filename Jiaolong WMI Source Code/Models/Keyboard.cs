@@ -18,7 +18,14 @@ public class Keyboard
             (float)tuple.Item3
         });
     }
-
+    public static WMIRGBKeyboardBrightnessLevel GetkeyboardLightBrightness()
+    {
+        return WMIMethodServices.GetValue<WMIRGBKeyboardBrightnessLevel>(WMIMethodName.RGBKeyboardBrightness);
+    }
+    public static WMIRGBKeyboardMode GetKeyboardMode()
+    {
+        return WMIMethodServices.GetValue<WMIRGBKeyboardMode>(WMIMethodName.RGBKeyboardMode);
+    }
     public static void SetRGBKeyboardColor(byte red, byte green, byte blue)
     {
         WMIMethodServices.SetValue(WMIMethodName.RGBKeyboardMode, WMIRGBKeyboardMode.Mode_RGBFixedMode);
