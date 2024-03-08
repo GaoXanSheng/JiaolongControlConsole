@@ -3,7 +3,7 @@ WMI to C#
 
 Ts to electron
 
-electron => IPC => NodeJs => C#
+electron => IPC => NodeJs => CLI => C#
 
 use Dev
 
