@@ -51,8 +51,11 @@ class WMIOperation {
     public async SetkeyboardLightBrightness(State:number) {
         return await this.execCMD(`SetkeyboardLightBrightness-${State}`)
     }
-    public async isAdmin() {
-        return await this.execCMD(`isAdmin`)
+    public async SwitchMaxFanSpeed(State:ResultState) {
+        return await this.execCMD(`SwitchMaxFanSpeed-${State}`)
+    }
+    public async SetFanSpeed(State:number) {
+        return await this.execCMD(`SetFanSpeed-${State}`)
     }
     public execCMD(CMD: string): Promise<string | any> {
         return new Promise((resolve, reject) => {

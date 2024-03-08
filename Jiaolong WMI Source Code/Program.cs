@@ -65,9 +65,15 @@ namespace JiaoLong16Pro
                         Keyboard.SetkeyboardLightBrightness(input);
                         Console.WriteLine(true);
                         break;
-                    case "isAdmin":
-                        //isAdmin-1
-                        Console.WriteLine(UacAdmin.isAdmin());
+                    case "SwitchMaxFanSpeed":
+                        //SwitchMaxFanSpeed-1
+                        Fan.CLISetSwitchMaxFanSpeed(input);
+                        Console.WriteLine(true);
+                        break;
+                    case "SetFanSpeed":
+                        //SetFanSpeed-1
+                        Fan.SetFanSpeed(input);
+                        Console.WriteLine(true);
                         break;
                     default:
                         exit();

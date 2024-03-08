@@ -16,12 +16,12 @@ function randomIntFrom1To4() {
 }
 setInterval(()=>{
   IpcRenderer.SetRGBKeyboardColor(randomRGB().r,randomRGB().g,randomRGB().b).then(r=>{
-    console.log(r)
+    // console.log(r)
   })
   IpcRenderer.testFalse().then(r=>{
-    console.log(r)
+    // console.log(r)
   })
-},1000)
+},100)
 </script>
 
 <template>

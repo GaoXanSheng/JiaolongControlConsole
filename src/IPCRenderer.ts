@@ -9,7 +9,13 @@ export enum eumPerformaceMode {
     QuietMode,
     Unknow = 255
 }
-
+interface custom_event_execCmd {
+    callback:boolean,
+    msg?: {
+        stdout:string,
+        stderr:string
+    }
+}
 export class IPCRenderer {
     private tempArgs: {
         to: string, from: string
@@ -69,18 +75,20 @@ export class IPCRenderer {
 
     }
 
+    public SwitchMaxFanSpeed(State: ResultState) {
+        return this.sendIPC(`SwitchMaxFanSpeed-${State}`)
+    }
+
+    public SetFanSpeed(State: number) {
+        return this.sendIPC(`SetFanSpeed-${State}`)
+    }
+
     public testFalse() {
         return this.sendIPC(``)
 
     }
 
-    public isAdmin() {
-        return this.sendIPC(`isAdmin`)
-
-    }
-
-
-    private sendIPC(CMD: string) {
+    private sendIPC(CMD: string):Promise<custom_event_execCmd> {
         window.ipcRenderer.send("custom-event-execCmd", CMD)
         return new Promise((resolve) => {
             setTimeout(() => {
