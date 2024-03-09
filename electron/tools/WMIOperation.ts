@@ -1,11 +1,6 @@
 import {exec} from 'child_process'
 import {ipcMain} from 'electron';
-import {
-    ClientSendIPCExecCmdData,
-    eumPerformaceMode,
-    ResultState,
-    ServerSendIPCExecCmdData
-} from "../Models/IPCModels.ts";
+import {ClientSendIPCExecCmdData, ServerSendIPCExecCmdData} from "../Models/IPCModels.ts";
 
 class WMIOperation {
     private isInit = false;
@@ -13,7 +8,7 @@ class WMIOperation {
     constructor() {
         ipcMain.on('custom-event-execCmd',async (event, args:ClientSendIPCExecCmdData)=>{
             const {stderr,stdout} = await this.execCMD(args.execCmd)
-            const callback:ServerSendIPCExecCmdData={callback: false, msg: {stderr, stdout}, timeCounter: 0}
+            const callback:ServerSendIPCExecCmdData={callback: true, msg: {stderr, stdout}, timeCounter: args.timeCounter}
             event.sender.send('custom-event-execCmd-callback', callback);
         })
     }
@@ -32,36 +27,6 @@ class WMIOperation {
                 })
             })
         })
-    }
-    public async SetCpuLongPower(input:number) {
-        return await this.execCMD(`SetCpuLongPower-${input}`)
-    }
-    public async SetCpuShortPower(input:number) {
-        return await this.execCMD(`SetCpuShortPower-${input}`)
-    }
-    public async SetCPUTempWall(input:number) {
-        return await this.execCMD(`SetCPUTempWall-${input}`)
-    }
-    public async SetRGBKeyboardColor(r:number,g:number,b:number) {
-        return await this.execCMD(`SetRGBKeyboardColor-${r}-${g}-${b}`)
-    }
-    public async SetLogoLight(State:ResultState) {
-        return await this.execCMD(`SetLogoLight-${State}`)
-    }
-    public async SetGpuMode(State:ResultState) {
-        return await this.execCMD(`SetGpuMode-${State}`)
-    }
-    public async SetPerformaceMode(State:eumPerformaceMode) {
-        return await this.execCMD(`SetPerformaceMode-${State}`)
-    }
-    public async SetkeyboardLightBrightness(State:number) {
-        return await this.execCMD(`SetkeyboardLightBrightness-${State}`)
-    }
-    public async SwitchMaxFanSpeed(State:ResultState) {
-        return await this.execCMD(`SwitchMaxFanSpeed-${State}`)
-    }
-    public async SetFanSpeed(State:number) {
-        return await this.execCMD(`SetFanSpeed-${State}`)
     }
 }
 const wMIOperation = new WMIOperation()

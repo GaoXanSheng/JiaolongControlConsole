@@ -3,6 +3,12 @@
 
 import RightSide from "./components/rightSide.vue";
 import LeftSide from "./components/leftSide.vue";
+import wmiOperation from "./WMIOperation/WMIOperation.ts";
+import {KeyboardBuild} from "../electron/Models/CmdBuild.ts";
+
+wmiOperation.Keyboard(KeyboardBuild.GetRGBKeyboardColor, 0).then(r=>{
+  console.log(r)
+})
 </script>
 
 <template>
