@@ -1,11 +1,10 @@
 <script setup lang="ts">
-// import LogoLightPng from '../assets/LogoLight.png'
-import store, {HomeTab} from "../../store.ts";
-import CPU from '../../assets/CPU.png'
-// import HOME from '../assets/HOME.png'
-import Keyboard from '../../assets/Keyboard.png'
-import PerformaceMode from '../../assets/PerformaceMode.png'
-import Fan from '../../assets/Fan.png'
+import store, {HomeTab} from "../store.ts";
+import CPU from '../assets/CPU.png'
+import HOME from '../assets/HOME.png'
+import Keyboard from '../assets/Keyboard.png'
+import PerformaceMode from '../assets/PerformaceMode.png'
+import Fan from '../assets/Fan.png'
 const HomeCardType = [
   {
     title:"HOME",
@@ -35,7 +34,7 @@ const HomeCardType = [
 ]
 
 function setStoreData(data) {
-  store.state.HomeTab = data
+  store.state.SwitchPages = data
 }
 </script>
 

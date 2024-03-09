@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import store, {HomeTab} from "../../store.ts";
+import store, {HomeTab} from "../store.ts";
 import HOME from "./Right component/HOME.vue";
 import CPU from "./Right component/CPU.vue";
 import Keyboard from "./Right component/Keyboard.vue";

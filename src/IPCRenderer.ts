@@ -97,7 +97,6 @@ export class IPCRenderer {
 
     public testFalse() {
         return this.sendIPC(``)
-
     }
 
 
