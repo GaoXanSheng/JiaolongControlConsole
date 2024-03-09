@@ -16,11 +16,11 @@ function randomIntFrom1To4() {
 }
 setInterval(()=>{
   IpcRenderer.SetRGBKeyboardColor(randomRGB().r,randomRGB().g,randomRGB().b).then(r=>{
-    // console.log(r)
+    console.log(r)
   })
-  IpcRenderer.testFalse().then(r=>{
-    // console.log(r)
-  })
+  // IpcRenderer.testFalse().then(r=>{
+  //   // console.log(r)
+  // })
 },100)
 </script>
 
@@ -28,52 +28,7 @@ setInterval(()=>{
   <div class="main">
     <div class="background"></div>
     <div class="container mdui-container">
-<!--      Keyboard breathing light-->
-<!--      <label class="mdui-switch">-->
-<!--        <input value="1" type="checkbox"/>-->
-<!--        <i class="mdui-switch-icon"></i>-->
-<!--      </label>-->
-<!--      <div class="title">-->
-<!--        <h2>蛟龙16PRO工具箱 <small>JiaoLong-Control-Console</small></h2>-->
-<!--        <div class="mdui-typo">-->
-<!--          <blockquote>-->
-<!--            <p>Thaumaturgy... which giveth certain order to make strange works, of the sense to be perceived and of men-->
-<!--              greatly to be wondered at.MathematicallPraeface.</p>-->
-<!--            <footer>John Dee(1570) ——《Euclid's Elements》</footer>-->
-<!--          </blockquote>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--      <div class="miscellaneous">-->
-<!--        <h3>杂项 <small>杂项</small></h3>-->
-<!--        <p class="menu">-->
-<!--          LOGO灯开关-->
-<!--          <label class="mdui-switch">-->
-<!--            <input type="checkbox"/>-->
-<!--            <i class="mdui-switch-icon"></i>-->
-<!--          </label>-->
-<!--        </p>-->
-<!--      </div>-->
-<!--      <div class="cpu">-->
-<!--        <h3>CPU <small>中央处理器</small></h3>-->
-<!--        <p class="menu">-->
-<!--          处理器温控墙-->
-<!--          <label class="mdui-slider  mdui-slider-discrete">-->
-<!--            <input type="range" step="1" min="65" max="98"/>-->
-<!--          </label>-->
-<!--        </p>-->
-<!--        <p class="menu">-->
-<!--          长时功耗-->
-<!--          <label class="mdui-slider mdui-slider-discrete">-->
-<!--            <input type="range" step="1" min="45" max="120"/>-->
-<!--          </label>-->
-<!--        </p>-->
-<!--        <p class="menu">-->
-<!--          短时功耗-->
-<!--          <label class="mdui-slider mdui-slider-discrete">-->
-<!--            <input type="range" step="1" min="45" max="120"/>-->
-<!--          </label>-->
-<!--        </p>-->
-<!--      </div>-->
+
     </div>
   </div>
 </template>

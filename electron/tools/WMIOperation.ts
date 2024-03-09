@@ -1,31 +1,37 @@
 import {exec} from 'child_process'
 import {ipcMain} from 'electron';
+import {
+    ClientSendIPCExecCmdData,
+    eumPerformaceMode,
+    ResultState,
+    ServerSendIPCExecCmdData
+} from "../Models/IPCModels.ts";
 
-interface ResultState {
-    ON:1,
-    OFF:0
-}
-enum eumPerformaceMode
-{
-        BalanceMode,
-        PerformanceMode,
-        QuietMode,
-        Unknow = 255
-}
 class WMIOperation {
     private isInit = false;
     private JiaoLongWMIFilePath: string = "";
     constructor() {
-        ipcMain.on('custom-event-execCmd',async (event, args)=>{
-            event.sender.send('custom-event-execCmd-callback', JSON.stringify({
-                to:args,
-                from: JSON.stringify(await this.execCMD(args))
-            }));
+        ipcMain.on('custom-event-execCmd',async (event, args:ClientSendIPCExecCmdData)=>{
+            const {stderr,stdout} = await this.execCMD(args.execCmd)
+            const callback:ServerSendIPCExecCmdData={callback: false, msg: {stderr, stdout}, timeCounter: 0}
+            event.sender.send('custom-event-execCmd-callback', callback);
         })
     }
     public init(assemblyFilePathJiaoLongWMI: string) {
         this.isInit = true;
         this.JiaoLongWMIFilePath = assemblyFilePathJiaoLongWMI;
+    }
+    public execCMD(CMD: string): Promise<string | any> {
+        return new Promise((resolve, reject) => {
+            if (!this.isInit) return reject("False")
+            exec(`"${this.JiaoLongWMIFilePath}" ${CMD}`, {encoding: "utf8"}, (error, stdout, stderr) => {
+                if (error) reject(error)
+                resolve({
+                    stdout,
+                    stderr
+                })
+            })
+        })
     }
     public async SetCpuLongPower(input:number) {
         return await this.execCMD(`SetCpuLongPower-${input}`)
@@ -56,18 +62,6 @@ class WMIOperation {
     }
     public async SetFanSpeed(State:number) {
         return await this.execCMD(`SetFanSpeed-${State}`)
-    }
-    public execCMD(CMD: string): Promise<string | any> {
-        return new Promise((resolve, reject) => {
-            if (!this.isInit) return reject("False")
-            exec(`"${this.JiaoLongWMIFilePath}" ${CMD}`, {encoding: "utf8"}, (error, stdout, stderr) => {
-                if (error) reject(error)
-                resolve({
-                    stdout,
-                    stderr
-                })
-            })
-        })
     }
 }
 const wMIOperation = new WMIOperation()
