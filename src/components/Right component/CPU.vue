@@ -22,9 +22,6 @@ function aPay(){
       wmiOperation.Cpu(CPUBuild.SetCPUTempWall, CPUData.value.tempWall).then(r=>{
         CPUData.value.outMsg.push(r)
       })
-      wmiOperation.Cpu(CPUBuild.SetCPUTempWall, CPUData.value.shortPower).then(r=>{
-        CPUData.value.outMsg.push(r)
-      })
     }
 }
 </script>

@@ -23,7 +23,7 @@
         ]
       }
     ],
-    "artifactName": "${productName}-Windows-X64-${version}.${ext}",
+    "artifactName": "${productName}-Windows-X64.${ext}",
   },
   icon: "./public/appicon/ItunesArtwork@2x.png",
   "portable": {

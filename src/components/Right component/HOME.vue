@@ -61,9 +61,9 @@
     height: 300px;
     box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.3);
     border-radius: 5px;
-    background-image: url(src/assets/background.jpg);
     background-size: cover;
     background-position: center;
+    background-image: url(../../assets/background.jpg);
   }
 }
 </style>
