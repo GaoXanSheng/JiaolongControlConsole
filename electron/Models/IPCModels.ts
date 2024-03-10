@@ -9,22 +9,14 @@ export enum eumPerformaceMode {
     QuietMode,
     Unknow = 255
 }
-export interface custom_event_execCmd {
-    timeCounter:number,
-    callback:boolean,
-    msg?: {
-        stdout:string,
-        stderr:string
-    }
-}
 
 export interface ClientSendIPCExecCmdData{
     execCmd:string,
     timeCounter:number
 }
 
-export interface ServerSendIPCExecCmdData{
-    timeCounter:number,
+export interface ServerSendIPCExecCmdData extends ClientSendIPCExecCmdData {
+    serverTimeCounter:number,
     callback:boolean,
     msg?: {
         stdout:string,

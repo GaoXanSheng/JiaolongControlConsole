@@ -10,7 +10,8 @@
 
 <style scoped>
 .PerformaceMode{
-  width: 100%;
-  height: 100%;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  width: 600px;
 }
 </style>

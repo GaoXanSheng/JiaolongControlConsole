@@ -1030,11 +1030,6 @@ eastasianwidth@^0.2.0:
   resolved "https://registry.npmjs.org/eastasianwidth/-/eastasianwidth-0.2.0.tgz"
   integrity sha512-I88TYZWc9XiYHRQ4/3c5rjjfgkjhLyW2luGIheGERbNQ6OY7yTybanSpDXZa8y7VUP9YmDcYa+eyq4ca7iLqWA==
 
-edge-cs@1.2.1:
-  version "1.2.1"
-  resolved "https://registry.npmjs.org/edge-cs/-/edge-cs-1.2.1.tgz"
-  integrity sha512-N5KAeMBhhCbCGmb5oiHJ0KcuTksZzo8lg+uByEUCZAdnLPHizHkk6ZIuuTD63eez7+W25ZSvsGS5+FtymxFoKw==
-
 ejs@^3.1.8:
   version "3.1.9"
   resolved "https://registry.npmjs.org/ejs/-/ejs-3.1.9.tgz"
@@ -1068,14 +1063,6 @@ electron-builder@^24.6.4:
     read-config-file "6.3.2"
     simple-update-notifier "2.0.0"
     yargs "^17.6.2"
-
-electron-edge-js@^28.0.1:
-  version "28.0.1"
-  resolved "https://registry.npmjs.org/electron-edge-js/-/electron-edge-js-28.0.1.tgz"
-  integrity sha512-kAoJHjo6ydalIcOCV+UllGnY3JASP5ExCCIGnjRMMu90iaHGhmQu7oCxXq1pRyXCLQb0cSM7EeRZbEq/w7Qh0w==
-  dependencies:
-    edge-cs "1.2.1"
-    nan "^2.17.0"
 
 electron-publish@24.13.1:
   version "24.13.1"
@@ -1886,11 +1873,6 @@ muggle-string@^0.3.1:
   resolved "https://registry.npmjs.org/muggle-string/-/muggle-string-0.3.1.tgz"
   integrity sha512-ckmWDJjphvd/FvZawgygcUeQCxzvohjFO5RxTjj4eq8kw359gFF3E1brjfI+viLMxss5JrHTDRHZvu2/tuy0Qg==
 
-nan@^2.17.0:
-  version "2.19.0"
-  resolved "https://registry.npmjs.org/nan/-/nan-2.19.0.tgz"
-  integrity sha512-nO1xXxfh/RWNxfd/XPfbIfFk5vgLsAxUR9y5O0cHMJu/AW9U95JLXqthYHjEp+8gQ5p96K9jUp8nbVOxCdRbtw==
-
 nanoid@^3.3.7:
   version "3.3.7"
   resolved "https://registry.npmjs.org/nanoid/-/nanoid-3.3.7.tgz"
@@ -1974,11 +1956,6 @@ postcss@^8.4.27, postcss@^8.4.35:
     nanoid "^3.3.7"
     picocolors "^1.0.0"
     source-map-js "^1.0.2"
-
-primevue@^3.49.1:
-  version "3.49.1"
-  resolved "https://registry.npmjs.org/primevue/-/primevue-3.49.1.tgz"
-  integrity sha512-OmUTqbKbPB63Zqf7uA49cipDi+Qh+/13AYJPwgvsVsI4QmAKIkeibBwkOgj1CNIFlopfF79YmyBshFUAPqlw9A==
 
 process-nextick-args@~2.0.0:
   version "2.0.1"
@@ -2459,7 +2436,7 @@ vue-tsc@^1.8.8:
     "@vue/language-core" "1.8.27"
     semver "^7.5.4"
 
-vue@^3.0.0, vue@^3.2.0, vue@^3.2.25, vue@^3.3.4, vue@3.4.21:
+vue@^3.2.0, vue@^3.2.25, vue@^3.3.4, vue@3.4.21:
   version "3.4.21"
   resolved "https://registry.npmjs.org/vue/-/vue-3.4.21.tgz"
   integrity sha512-5hjyV/jLEIKD/jYl4cavMcnzKwjMKohureP8ejn3hhEjwhWIhWeuzL2kJAjzl/WyVsgPY56Sy4Z40C3lVshxXA==

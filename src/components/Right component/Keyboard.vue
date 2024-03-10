@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import ColorPicker from 'primevue/colorpicker';
 </script>
 
 <template>

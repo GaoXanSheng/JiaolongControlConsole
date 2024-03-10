@@ -5,31 +5,32 @@ import HOME from '../assets/HOME.png'
 import Keyboard from '../assets/Keyboard.png'
 import PerformaceMode from '../assets/PerformaceMode.png'
 import Fan from '../assets/Fan.png'
+
 const HomeCardType = [
   {
-    title:"HOME",
-    icon:"",
-    eum:HomeTab.HOME
+    title: "HOME",
+    icon: HOME,
+    eum: HomeTab.HOME
   },
   {
-    title:"CPU",
-    icon:CPU,
-    eum:HomeTab.CPU
+    title: "CPU",
+    icon: CPU,
+    eum: HomeTab.CPU
   },
   {
-    title:"Keyboard",
-    icon:Keyboard,
-    eum:HomeTab.Keyboard
+    title: "Keyboard",
+    icon: Keyboard,
+    eum: HomeTab.Keyboard
   },
   {
-    title:"PerformaceMode",
-    icon:PerformaceMode,
-    eum:HomeTab.PerformaceMode
+    title: "PerformaceMode",
+    icon: PerformaceMode,
+    eum: HomeTab.PerformaceMode
   },
   {
-    title:"Fan",
-    icon:Fan,
-    eum:HomeTab.Fan
+    title: "Fan",
+    icon: Fan,
+    eum: HomeTab.Fan
   }
 ]
 
@@ -39,43 +40,19 @@ function setStoreData(data) {
 </script>
 
 <template>
-  <div class="leftSide">
-    <div class="leftCard" v-for="i of HomeCardType" @click="setStoreData(i.eum)" :key="i.eum">
-      <div class="logo">
-        <img :src="i.icon" draggable="false" alt="">
-      </div>
-      <div class="title">{{i.title}}</div>
-    </div>
+  <div class="mdui-drawer mdui-drawer-open">
+    <ul class="mdui-list">
+      <li d class="mdui-list-item mdui-ripple" v-for="i of HomeCardType" @click="setStoreData(i.eum)" :key="i.eum">
+        <img class="mdui-list-item-icon mdui-icon material-icons" :src="i.icon" draggable="false" alt="">
+        <div class="mdui-list-item-content">{{ i.title }}</div>
+      </li>
+    </ul>
   </div>
 </template>
 
 <style lang="scss" scoped>
-.leftSide {
-  :hover{
-    background-color: #ededfd;
-  }
-  width: 200px;
-  .leftCard {
-    width: 100%;
-    height: 70px;
-    display: flex;
-    .logo{
-      width: 50%;
-      height: 100%;
-      img{
-        width:40px;
-        margin-top: 10px;
-        margin-left: auto;
-        margin-right: auto;
-        object-fit: cover;
-        display: block;
-      }
-    }
-    .title {
-      width: 50%;
-      height: 100%;
-      word-break: break-all;
-    }
-  }
+.mdui-drawer{
+  width: 220px;
+
 }
 </style>

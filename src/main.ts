@@ -2,10 +2,8 @@ import {createApp} from 'vue'
 import './style.scss'
 import App from './App.vue'
 import store from "./store.ts";
-import PrimeVue from 'primevue/config';
-import 'primevue/resources/themes/aura-light-green/theme.css'
 
-createApp(App).use(store).use(PrimeVue).mount('#app').$nextTick(() => {
+createApp(App).use(store).mount('#app').$nextTick(() => {
     // Remove Preload scripts loading
     postMessage({payload: 'removeLoading'}, '*')
     // Use contextBridge

@@ -1,4 +1,4 @@
-import {app, BrowserWindow, ipcMain} from 'electron'
+import {app, BrowserWindow} from 'electron'
 import path from 'node:path'
 import wMIOperation from "./tools/WMIOperation";
 // The built directory structure
@@ -18,12 +18,6 @@ if (app.isPackaged) {
 } else {
     rootDirectory = path.join(app.getAppPath(), '\\JiaoLongWMI')
 }
-console.log = function(message) {
-    ipcMain.on('custom-event-NodeJS-Debug',async (event, _args)=>{
-        event.sender.send('custom-event-NodeJS-Debug',  message);
-    })
-    process.stdout.write(message + '\n');
-};
 
 let win: BrowserWindow | null
 // 🚧 Use ['ENV_NAME'] avoid vite:define plugin - Vite@2.x
@@ -36,7 +30,8 @@ function createWindow() {
         frame: true, // 设置为 false，去掉窗口的默认边框
         transparent: false, // 设置为 true，使窗口背景透明
         // 设置窗口形状
-
+        minHeight:700,
+        minWidth:1000,
         webPreferences: {
             preload: path.join(__dirname, 'preload.js'),
             nodeIntegration:true

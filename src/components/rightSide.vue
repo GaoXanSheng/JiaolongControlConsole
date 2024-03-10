@@ -20,6 +20,8 @@ import Fan from "./Right component/Fan.vue";
 
 <style scoped>
 .rightSide{
-   width: 600px;
+  padding-left: 220px;
+  width: calc(100vw - 220px);
+  height: 100%;
 }
 </style>

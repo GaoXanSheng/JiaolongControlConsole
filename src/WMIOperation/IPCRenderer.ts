@@ -1,11 +1,11 @@
 import {
     ClientSendIPCExecCmdData,
-    custom_event_execCmd,
     ServerSendIPCExecCmdData
 } from "../../electron/Models/IPCModels.ts";
 
 class IPCRenderer {
     private tempArgs: ServerSendIPCExecCmdData[] = [];
+    private delayTime: number = 100;
 
     constructor() {
         window.ipcRenderer.on('custom-event-NodeJS-Debug', (_event, args: string) => {
@@ -16,18 +16,19 @@ class IPCRenderer {
         })
     }
 
-    public sendIPC(CMD: string): Promise<custom_event_execCmd> {
+    public sendIPC(CMD: string): Promise<ServerSendIPCExecCmdData> {
         const SendData: ClientSendIPCExecCmdData = {
             execCmd: CMD, timeCounter: Date.now()
         }
         window.ipcRenderer.send("custom-event-execCmd", SendData)
         return new Promise((resolve) => {
-            const temp:ServerSendIPCExecCmdData[] = []
+            const temp: ServerSendIPCExecCmdData[] = []
             setTimeout(() => {
                 for (let i of this.tempArgs) {
                     if (i.timeCounter == SendData.timeCounter && i.callback) {
+                        this.delayTime = (i.serverTimeCounter - SendData.timeCounter) + 100
                         resolve(
-                            {timeCounter: SendData.timeCounter, callback: true, msg: i.msg}
+                            i
                         )
                         break
                     } else {
@@ -35,8 +36,7 @@ class IPCRenderer {
                     }
                 }
                 this.tempArgs = temp
-                resolve({timeCounter: SendData.timeCounter, callback: false})
-            }, 30)
+            }, this.delayTime)
 
         })
     }

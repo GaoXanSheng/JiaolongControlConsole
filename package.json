@@ -11,7 +11,6 @@
   "dependencies": {
     "@rollup/plugin-commonjs": "^25.0.7",
     "adm-zip": "^0.5.10",
-    "primevue": "^3.49.1",
     "sass": "^1.71.1",
     "vue": "^3.3.4",
     "vuex": "^4.1.0"
