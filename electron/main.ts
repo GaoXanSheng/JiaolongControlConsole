@@ -30,6 +30,8 @@ function createWindow() {
         frame: true, // 设置为 false，去掉窗口的默认边框
         transparent: false, // 设置为 true，使窗口背景透明
         // 设置窗口形状
+        height:700,
+        width:1000,
         minHeight:700,
         minWidth:1000,
         webPreferences: {
@@ -45,13 +47,13 @@ function createWindow() {
 
     if (VITE_DEV_SERVER_URL) {
         win.loadURL(VITE_DEV_SERVER_URL)
+        win.webContents.openDevTools({
+            mode: "detach"
+        })
     } else {
-        // win.loadFile('dist/index.html')
         win.loadFile(path.join(process.env.DIST, 'index.html'))
     }
-    win.webContents.openDevTools({
-        mode: "detach"
-    })
+
    wMIOperation.init(path.join(rootDirectory, '\\JiaoLongWMI.exe'))
 }
 

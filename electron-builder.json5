@@ -24,8 +24,8 @@
       }
     ],
     "artifactName": "${productName}-Windows-X64-${version}.${ext}",
-    icon: "./public/electron-icon.icon"
   },
+  icon: "./public/appicon/ItunesArtwork@2x.png",
   "portable": {
     useZip: true,
   }
