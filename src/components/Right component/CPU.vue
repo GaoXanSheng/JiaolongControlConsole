@@ -13,7 +13,7 @@ const CPUData = ref({
 
 function aPay(){
     if (CPUData.value.isTrue){
-      wmiOperation.System(SystemBuild.OpenCustomMode, 0).then(r=>{
+      wmiOperation.System(SystemBuild.OpenCustomMode, 1).then(r=>{
         CPUData.value.outMsg.push(r)
       })
       wmiOperation.Cpu(CPUBuild.SetCpuLongPower, CPUData.value.longPower).then(r=>{

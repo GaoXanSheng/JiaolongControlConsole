@@ -3,15 +3,7 @@
 
 <template>
   <div class="home">
-    <div class="title mdui-center">
-      <div class="portrait mdui-img-circle svelte-uub0d8">
-        <div class="add"><a target="_blank" href="https://github.com/GaoXanSheng/JiaolongControlConsole">
-          <button class="mdui-btn mdui-btn-icon mdui-color-theme-accent mdui-ripple"
-                  style="background-color: rgb(255, 64, 129);"><i class="mdui-icon material-icons">add</i></button>
-        </a></div>
-      </div>
-      <h2 class="name">GaoXuSheng</h2>
-    </div>
+    <div class="title mdui-center"></div>
     <div class="mainDescription mdui-center">
       <h1>蛟龙16PRO工具箱</h1>
       <h3>该工具箱针对7945HX+4606版本进行开发，不保证其他版本可用，风险自负</h3>
@@ -27,27 +19,7 @@
 </template>
 
 <style scoped>
-.portrait {
-  width: 100px;
-  height: 100px;
-  background-size: 100px;
-  position: relative;
-  margin: auto;
-  top: 15%;
-  background-image: url(https://yunmouren.top/assets/portrait-1f4162ef.jpg);
-  .add {
-    top: 75px;
-    left: 75px;
-    position: relative;
-    width: 30px;
-    height: 30px;
-    border-radius: 50px;
-  }
-}
-.name {
-  text-align: center;
-  padding-top: 60px
-}
+
 
 .home {
   width: 100%;

@@ -27,6 +27,7 @@ class IPCRenderer {
                 for (let i of this.tempArgs) {
                     if (i.timeCounter == SendData.timeCounter && i.callback) {
                         this.delayTime = (i.serverTimeCounter - SendData.timeCounter) + 100
+                        console.log(i)
                         resolve(
                             i
                         )
