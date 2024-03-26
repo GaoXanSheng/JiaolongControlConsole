@@ -53,6 +53,6 @@ function setStoreData(data) {
 <style lang="scss" scoped>
 .mdui-drawer{
   width: 220px;
-
+  box-shadow: none;
 }
 </style>

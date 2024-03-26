@@ -6,7 +6,7 @@
     <div class="title mdui-center"></div>
     <div class="mainDescription mdui-center">
       <h1>蛟龙16PRO工具箱</h1>
-      <h3>该工具箱针对7945HX+4606版本进行开发，不保证其他版本可用，风险自负</h3>
+      <h3>该工具箱针对7945HX+4600版本进行开发，不保证其他版本可用，风险自负</h3>
       <div class="mdui-typo">
         <blockquote>
           <p>Thaumaturgy... which giveth certain order to make strange works, of the sense to be perceived and of men greatly to be wondered at.MathematicallPraeface.</p>

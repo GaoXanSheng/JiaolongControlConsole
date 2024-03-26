@@ -7,7 +7,7 @@ class WMIOperation {
     private JiaoLongWMIFilePath: string = "";
 
     constructor() {
-        ipcMain.on('custom-event-execCmd', async (event, args: ClientSendIPCExecCmdData) => {
+        ipcMain.handle('custom-event-execCmd', async (_event, args: ClientSendIPCExecCmdData) => {
             const {stderr, stdout} = await this.execCMD(args.execCmd)
             const callback: ServerSendIPCExecCmdData = {
                 execCmd: args.execCmd,
@@ -16,7 +16,7 @@ class WMIOperation {
                 msg: {stderr, stdout},
                 timeCounter: args.timeCounter
             }
-            event.sender.send('custom-event-execCmd-callback', callback);
+            return callback
         })
     }
 
@@ -29,7 +29,7 @@ class WMIOperation {
         return new Promise((resolve, reject) => {
             if (!this.isInit) return reject("False")
             console.log(CMD)
-            exec(`"${this.JiaoLongWMIFilePath}" ${CMD}`, {encoding: "utf8"}, (error, stdout, stderr) => {
+            exec(`chcp 65001 && "${this.JiaoLongWMIFilePath}" ${CMD}`, {encoding: "utf8"}, (error, stdout, stderr) => {
                 if (error) reject(error)
                 resolve({
                     stdout,

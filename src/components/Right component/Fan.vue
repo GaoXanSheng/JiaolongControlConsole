@@ -28,7 +28,7 @@ function aPay() {
       <input v-model="fanData.isTrue" type="checkbox"/>
       <i class="mdui-switch-icon"></i>
     </label>
-    <div class="mdui-textfield mdui-textfield-floating-label">
+    <div class="mdui-textfield mdui-textfield-floating-label mdui-textfield-not-empty">
       <label class="mdui-textfield-label">FanSpeed 设置风扇最大转速</label>
       <input class="mdui-textfield-input" type="number" v-model="fanData.SetFanSpeed"/>
 
