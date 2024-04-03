@@ -1,29 +1,22 @@
 <script setup lang="ts">
-import {ref} from "vue";
 import wmiOperation from "../../WMIOperation/WMIOperation.ts";
 import {CPUBuild, SystemBuild} from "../../../electron/Models/CmdBuild.ts";
+import store from "../../store.ts";
+import {GetCpuInfoModels} from "../../../electron/Models/OSInfoModels.ts";
 
-const CPUData = ref({
-  isTrue: false,
-  longPower:45,
-  tempWall:80,
-  shortPower:45,
-  outMsg:[]
-})
-
-function aPay(){
-    if (CPUData.value.isTrue){
-      wmiOperation.System(SystemBuild.OpenCustomMode, 1).then(r=>{
-        CPUData.value.outMsg.push(r)
-      })
-      wmiOperation.Cpu(CPUBuild.SetCpuLongPower, CPUData.value.longPower).then(r=>{
-        CPUData.value.outMsg.push(r)
-      })
-      wmiOperation.Cpu(CPUBuild.SetCPUTempWall, CPUData.value.tempWall).then(r=>{
-        CPUData.value.outMsg.push(r)
-      })
-    }
-  console.log(CPUData.value.outMsg)
+const CPUData = store.state.CpuPage
+const cpuInfo = store.state.OS.CPU.Info as GetCpuInfoModels
+async function aPay() {
+  const data = [
+    await wmiOperation.System(SystemBuild.OpenCustomMode, 1),
+    await wmiOperation.Cpu(CPUBuild.SetCpuLongPower, CPUData.longPower),
+    await wmiOperation.Cpu(CPUBuild.SetCPUTempWall, CPUData.tempWall)
+  ]
+  let msg = ''
+  data.map(x => {
+    msg += x.msg?.stdout
+  })
+  mdui.alert(msg)
 }
 </script>
 
@@ -37,17 +30,22 @@ function aPay(){
     <label class="mdui-slider mdui-slider-discrete">
       <input type="range" step="1" min="0" max="100">
     </label>
+    <div class="mdui-typo">
+     <h4>{{ `${cpuInfo.manufacturer} ${cpuInfo.brand} ${cpuInfo.speedMax}GHz`  }}</h4>
+      <h4>{{ `Cores:${cpuInfo.cores} PhysicalCores:${cpuInfo.physicalCores}`  }}</h4>
+    </div>
+
     <div class="mdui-textfield mdui-textfield-floating-label mdui-textfield-not-empty">
       <label class="mdui-textfield-label">ShortPower 短时CPU功耗</label>
-      <input class="mdui-textfield-input" type="number" v-model="CPUData.shortPower" />
+      <input class="mdui-textfield-input" type="number" v-model="CPUData.shortPower"/>
     </div>
     <div class="mdui-textfield mdui-textfield-floating-label mdui-textfield-not-empty">
       <label class="mdui-textfield-label">LongPower 长时CPU功耗</label>
-      <input class="mdui-textfield-input" type="number" v-model="CPUData.longPower" />
+      <input class="mdui-textfield-input" type="number" v-model="CPUData.longPower"/>
     </div>
     <div class="mdui-textfield mdui-textfield-floating-label mdui-textfield-not-empty">
       <label class="mdui-textfield-label">TempWall 温度墙</label>
-      <input class="mdui-textfield-input" type="number" v-model="CPUData.tempWall" />
+      <input class="mdui-textfield-input" type="number" v-model="CPUData.tempWall"/>
     </div>
     <button v-if="CPUData.isTrue" class="mdui-btn mdui-btn-raised mdui-color-theme-accent" @click="aPay">应用</button>
   </div>

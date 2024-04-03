@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import wmiOperation from "../../WMIOperation/WMIOperation.ts";
 import {CPUBuild, SystemBuild} from "../../../electron/Models/CmdBuild.ts";
-import {GetCpuTemperature} from "../../tools/OsInfo.ts";
-import {echartsTemperature} from "../../tools/temperatureModels.ts";
+import store from "../../store.ts";
 
 const PerformaceModeData = {
   QuietMode: {
@@ -11,7 +10,7 @@ const PerformaceModeData = {
   PerformanceMode: {
     Msg: {content: "LongPower -> 60\n ShortPower -> 70\n TempWall -> 90"},
   },
-  FullSpeed:{
+  FullSpeed: {
     Msg: {content: "LongPower -> 140\n ShortPower -> 140\n TempWall -> 99"},
   }
 }
@@ -20,40 +19,66 @@ async function aPay(CpuLongPower: number, SetCpuShortPower: number, CPUTempWall:
   const data = [await wmiOperation.System(SystemBuild.OpenCustomMode, 1), await wmiOperation.Cpu(CPUBuild.SetCpuLongPower, CpuLongPower), await wmiOperation.Cpu(CPUBuild.SetCpuShortPower, SetCpuShortPower), await wmiOperation.Cpu(CPUBuild.SetCPUTempWall, CPUTempWall)]
   let msg = ''
   data.map(x => {
-    msg +=x.msg?.stdout
+    msg += x.msg?.stdout
   })
   mdui.alert(msg)
 }
+
 </script>
 
 <template>
 
   <div class="PerformaceMode mdui-center">
-    <button @click="aPay(35,35,80)"
-            class="mdui-btn mdui-btn-raised mdui-ripple"
-            :mdui-tooltip="JSON.stringify(PerformaceModeData.QuietMode.Msg)">
-      安静模式
-    </button>
-    <button
-        @click="aPay(60,70,90)"
-        class="mdui-btn mdui-btn-raised mdui-ripple"
-        :mdui-tooltip="JSON.stringify(PerformaceModeData.PerformanceMode.Msg)">
-      性能模式
-    </button>
-    <button
-        @click="aPay(140,140,99)"
-        class="mdui-btn mdui-btn-raised mdui-ripple"
-        :mdui-tooltip="JSON.stringify(PerformaceModeData.FullSpeed.Msg)">
-      狂飙模式
-    </button>
+    <div class="echarts">
+      <div>
+        <div class="mdui-typo">
+
+          <h3>CPU 温度探针 <small>{{ store.state.OS.CPU.Temperature.main }} °C</small></h3>
+        </div>
+        <div class="mdui-progress">
+          <div class="mdui-progress-determinate" :style="{width:`${store.state.OS.CPU.Temperature.main}%`}"></div>
+        </div>
+      </div>
+      <div>
+        <div class="mdui-typo">
+          <h3>GPU 温度探针 <small>{{ store.state.OS.GPU.temperatureGpu }} °C</small></h3>
+        </div>
+        <div class="mdui-progress">
+          <div class="mdui-progress-determinate" :style="{width:`${store.state.OS.GPU.temperatureGpu}%`}"></div>
+        </div>
+      </div>
+    </div>
+    <div class="mdui-typo">
+      <hr/>
+    </div>
+    <div class="mdui-typo">
+      <h2>预设参数</h2>
+      <button @click="aPay(35,35,80)"
+              class="mdui-btn mdui-btn-raised mdui-ripple"
+              :mdui-tooltip="JSON.stringify(PerformaceModeData.QuietMode.Msg)">
+        安静模式
+      </button>
+      <button
+          @click="aPay(60,70,90)"
+          class="mdui-btn mdui-btn-raised mdui-ripple"
+          :mdui-tooltip="JSON.stringify(PerformaceModeData.PerformanceMode.Msg)">
+        性能模式
+      </button>
+      <button
+          @click="aPay(140,140,99)"
+          class="mdui-btn mdui-btn-raised mdui-ripple"
+          :mdui-tooltip="JSON.stringify(PerformaceModeData.FullSpeed.Msg)">
+        狂飙模式
+      </button>
+    </div>
   </div>
 </template>
 
 <style scoped>
-.echartsTemperature{
-  width: 400px;
-  height: 400px;
+.echarts {
+//display: flex; width: 600px;
 }
+
 .PerformaceMode {
   padding-top: 20px;
   padding-bottom: 20px;

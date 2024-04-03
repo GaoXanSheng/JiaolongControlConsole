@@ -9,14 +9,20 @@ class OsInfo {
             return this[args]()
         })
     }
+    init(){
+        return "init"
+    }
     async GetCpuTemperature():Promise<GetCpuTemperature> {
-        return await si.cpuTemperature()
+        return si.cpuTemperature()
     }
     async GetMemory(){
         return {
             MemoryInfo:await si.mem(),
             MemoryLayout:await si.memLayout()
         }
+    }
+    async GetCpuInfo(){
+        return si.cpu()
     }
     async GetBattery():Promise<GetBattery>{
         return si.battery()

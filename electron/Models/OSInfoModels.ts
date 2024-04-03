@@ -1,11 +1,45 @@
-export interface GetCpuTemperature {
+import {GetCpuInfo} from "../../src/tools/OsInfo.ts";
+
+export interface GetCpuTemperatureModels {
     main: number;
     cores: number[];
     max: number;
     socket?: number[];
     chipset?: number;
 }
-interface BatteryData {
+
+export interface GetCpuInfoModels {
+    manufacturer: string;
+    brand: string;
+    vendor: string;
+    family: string;
+    model: string;
+    stepping: string;
+    revision: string;
+    voltage: string;
+    speed: number;
+    speedMin: number;
+    speedMax: number;
+    governor: string;
+    cores: number;
+    physicalCores: number;
+    efficiencyCores?: number;
+    performanceCores?: number;
+    processors: number;
+    socket: string;
+    flags: string;
+    virtualization: boolean;
+    cache: CpuCacheData;
+}
+
+interface CpuCacheData {
+    l1d: number;
+    l1i: number;
+    l2: number;
+    l3: number;
+}
+
+interface BatteryDataModels {
     hasBattery: boolean;
     cycleCount: number;
     isCharging: boolean;
@@ -21,9 +55,10 @@ interface BatteryData {
     model: string;
     manufacturer: string;
     serial: string;
-    additionalBatteries?: BatteryData[];
+    additionalBatteries?: BatteryDataModels[];
 }
-export interface GetGraphics {
+
+export interface GetGraphicsModels {
     vendor: string,
     model: string,
     bus: string,
@@ -41,10 +76,11 @@ export interface GetGraphics {
     temperatureGpu: number,
     powerDraw: number,
     clockCore: number,
-    clockMemory: number
+    clockMemory: number,
+    fanSpeed: number
 }
 
-export interface GetBattery {
+export interface GetBatteryModels {
     hasBattery: boolean;
     cycleCount: number;
     isCharging: boolean;
@@ -60,10 +96,10 @@ export interface GetBattery {
     model: string;
     manufacturer: string;
     serial: string;
-    additionalBatteries?: BatteryData[];
+    additionalBatteries?: BatteryDataModels[];
 }
 
-export interface GetMemory {
+export interface GetMemoryModels {
     MemoryInfo: {
         total: number;
         free: number;

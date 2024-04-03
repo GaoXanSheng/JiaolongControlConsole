@@ -1,23 +1,20 @@
 <script setup lang="ts">
-import {ref} from "vue";
 import wmiOperation from "../../WMIOperation/WMIOperation.ts";
 import {FanBuild} from "../../../electron/Models/CmdBuild.ts";
+import store from "../../store.ts";
 
-const fanData = ref({
-  isTrue: false,
-  SetFanSpeed: 3500,
-  outMsg: []
-})
+const fanData = store.state.FanPage
 
-function aPay() {
-  if (fanData.value.isTrue) {
-    wmiOperation.Fan(FanBuild.SwitchMaxFanSpeed, 1).then(r => {
-      fanData.value.outMsg.push(r)
-    })
-    wmiOperation.Fan(FanBuild.SetFanSpeed, Number(String(fanData.value.SetFanSpeed)[0] + String(fanData.value.SetFanSpeed)[1])).then(r => {
-      fanData.value.outMsg.push(r)
-    })
-  }
+async function aPay() {
+  const data = [
+    await wmiOperation.Fan(FanBuild.SwitchMaxFanSpeed, 1),
+    await wmiOperation.Fan(FanBuild.SetFanSpeed, Number(String(fanData.SetFanSpeed)[0] + String(fanData.SetFanSpeed)[1])),
+  ]
+  let msg = ''
+  data.map(x => {
+    msg += x.msg?.stdout
+  })
+  mdui.alert(msg)
 }
 </script>
 

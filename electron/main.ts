@@ -54,9 +54,7 @@ function createWindow() {
     } else {
         win.loadFile(path.join(process.env.DIST, 'index.html'))
     }
-    osInfo.GetGraphics().then(r=>{
-        console.log(r)
-    })
+    osInfo.init()
    wMIOperation.init(path.join(rootDirectory, '\\JiaoLongWMI.exe'))
 }
 
