@@ -15,6 +15,9 @@ class IPCRenderer {
             execCmd: CMD, timeCounter: Date.now()
         }
           return window.ipcRenderer.invoke("custom-event-execCmd", SendData)
+    };
+    public CustomParameters(hande: string,data:string){
+        return window.ipcRenderer.invoke(hande,data)
     }
 
 }

@@ -1,6 +1,7 @@
 import {app, BrowserWindow} from 'electron'
 import path from 'node:path'
 import wMIOperation from "./tools/WMIOperation";
+import osInfo from "./tools/OsInfo.ts";
 // The built directory structure
 //
 // ├─┬─┬ dist
@@ -53,7 +54,9 @@ function createWindow() {
     } else {
         win.loadFile(path.join(process.env.DIST, 'index.html'))
     }
-
+    osInfo.GetGraphics().then(r=>{
+        console.log(r)
+    })
    wMIOperation.init(path.join(rootDirectory, '\\JiaoLongWMI.exe'))
 }
 

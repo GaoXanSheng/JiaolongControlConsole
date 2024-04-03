@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import wmiOperation from "../../WMIOperation/WMIOperation.ts";
 import {CPUBuild, SystemBuild} from "../../../electron/Models/CmdBuild.ts";
+import {GetCpuTemperature} from "../../tools/OsInfo.ts";
+import {echartsTemperature} from "../../tools/temperatureModels.ts";
 
 const PerformaceModeData = {
   QuietMode: {
@@ -22,10 +24,10 @@ async function aPay(CpuLongPower: number, SetCpuShortPower: number, CPUTempWall:
   })
   mdui.alert(msg)
 }
-
 </script>
 
 <template>
+
   <div class="PerformaceMode mdui-center">
     <button @click="aPay(35,35,80)"
             class="mdui-btn mdui-btn-raised mdui-ripple"
@@ -48,6 +50,10 @@ async function aPay(CpuLongPower: number, SetCpuShortPower: number, CPUTempWall:
 </template>
 
 <style scoped>
+.echartsTemperature{
+  width: 400px;
+  height: 400px;
+}
 .PerformaceMode {
   padding-top: 20px;
   padding-bottom: 20px;
