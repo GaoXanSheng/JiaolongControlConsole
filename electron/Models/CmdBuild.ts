@@ -19,7 +19,9 @@ export enum CPUBuild {
 
 export enum FanBuild {
     SwitchMaxFanSpeed="SwitchMaxFanSpeed",
-    SetFanSpeed="SetFanSpeed"
+    SetFanSpeed="SetFanSpeed",
+    GetFanSpeed="GetFanSpeed",
+    GetFanInfo="GetFanInfo"
 }
 export enum GPUBuild {
     SetGpuMode="SetCpuShortPower",
@@ -42,4 +44,5 @@ export enum PerformaceModeBuild {
 export enum SystemBuild {
     OpenCustomMode="OpenCustomMode",
     GetACType="GetACType",
+    GetInfo="GetInfo",
 }

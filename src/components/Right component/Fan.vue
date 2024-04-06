@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import wmiOperation from "../../WMIOperation/WMIOperation.ts";
-import {FanBuild} from "../../../electron/Models/CmdBuild.ts";
 import store from "../../store.ts";
+import {ResultState} from "../../../electron/Models/IPCModels.ts";
 
 const fanData = store.state.FanPage
 
 async function aPay() {
   const data = [
-    await wmiOperation.Fan(FanBuild.SwitchMaxFanSpeed, 1),
-    await wmiOperation.Fan(FanBuild.SetFanSpeed, Number(String(fanData.SetFanSpeed)[0] + String(fanData.SetFanSpeed)[1])),
+    await wmiOperation.Fan.SwitchMaxFanSpeed(ResultState.ON),
+    await wmiOperation.Fan.SetFanSpeed(Number(String(fanData.SetFanSpeed)[0] + String(fanData.SetFanSpeed)[1])),
   ]
   let msg = ''
   data.map(x => {

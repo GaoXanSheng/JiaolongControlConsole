@@ -1,5 +1,3 @@
-import {GetCpuInfo} from "../../src/tools/OsInfo.ts";
-
 export interface GetCpuTemperatureModels {
     main: number;
     cores: number[];

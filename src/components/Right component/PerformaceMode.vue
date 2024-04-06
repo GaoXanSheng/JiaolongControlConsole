@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import wmiOperation from "../../WMIOperation/WMIOperation.ts";
-import {CPUBuild, SystemBuild} from "../../../electron/Models/CmdBuild.ts";
 import store from "../../store.ts";
+import {ResultState} from "../../../electron/Models/IPCModels.ts";
 
 const PerformaceModeData = {
   QuietMode: {
@@ -16,7 +16,11 @@ const PerformaceModeData = {
 }
 
 async function aPay(CpuLongPower: number, SetCpuShortPower: number, CPUTempWall: number) {
-  const data = [await wmiOperation.System(SystemBuild.OpenCustomMode, 1), await wmiOperation.Cpu(CPUBuild.SetCpuLongPower, CpuLongPower), await wmiOperation.Cpu(CPUBuild.SetCpuShortPower, SetCpuShortPower), await wmiOperation.Cpu(CPUBuild.SetCPUTempWall, CPUTempWall)]
+  const data = [
+    await wmiOperation.System.OpenCustomMode(ResultState.ON),
+    await wmiOperation.Cpu.SetCpuLongPower(CpuLongPower),
+    await wmiOperation.Cpu.SetCpuShortPower(SetCpuShortPower),
+    await wmiOperation.Cpu.SetCPUTempWall(CPUTempWall)]
   let msg = ''
   data.map(x => {
     msg += x.msg?.stdout
@@ -33,7 +37,7 @@ async function aPay(CpuLongPower: number, SetCpuShortPower: number, CPUTempWall:
       <div>
         <div class="mdui-typo">
 
-          <h3>CPU 温度探针 <small>{{ store.state.OS.CPU.Temperature.main }} °C</small></h3>
+          <h3>CPU 温度探针 <small>{{ store.state.OS.CPU.temperature }} °C</small></h3>
         </div>
         <div class="mdui-progress">
           <div class="mdui-progress-determinate" :style="{width:`${store.state.OS.CPU.Temperature.main}%`}"></div>

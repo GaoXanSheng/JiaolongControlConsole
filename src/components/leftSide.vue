@@ -34,7 +34,7 @@ const HomeCardType = [
   }
 ]
 
-function setStoreData(data) {
+function setStoreData(data:number) {
   store.state.SwitchPages = data
 }
 </script>

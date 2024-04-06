@@ -1,8 +1,16 @@
-export interface ResultState {
-    ON: 1,
-    OFF: 0
+export enum ResultState {
+    OFF,
+    ON
 }
-
+export interface IpcBackInfo {
+    successful:boolean,
+    deCode:number[],
+    outMsg:string[]
+}
+export enum IpcBackInfoDeCode {
+    message,
+    data
+}
 export enum eumPerformaceMode {
     BalanceMode,
     PerformanceMode,

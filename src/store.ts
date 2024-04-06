@@ -1,11 +1,5 @@
 import {createStore} from 'vuex';
-import {GetCpuInfo, GetCpuTemperature, GetGraphics} from "./tools/OsInfo.ts";
-import {
-    GetCpuCurrentSpeedModels,
-    GetCpuInfoModels,
-    GetCpuTemperatureModels,
-    GetGraphicsModels
-} from "../electron/Models/OSInfoModels.ts";
+import wmiOperation from "./WMIOperation/WMIOperation.ts";
 
 export enum HomeTab {
     HOME,
@@ -29,10 +23,14 @@ interface JiaoLongStore {
         }
         OS: {
             CPU: {
-                Temperature: GetCpuTemperatureModels,
-                Info:GetCpuInfoModels
+                temperature:number
             },
-            GPU: GetGraphicsModels
+            GPU: {
+                temperature:number,
+                gpuUsage:number,
+                gpuFreq:number,
+
+            }
         }
     }
 }
@@ -50,15 +48,27 @@ const storeModels: JiaoLongStore = {
             SetFanSpeed: 3500,
         },
         OS: {
-            CPU: {},
-            GPU: {}
+            CPU: {
+                temperature:0,
+            },
+            GPU: {
+                temperature:0,
+                gpuUsage:0,
+                gpuFreq:0,
+            }
         }
     },
 }
 const store = createStore(storeModels);
 setInterval(async () => {
-    store.state.OS.CPU.Info = await GetCpuInfo()
-    store.state.OS.CPU.Temperature = await GetCpuTemperature()
-    store.state.OS.GPU = await GetGraphics()
+    const {gpuUsage,gpuTemp,gpuFreq,cpuTemp} = await wmiOperation.System.GetInfo() as any
+    store.state.OS.CPU.temperature = cpuTemp
+    store.state.OS.GPU.temperature = gpuTemp
+    store.state.OS.GPU.gpuUsage = gpuUsage
+    store.state.OS.GPU.gpuFreq = gpuFreq
+    // console.log(await  wmiOperation.System.GetACType())
+    // store.state.OS.CPU.Info = await GetCpuInfo()
+    // store.state.OS.CPU.Temperature = await GetCpuTemperature()
+    // store.state.OS.GPU = await GetGraphics()
 }, 5000)
 export default store;

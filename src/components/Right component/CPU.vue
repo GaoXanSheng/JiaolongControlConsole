@@ -1,16 +1,17 @@
 <script setup lang="ts">
 import wmiOperation from "../../WMIOperation/WMIOperation.ts";
-import {CPUBuild, SystemBuild} from "../../../electron/Models/CmdBuild.ts";
 import store from "../../store.ts";
 import {GetCpuInfoModels} from "../../../electron/Models/OSInfoModels.ts";
+import {ResultState} from "../../../electron/Models/IPCModels.ts";
 
 const CPUData = store.state.CpuPage
 const cpuInfo = store.state.OS.CPU.Info as GetCpuInfoModels
 async function aPay() {
   const data = [
-    await wmiOperation.System(SystemBuild.OpenCustomMode, 1),
-    await wmiOperation.Cpu(CPUBuild.SetCpuLongPower, CPUData.longPower),
-    await wmiOperation.Cpu(CPUBuild.SetCPUTempWall, CPUData.tempWall)
+    await wmiOperation.System.OpenCustomMode(ResultState.ON),
+    await wmiOperation.Cpu.SetCpuLongPower(CPUData.longPower),
+    await wmiOperation.Cpu.SetCpuShortPower(CPUData.shortPower),
+    await wmiOperation.Cpu.SetCPUTempWall(CPUData.tempWall),
   ]
   let msg = ''
   data.map(x => {
