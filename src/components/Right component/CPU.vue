@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import wmiOperation from "../../WMIOperation/WMIOperation.ts";
 import store from "../../store.ts";
-import {GetCpuInfoModels} from "../../../electron/Models/OSInfoModels.ts";
+// import {GetCpuInfoModels} from "../../../electron/Models/OSInfoModels.ts";
 import {ResultState} from "../../../electron/Models/IPCModels.ts";
 
 const CPUData = store.state.CpuPage
-const cpuInfo = store.state.OS.CPU.Info as GetCpuInfoModels
+// const cpuInfo = store.state.OS.CPU.Info as GetCpuInfoModels
 async function aPay() {
   const data = [
     await wmiOperation.System.OpenCustomMode(ResultState.ON),
@@ -31,10 +31,10 @@ async function aPay() {
     <label class="mdui-slider mdui-slider-discrete">
       <input type="range" step="1" min="0" max="100">
     </label>
-    <div class="mdui-typo">
-     <h4>{{ `${cpuInfo.manufacturer} ${cpuInfo.brand} ${cpuInfo.speedMax}GHz`  }}</h4>
-      <h4>{{ `Cores:${cpuInfo.cores} PhysicalCores:${cpuInfo.physicalCores}`  }}</h4>
-    </div>
+<!--    <div class="mdui-typo">-->
+<!--     <h4>{{ `${cpuInfo.manufacturer} ${cpuInfo.brand} ${cpuInfo.speedMax}GHz`  }}</h4>-->
+<!--      <h4>{{ `Cores:${cpuInfo.cores} PhysicalCores:${cpuInfo.physicalCores}`  }}</h4>-->
+<!--    </div>-->
 
     <div class="mdui-textfield mdui-textfield-floating-label mdui-textfield-not-empty">
       <label class="mdui-textfield-label">ShortPower 短时CPU功耗</label>
