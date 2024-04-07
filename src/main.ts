@@ -14,16 +14,3 @@ Vue(App).use(store).mount('#app').$nextTick(() => {
 }).then(() => {
     console.log("INIT")
 })
-window.onload = function () {
-    const localStorageData = localStorage.getItem("store")
-    if (localStorageData) {
-        const data = JSON.parse(localStorageData)
-        for (const datum in store.state) {
-            store.state[datum] = data[datum] || ""
-        }
-    }
-}
-
-setInterval(() => {
-    localStorage.setItem("store", JSON.stringify(store.state))
-}, 1000)

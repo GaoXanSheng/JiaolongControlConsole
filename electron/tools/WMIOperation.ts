@@ -27,7 +27,7 @@ class WMIOperation {
                 }
             })
 
-            if (callback.data.outMsg.length > 2) {
+            if (callback.data.outMsg[IpcBackInfoDeCode.data]) {
                 callback.data.outMsg[IpcBackInfoDeCode.data].split("-").forEach(x => {
                     if (!isNaN(Number(x))) {
                         callback.data.deCode.push(Number(x))

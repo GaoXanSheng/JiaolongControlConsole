@@ -66,9 +66,5 @@ setInterval(async () => {
     store.state.OS.GPU.temperature = gpuTemp
     store.state.OS.GPU.gpuUsage = gpuUsage
     store.state.OS.GPU.gpuFreq = gpuFreq
-    // console.log(await  wmiOperation.System.GetACType())
-    // store.state.OS.CPU.Info = await GetCpuInfo()
-    // store.state.OS.CPU.Temperature = await GetCpuTemperature()
-    // store.state.OS.GPU = await GetGraphics()
 }, 5000)
 export default store;

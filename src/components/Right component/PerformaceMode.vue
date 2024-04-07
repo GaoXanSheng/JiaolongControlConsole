@@ -38,15 +38,15 @@ async function aPay(CpuLongPower: number, SetCpuShortPower: number, CPUTempWall:
           <h3>CPU 温度探针 <small>{{ store.state.OS.CPU.temperature }} °C</small></h3>
         </div>
         <div class="mdui-progress">
-          <div class="mdui-progress-determinate" :style="{width:`${store.state.OS.CPU.Temperature.main}%`}"></div>
+          <div class="mdui-progress-determinate" :style="{width:`${store.state.OS.CPU.temperature}%`}"></div>
         </div>
       </div>
       <div>
         <div class="mdui-typo">
-          <h3>GPU 温度探针 <small>{{ store.state.OS.GPU.temperatureGpu }} °C</small></h3>
+          <h3>GPU 温度探针 <small>{{ store.state.OS.GPU.temperature }} °C</small></h3>
         </div>
         <div class="mdui-progress">
-          <div class="mdui-progress-determinate" :style="{width:`${store.state.OS.GPU.temperatureGpu}%`}"></div>
+          <div class="mdui-progress-determinate" :style="{width:`${store.state.OS.GPU.temperature}%`}"></div>
         </div>
       </div>
     </div>
