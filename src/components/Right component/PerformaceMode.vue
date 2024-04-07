@@ -2,6 +2,7 @@
 import wmiOperation from "../../WMIOperation/WMIOperation.ts";
 import store from "../../store.ts";
 import {ResultState} from "../../../electron/Models/IPCModels.ts";
+import IpcAlert from "../tools/IpcAlert.ts";
 
 const PerformaceModeData = {
   QuietMode: {
@@ -20,12 +21,9 @@ async function aPay(CpuLongPower: number, SetCpuShortPower: number, CPUTempWall:
     await wmiOperation.System.OpenCustomMode(ResultState.ON),
     await wmiOperation.Cpu.SetCpuLongPower(CpuLongPower),
     await wmiOperation.Cpu.SetCpuShortPower(SetCpuShortPower),
-    await wmiOperation.Cpu.SetCPUTempWall(CPUTempWall)]
-  let msg = ''
-  data.map(x => {
-    msg += x.msg?.stdout
-  })
-  mdui.alert(msg)
+    await wmiOperation.Cpu.SetCPUTempWall(CPUTempWall)
+  ]
+  IpcAlert(data)
 }
 
 </script>
@@ -79,10 +77,6 @@ async function aPay(CpuLongPower: number, SetCpuShortPower: number, CPUTempWall:
 </template>
 
 <style scoped>
-.echarts {
-//display: flex; width: 600px;
-}
-
 .PerformaceMode {
   padding-top: 20px;
   padding-bottom: 20px;

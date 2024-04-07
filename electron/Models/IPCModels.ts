@@ -26,8 +26,5 @@ export interface ClientSendIPCExecCmdData{
 export interface ServerSendIPCExecCmdData extends ClientSendIPCExecCmdData {
     serverTimeCounter:number,
     callback:boolean,
-    msg?: {
-        stdout:string,
-        stderr:string
-    }
+    data: IpcBackInfo
 }

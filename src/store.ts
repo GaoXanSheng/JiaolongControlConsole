@@ -61,7 +61,7 @@ const storeModels: JiaoLongStore = {
 }
 const store = createStore(storeModels);
 setInterval(async () => {
-    const {gpuUsage,gpuTemp,gpuFreq,cpuTemp} = await wmiOperation.System.GetInfo() as any
+    const {gpuUsage,gpuTemp,gpuFreq,cpuTemp} = await wmiOperation.System.GetInfo()
     store.state.OS.CPU.temperature = cpuTemp
     store.state.OS.GPU.temperature = gpuTemp
     store.state.OS.GPU.gpuUsage = gpuUsage

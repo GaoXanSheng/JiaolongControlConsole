@@ -1,6 +1,5 @@
 import {
-    ClientSendIPCExecCmdData, IpcBackInfo, IpcBackInfoDeCode,
-    ServerSendIPCExecCmdData
+    ClientSendIPCExecCmdData, ServerSendIPCExecCmdData
 } from "../../electron/Models/IPCModels.ts";
 
 class IPCRenderer {
@@ -14,32 +13,7 @@ class IPCRenderer {
         const SendData: ClientSendIPCExecCmdData = {
             execCmd: CMD, timeCounter: Date.now()
         }
-        const BackInfo: IpcBackInfo = {
-            successful: false,
-            deCode: [],
-            outMsg: []
-        }
-        const callback = await window.ipcRenderer.invoke("custom-event-execCmd", SendData) as ServerSendIPCExecCmdData
-        if (callback.msg) {
-            const BackMsgs = callback.msg.stdout.replace(/\r/g, '').split("\n")
-            BackMsgs.pop()
-            if (BackMsgs[IpcBackInfoDeCode.message] == "Active code page: 65001") {
-                BackInfo.successful = true
-                BackInfo.outMsg.push(BackMsgs[0])
-                BackMsgs[IpcBackInfoDeCode.data].split("-").forEach(x => {
-                    BackInfo.deCode.push(Number(x))
-                })
-                if (!isNaN(BackInfo.deCode[0])) {
-                    return BackInfo
-                }else {
-                    return callback
-                }
-            } else {
-                BackInfo.outMsg = BackMsgs
-                return BackInfo
-            }
-        }
-
+        return await window.ipcRenderer.invoke("custom-event-execCmd", SendData) as ServerSendIPCExecCmdData
     };
 
     public CustomParameters(hande: string, data: string) {

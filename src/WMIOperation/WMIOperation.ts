@@ -7,7 +7,7 @@ import {
     KeyboardBuild,
     LogoLightBuild, PerformaceModeBuild, SystemBuild
 } from "../../electron/Models/CmdBuild"
-import {eumPerformaceMode, IpcBackInfo, ResultState} from "../../electron/Models/IPCModels.ts";
+import {eumPerformaceMode, ResultState} from "../../electron/Models/IPCModels.ts";
 class WMIOperation {
     public Cpu = {
         SetCpuShortPower:async (value:number)=>{
@@ -82,15 +82,24 @@ class WMIOperation {
             return IpcRenderer.sendIPC(`${enumBuildType.System}-${SystemBuild.GetACType}-${1}`)
         },
         GetInfo:async ()=>{
-            const backData = await IpcRenderer.sendIPC(`${enumBuildType.System}-${SystemBuild.GetInfo}-${1}`) as IpcBackInfo
-            if (backData && backData.successful) {
+            const backData = await IpcRenderer.sendIPC(`${enumBuildType.System}-${SystemBuild.GetInfo}-${1}`)
+            if (backData.data.successful) {
                 return {
-                    gpuUsage:backData.deCode[0],
-                    gpuTemp:backData.deCode[1],
-                    gpuFreq:backData.deCode[2],
-                    rate:backData.deCode[3],
-                    speed:backData.deCode[4],
-                    cpuTemp:backData.deCode[5]
+                    gpuUsage:backData.data.deCode[0],
+                    gpuTemp:backData.data.deCode[1],
+                    gpuFreq:backData.data.deCode[2],
+                    rate:backData.data.deCode[3],
+                    speed:backData.data.deCode[4],
+                    cpuTemp:backData.data.deCode[5]
+                }
+            }else {
+                return {
+                    gpuUsage:0,
+                    gpuTemp:0,
+                    gpuFreq:0,
+                    rate:0,
+                    speed:0,
+                    cpuTemp:0
                 }
             }
         }

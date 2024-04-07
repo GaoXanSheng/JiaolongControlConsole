@@ -2,6 +2,7 @@
 import wmiOperation from "../../WMIOperation/WMIOperation.ts";
 import store from "../../store.ts";
 import {ResultState} from "../../../electron/Models/IPCModels.ts";
+import IpcAlert from "../tools/IpcAlert.ts";
 
 const fanData = store.state.FanPage
 
@@ -10,11 +11,7 @@ async function aPay() {
     await wmiOperation.Fan.SwitchMaxFanSpeed(ResultState.ON),
     await wmiOperation.Fan.SetFanSpeed(Number(String(fanData.SetFanSpeed)[0] + String(fanData.SetFanSpeed)[1])),
   ]
-  let msg = ''
-  data.map(x => {
-    msg += x.msg?.stdout
-  })
-  mdui.alert(msg)
+  IpcAlert(data)
 }
 </script>
 
