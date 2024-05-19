@@ -1,7 +1,6 @@
 import {app, BrowserWindow} from 'electron'
 import path from 'node:path'
-import wMIOperation from "./tools/WMIOperation";
-import osInfo from "./tools/OsInfo.ts";
+import JiaoLongWMI from "./tools/JiaoLongWMI.ts";
 // The built directory structure
 //
 // ├─┬─┬ dist
@@ -54,8 +53,12 @@ function createWindow() {
     } else {
         win.loadFile(path.join(process.env.DIST, 'index.html'))
     }
-    osInfo.init()
-   wMIOperation.init(path.join(rootDirectory, '\\JiaoLongWMI.exe'))
+    // 检测进程
+    JiaoLongWMI(path.join(rootDirectory, '\\JiaoLongWMI.exe')).then(_r =>{
+        console.log("Server run")
+    })
+
+
 }
 
 // Quit when all windows are closed, except on macOS. There, it's common

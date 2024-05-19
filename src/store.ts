@@ -4,9 +4,10 @@ import wmiOperation from "./WMIOperation/WMIOperation.ts";
 export enum HomeTab {
     HOME,
     CPU,
-    Keyboard,
+    EventLoop,
     PerformaceMode,
-    Fan
+    Fan,
+    Keyboard
 }
 
 interface JiaoLongStore {

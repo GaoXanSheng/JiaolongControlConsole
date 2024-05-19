@@ -1,18 +1,12 @@
-import {ServerSendIPCExecCmdData} from "../../../electron/Models/IPCModels.ts";
-
-
-export default function IpcAlert(data:ServerSendIPCExecCmdData[]) {
-    let counter = 0
+export default function IpcAlert(data:string[]) {
     console.log(data)
-    data.map(x => {
-       if (x.data.successful){
-           counter++
-       }
-    })
-    if (counter==data.length){
-        mdui.alert(`应用成功`)
-    }else {
-        mdui.alert("应用失败")
+    for (const dataKey of data) {
+        console.log(dataKey.toLowerCase()!="true")
+        if (dataKey.toLowerCase()!="true"){
+            mdui.alert("应用失败")
+            return;
+        }
     }
-
+    mdui.alert(`应用成功`)
+    return;
 }

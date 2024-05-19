@@ -1,0 +1,44 @@
+import {exec,spawn} from "child_process";
+import iconv from 'iconv-lite'
+async function KillExe():Promise<boolean> {
+    return new Promise((resolve,reject)=>{
+        exec('tasklist', (err, stdout, stderr) => {
+            if (err) {
+                reject(err)
+            }
+            // 检查进程列表中是否有 JiaoLongWMI.exe
+            if (stdout.toLowerCase().includes('jiaolongwmi.exe')) {
+                // 杀死进程
+                exec('taskkill /F /IM JiaoLongWMI.exe', (err, stdout, stderr) => {
+                    if (err) {
+                        reject(err)
+                    }
+                    resolve(true)
+                });
+            } else {
+                resolve(true)
+            }
+        });
+    })
+
+}
+async function initWMI(path:string){
+    await KillExe()
+    const process = spawn(path,[`Socket-9871-localhost`])
+    process.stdout.on('data', (data) => {
+        console.log(`stdout: ${data}`);
+    });
+
+    process.stderr.on('data', (data) => {
+        const output = iconv.decode(Buffer.from(data), 'gbk');
+        console.error(`stderr: ${output}`);
+    });
+
+    process.on('close', (code) => {
+        console.log(`子进程退出，退出码：${code}`);
+    });
+}
+export default async (path:string)=>{
+    // await initWMI(path)
+}
+

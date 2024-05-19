@@ -1,24 +1,27 @@
-import {
-    ClientSendIPCExecCmdData, ServerSendIPCExecCmdData
-} from "../../electron/Models/IPCModels.ts";
 
 class IPCRenderer {
     constructor() {
-        window.ipcRenderer.on('custom-event-NodeJS-Debug', (_event, args: string) => {
-            console.log(args)
-        })
+
     }
 
-    public async sendIPC(CMD: string) {
-        const SendData: ClientSendIPCExecCmdData = {
-            execCmd: CMD, timeCounter: Date.now()
-        }
-        return await window.ipcRenderer.invoke("custom-event-execCmd", SendData) as ServerSendIPCExecCmdData
+    public async sendIPC(CMD: string):Promise<string> {
+        return new Promise((resolve, reject)=>{
+            console.log(CMD)
+            const url = 'http://localhost:9871/';
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: CMD
+            }).then(response => response.text()).then(r=>{
+                resolve(r)
+            }).catch(e=>{
+                reject(e)
+            })
+        })
     };
 
-    public CustomParameters(hande: string, data: string) {
-        return window.ipcRenderer.invoke(hande, data)
-    }
 
 }
 
