@@ -58,7 +58,7 @@ async function aPay() {
       <label class="mdui-textfield-label">LightBrightness</label>
       <input class="mdui-textfield-input" type="number" max="3"  v-model="Data.LightBrightness"/>
     </div>
-    <input type="color" name="colorPicker">
+<!--    <input type="color" name="colorPicker">-->
     <button class="mdui-btn mdui-btn-raised mdui-color-theme-accent" @click="aPay">应用</button>
   </div>
 </template>

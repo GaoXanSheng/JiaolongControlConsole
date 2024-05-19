@@ -32,6 +32,11 @@ interface JiaoLongStore {
                 gpuFreq:number,
 
             }
+        },
+        EventLoopPage:{
+            STC:number[][],
+            LTC:number[][],
+            TFS:number[][]
         }
     }
 }
@@ -57,6 +62,19 @@ const storeModels: JiaoLongStore = {
                 gpuUsage:0,
                 gpuFreq:0,
             }
+        },
+        EventLoopPage:{
+            STC: [
+                [45, 100],[55, 80],[65, 70],[85, 60],[140, 55],
+            ],
+            // Temperature long-term power consumption scheduling
+            LTC:[
+                [45, 100],[55, 80],[65, 70],[85, 60],[140, 55],
+            ],
+            // Temperature and speed
+            TFS:[
+                [3500, 60],[3600, 70],[3800, 80 ],[4800, 90],[5800, 100]
+            ]
         }
     },
 }
