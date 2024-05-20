@@ -12,13 +12,13 @@ import {eumPerformaceMode, ResultState} from "../../electron/Models/IPCModels.ts
 class WMIOperation {
     public Cpu = {
         SetCpuShortPower: async (value: number) => {
-            return IpcRenderer.sendIPC(`${enumBuildType.CPU}-${CPUBuild.SetCpuShortPower}-${value}`)
+            return IpcRenderer.sendIPC(`${enumBuildType.CPU}-${CPUBuild.SetCpuShortPower}-${value.toFixed(0)}`)
         },
         SetCpuLongPower: async (value: number) => {
-            return IpcRenderer.sendIPC(`${enumBuildType.CPU}-${CPUBuild.SetCpuLongPower}-${value}`)
+            return IpcRenderer.sendIPC(`${enumBuildType.CPU}-${CPUBuild.SetCpuLongPower}-${value.toFixed(0)}`)
         },
         SetCPUTempWall: async (value: number) => {
-            return IpcRenderer.sendIPC(`${enumBuildType.CPU}-${CPUBuild.SetCPUTempWall}-${value}`)
+            return IpcRenderer.sendIPC(`${enumBuildType.CPU}-${CPUBuild.SetCPUTempWall}-${value.toFixed(0)}`)
         },
         GetCPUTempWall: async (value: number = 1) => {
             return IpcRenderer.sendIPC(`${enumBuildType.CPU}-${CPUBuild.GetCPUTempWall}-${value}`)

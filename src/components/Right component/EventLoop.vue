@@ -9,69 +9,155 @@
 import {onMounted, ref} from "vue";
 import EchartsInit from "../tools/EventLoopTools.ts";
 import store from "../../store";
+import wmiOperation from "../../WMIOperation/WMIOperation.ts";
+import {eumPerformaceMode} from "../../../electron/Models/IPCModels.ts";
 
 let STC = ref(null)
 let LTC = ref(null)
 let TFS = ref(null)
 onMounted(() => {
-  EchartsInit(STC.value,store.state.EventLoopPage.STC,{
-    title:"短时功耗动态曲线",
-    xAxis:{
-      min:35,
-      max:140,
-      name:"短时功耗"
-    },
-    yAxis:{
-      min:0,
-      max:100,
-      name:"温度"
-    }
-  },(data:number[],index:number)=>{
-    const x = Number(data[0].toFixed(0))
-    const y = Number(data[1].toFixed(0))
-    if (x > 140 || x < 35) return;
-    if (y > 100 || y < 0) return;
-    store.state.EventLoopPage.STC[index] = [x,y]
-  })
-  EchartsInit(LTC.value,store.state.EventLoopPage.LTC,{
-    title:"长时功耗曲线",
-    xAxis:{
-      min:35,
-      max:140,
-      name:"长时功耗"
-    },
-    yAxis:{
-      min:0,
-      max:100,
-      name:"温度"
-    }
-  },(data:number[],index:number)=>{
-    const x = Number(data[0].toFixed(0))
-    const y = Number(data[1].toFixed(0))
-    if (x > 140 || x < 35) return;
-    if (y > 100 || y < 0) return;
-    store.state.EventLoopPage.LTC[index] = [x,y]
-  })
-  EchartsInit(TFS.value,store.state.EventLoopPage.TFS,{
-    title:"转速曲线",
-    xAxis:{
-      min:3500,
-      max:5800,
-      name:"转速"
-    },
-    yAxis:{
-      min:0,
-      max:100,
-      name:"温度"
-    }
-  },(data:number[],index:number)=>{
-    const x = Number(data[0].toFixed(0))
-    const y = Number(data[1].toFixed(0))
-    if (x > 5800 || x < 3500) return;
-    if (y > 100 || y < 0) return;
-    store.state.EventLoopPage.TFS[index] = [x,y]
-  })
+  Init()
 })
+function Init() {
+  EchartsInit(STC.value, store.state.EventLoopPage.STC, {
+    title: "短时功耗动态曲线",
+    xAxis: {
+      min: 35,
+      max: 140,
+      name: "短时功耗"
+    },
+    yAxis: {
+      min: 0,
+      max: 110,
+      name: "温度"
+    }
+  }, (data: number[], index: number) => {
+    let x = Number(data[0].toFixed(0))
+    let y = Number(data[1].toFixed(0))
+    store.state.EventLoopPage.STC[index] = [x, y]
+  })
+  EchartsInit(LTC.value, store.state.EventLoopPage.LTC, {
+    title: "长时功耗曲线",
+    xAxis: {
+      min: 35,
+      max: 140,
+      name: "长时功耗"
+    },
+    yAxis: {
+      min: 0,
+      max: 110,
+      name: "温度"
+    }
+  }, (data: number[], index: number) => {
+    let x = Number(data[0].toFixed(0))
+    let y = Number(data[1].toFixed(0))
+    store.state.EventLoopPage.LTC[index] = [x, y]
+  })
+  EchartsInit(TFS.value, store.state.EventLoopPage.TFS, {
+    title: "转速曲线",
+    xAxis: {
+      min: 3500,
+      max: 5800,
+      name: "转速"
+    },
+    yAxis: {
+      min: 0,
+      max: 110,
+      name: "温度"
+    }
+  }, (data: number[], index: number) => {
+    let x = Number(data[0].toFixed(0))
+    let y = Number(data[1].toFixed(0))
+    store.state.EventLoopPage.TFS[index] = [x, y]
+  })
+}
+function removeLoop() {
+  clearInterval(store.state.EventLoopPage.eventLoop)
+  store.state.EventLoopPage.isRun = false
+}
+
+function Closest(array: number[][], CpuTemperature: number) {
+  let minDiff = Infinity;
+  let closestArray: number[] = [];
+  // 遍历 array 计算差值
+  for (const iteration of array) {
+    const tempDiff = Math.abs(Number(iteration[1]) - CpuTemperature);
+    if (tempDiff < minDiff) {
+      minDiff = tempDiff;
+      closestArray = iteration;
+    }
+  }
+  return closestArray[0]
+}
+
+function Pay() {
+  removeLoop()
+  store.state.EventLoopPage.eventLoop = setInterval(async () => {
+    const CpuTemperature = store.state.OS.CPU.temperature
+    // 初始化最小差值和最近接的数组
+    const STC = Closest(store.state.EventLoopPage.STC, CpuTemperature)
+    const LTC = Closest(store.state.EventLoopPage.LTC, CpuTemperature)
+    let TFS = Closest(store.state.EventLoopPage.TFS, CpuTemperature)
+    await wmiOperation.Cpu.SetCpuShortPower(STC)
+    await wmiOperation.Cpu.SetCpuLongPower(LTC)
+    if (TFS > 2200 && TFS < 3200) {
+      await wmiOperation.PerformaceMode.SetPerformaceMode(eumPerformaceMode.BalanceMode)
+    } else if (TFS > 3500 && TFS < 5000) {
+      await wmiOperation.PerformaceMode.SetPerformaceMode(eumPerformaceMode.PerformanceMode)
+    } else if (TFS > 5000 && TFS < 5900) {
+      await wmiOperation.PerformaceMode.SetPerformaceMode(eumPerformaceMode.QuietMode)
+    } else {
+      TFS = 58;
+    }
+    await wmiOperation.Fan.SetFanSpeed(Number(String(TFS)[0] + String(TFS)[1]))
+  }, 5000)
+  store.state.EventLoopPage.isRun = true
+}
+function shareConfig() {
+  const config = {
+    STC:store.state.EventLoopPage.STC,
+    LTC:store.state.EventLoopPage.LTC,
+    TFS:store.state.EventLoopPage.TFS
+  }
+  const base64 =  btoa(JSON.stringify(config))
+  mdui.dialog({
+    title: '分享配置文件',
+    content: `${base64}`,
+    buttons: [
+      {
+        text: '关闭'
+      },
+      {
+        text: '复制到剪切板',
+        onClick:async function(){
+         await navigator.clipboard.writeText(base64)
+        }
+      },
+    ]
+  });
+}
+function importConfig() {
+  mdui.prompt('导入配置文件',
+      function (config:string) {
+        try {
+          const iConfig = JSON.parse(atob(config)) as {
+            STC:any,
+            LTC:any,
+            TFS:any
+          }
+          store.state.EventLoopPage.STC = iConfig.STC
+          store.state.EventLoopPage.LTC = iConfig.LTC
+          store.state.EventLoopPage.TFS = iConfig.TFS
+          mdui.alert(`应用成功`)
+          Init()
+        }catch (e) {
+          mdui.alert(`应用失败 : ` +e)
+        }
+
+      }
+  );
+
+}
 
 </script>
 
@@ -81,32 +167,45 @@ onMounted(() => {
     <div class="STC" ref="STC"></div>
     <div class="LTC" ref="LTC"></div>
     <div class="TFS" ref="TFS"></div>
-<!--    <h3>正曲线 随着温度升高，会增加风扇转速，提升CPU功耗 起始功耗 65W 最大功耗 120W 起始风扇转速 3500 最大风扇转速 5800 </h3>-->
-<!--    <button class="mdui-btn mdui-btn-raised mdui-color-theme-accent">启动</button>-->
-<!--    <h3>负曲线 随着温度升高，会降低风扇转速，降低CPU功耗 起始功耗 65W 最小功耗 35W 起始风扇转速 3500 最小风扇转速 2200 </h3>-->
-<!--    <button class="mdui-btn mdui-btn-raised mdui-color-theme-accent">启动</button>-->
+    <p>
+      <button v-if="!store.state.EventLoopPage.isRun" class="mdui-btn mdui-btn-raised mdui-color-theme-accent"
+              @click="Pay">启动
+      </button>
+      <button v-else class="mdui-btn mdui-btn-raised mdui-color-theme-accent" @click="removeLoop">停止</button>
+      <button class="mdui-btn mdui-btn-raised mdui-color-theme-accent" @click="importConfig">导入配置</button>
+      <button class="mdui-btn mdui-btn-raised mdui-color-theme-accent" @click="shareConfig">分享配置</button>
+    </p>
   </div>
 </template>
 
-<style scoped>
-.STC{
-  width: 300px;
-  height: 300px;
-  display: inline-block;
-}
-.LTC{
-  width: 300px;
-  height: 300px;
-  display: inline-block;
-}
-.TFS{
-  width: 600px;
-  height: 300px;
-  display: inline-block;
-}
+<style lang="scss" scoped>
 .EventLoop {
   padding-top: 20px;
   padding-bottom: 20px;
   width: 600px;
+
+  p {
+    button {
+      margin-left: 20px;
+    }
+  }
+
+  .STC {
+    width: 300px;
+    height: 300px;
+    display: inline-block;
+  }
+
+  .LTC {
+    width: 300px;
+    height: 300px;
+    display: inline-block;
+  }
+
+  .TFS {
+    width: 600px;
+    height: 300px;
+    display: inline-block;
+  }
 }
 </style>

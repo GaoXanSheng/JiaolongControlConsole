@@ -4,8 +4,12 @@
     font-family: 'Microsoft YaHei', sans-serif;
     user-select: none;
 }
-
+::-webkit-scrollbar {
+    width: 12px; /* 滚动条的宽度 */
+    height: 12px; /* 滚动条的高度 */
+}
 body {
     width: 100vw;
     height: 100vh;
+    overflow-x: hidden;
 }

@@ -34,6 +34,8 @@ interface JiaoLongStore {
             }
         },
         EventLoopPage:{
+            isRun:boolean
+            eventLoop:Function | null;
             STC:number[][],
             LTC:number[][],
             TFS:number[][]
@@ -64,6 +66,8 @@ const storeModels: JiaoLongStore = {
             }
         },
         EventLoopPage:{
+            isRun:false,
+            eventLoop:null,
             STC: [
                 [45, 100],[55, 80],[65, 70],[85, 60],[140, 55],
             ],

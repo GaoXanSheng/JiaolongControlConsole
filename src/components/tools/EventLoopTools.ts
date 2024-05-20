@@ -17,7 +17,7 @@ export default function EchartsInit(dom:HTMLElement | null,data:number[][],optio
     let myChart = echarts.init(dom);
     let option: EChartsOption;
 
-    const symbolSize = 20;
+    const symbolSize = 10;
 
     option = {
         title: {
@@ -31,20 +31,20 @@ export default function EchartsInit(dom:HTMLElement | null,data:number[][],optio
             }
         },
         grid: {
-            top: '8%',
-            bottom: '12%'
+            top: '10%',
+            bottom: '10%'
         },
         xAxis: {
             min: options.xAxis.min,
             max: options.xAxis.max,
             type: 'value',
-            axisLine: { onZero: false }
+            axisLine: { onZero: true }
         },
         yAxis: {
             min: options.yAxis.min,
             max: options.yAxis.max,
             type: 'value',
-            axisLine: { onZero: false }
+            axisLine: { onZero: true }
         },
         series: [
             {
@@ -115,9 +115,23 @@ export default function EchartsInit(dom:HTMLElement | null,data:number[][],optio
     }
 
     function onPointDragging(dataIndex: number, pos: number[]) {
-        data[dataIndex] = myChart.convertFromPixel('grid', pos);
-        callback(data[dataIndex],dataIndex)
-        // Update data
+        // 将像素坐标转换为数据坐标
+        let [x, y] = myChart.convertFromPixel('grid', pos);
+
+        // 获取 x 和 y 轴的最小和最大值
+        const xMin = options.xAxis.min;
+        const xMax = options.xAxis.max;
+        const yMin = options.yAxis.min;
+        const yMax = options.yAxis.max;
+
+        // 限制 x 和 y 值在设定范围内
+        x = Math.max(xMin, Math.min(Number(x.toFixed(0)), xMax));
+        y = Math.max(yMin, Math.min(Number(y.toFixed(0)), yMax));
+        // 更新数据
+        data[dataIndex] = [x, y];
+        callback(data[dataIndex], dataIndex);
+
+        // 更新图表
         myChart.setOption({
             series: [
                 {
