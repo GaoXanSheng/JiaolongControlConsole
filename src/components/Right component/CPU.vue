@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import wmiOperation from "../../WMIOperation/WMIOperation.ts";
 import store from "../../store.ts";
-import {ResultState} from "../../../electron/Models/IPCModels.ts";
+import {ResultState} from "../../WMIOperation/Models/IPCModels.ts";
 import IpcAlert from "../tools/IpcAlert.ts";
 
 const CPUData = store.state.CpuPage

@@ -5,9 +5,11 @@ import {
     FanBuild,
     GPUBuild,
     KeyboardBuild,
-    LogoLightBuild, PerformaceModeBuild, SystemBuild
-} from "../../electron/Models/CmdBuild"
-import {eumPerformaceMode, ResultState} from "../../electron/Models/IPCModels.ts";
+    LogoLightBuild,
+    PerformaceModeBuild,
+    SystemBuild
+} from "./Models/CmdBuild"
+import {eumGPUMode, eumPerformaceMode, ResultState} from "./Models/IPCModels.ts";
 
 class WMIOperation {
     public Cpu = {
@@ -20,44 +22,55 @@ class WMIOperation {
         SetCPUTempWall: async (value: number) => {
             return IpcRenderer.sendIPC(`${enumBuildType.CPU}-${CPUBuild.SetCPUTempWall}-${value.toFixed(0)}`)
         },
-        GetCPUTempWall: async (value: number = 1) => {
-            return IpcRenderer.sendIPC(`${enumBuildType.CPU}-${CPUBuild.GetCPUTempWall}-${value}`)
+        GetCPUPower: async () => {
+            return IpcRenderer.sendIPC(`${enumBuildType.CPU}-${CPUBuild.GetCPUPower}-1`)
         },
-        GetCPUThermometer: async (value: number = 1) => {
-            return IpcRenderer.sendIPC(`${enumBuildType.CPU}-${CPUBuild.GetCPUThermometer}-${value}`)
-        }
+        GetCPUTempWall: async () => {
+            return IpcRenderer.sendIPC(`${enumBuildType.CPU}-${CPUBuild.GetCPUTempWall}-1`)
+        },
     }
     public Gpu = {
-        SetGpuMode: async (value: ResultState) => {
+        SetGpuMode: async (value: eumGPUMode) => {
             return IpcRenderer.sendIPC(`${enumBuildType.GPU}-${GPUBuild.SetGpuMode}-${value}`)
         },
-        GetGpuMode: async () => {
-            return IpcRenderer.sendIPC(`${enumBuildType.GPU}-${GPUBuild.GetGpuMode}-${1}`)
+        GetGpuMode: async ():Promise<eumGPUMode> => {
+            switch (await IpcRenderer.sendIPC(`${enumBuildType.GPU}-${GPUBuild.GetGpuMode}-1`)) {
+                case "HybridMode":return eumGPUMode.HybridMode
+                case "DiscreteMode":return eumGPUMode.DiscreteMode
+                default:return eumGPUMode.Unknow
+            }
         }
     }
     public Fan = {
         SwitchMaxFanSpeed: async (value: ResultState) => {
             return IpcRenderer.sendIPC(`${enumBuildType.Fan}-${FanBuild.SwitchMaxFanSpeed}-${value}`)
         },
-        SetFanSpeed: async (value: number) => {
-            return IpcRenderer.sendIPC(`${enumBuildType.Fan}-${FanBuild.SetFanSpeed}-${value}`)
+        GetSwitchMaxFanSpeed: async ():Promise<ResultState> => {
+            return Number(IpcRenderer.sendIPC(`${enumBuildType.Fan}-${FanBuild.GetSwitchMaxFanSpeed}-1`))
         },
-        GetFanSpeed: async (value: number = 1) => {
-            return IpcRenderer.sendIPC(`${enumBuildType.Fan}-${FanBuild.GetFanSpeed}-${value}`)
+        SetFanSpeed: async (value: number):Promise<string> => {
+            return await IpcRenderer.sendIPC(`${enumBuildType.Fan}-${FanBuild.SetFanSpeed}-${value}`)
         },
-        GetFanInfo: async (value: number = 1) => {
-            return IpcRenderer.sendIPC(`${enumBuildType.Fan}-${FanBuild.GetFanInfo}-${value}`)
+        GetFanSpeed: async () => {
+            const backData = (await IpcRenderer.sendIPC(`${enumBuildType.Fan}-${FanBuild.GetFanSpeed}-1`)).split("-")
+            return {
+                CPUFanSpeed:Number(backData[1]),
+                GPUFanSpeed:Number(backData[3])
+            }
         }
     }
     public Keyboard = {
         GetRGBKeyboardColor: async () => {
-            return (await IpcRenderer.sendIPC(`${enumBuildType.Keyboard}-${KeyboardBuild.GetRGBKeyboardColor}-${1}`)).split("-")
+            return (await IpcRenderer.sendIPC(`${enumBuildType.Keyboard}-${KeyboardBuild.GetRGBKeyboardColor}-1`)).split("-")
         },
         GetkeyboardLightBrightness: async () => {
-            return IpcRenderer.sendIPC(`${enumBuildType.Keyboard}-${KeyboardBuild.GetkeyboardLightBrightness}-${1}`)
+            return IpcRenderer.sendIPC(`${enumBuildType.Keyboard}-${KeyboardBuild.GetkeyboardLightBrightness}-1`)
         },
         GetKeyboardMode: async () => {
-            return IpcRenderer.sendIPC(`${enumBuildType.Keyboard}-${KeyboardBuild.GetKeyboardMode}-${1}`)
+            return IpcRenderer.sendIPC(`${enumBuildType.Keyboard}-${KeyboardBuild.GetKeyboardMode}-1`)
+        },
+        SetKeyboardMode: async () => {
+            return IpcRenderer.sendIPC(`${enumBuildType.Keyboard}-${KeyboardBuild.SetKeyboardMode}-1`)
         },
         SetkeyboardLightBrightness: async (value: number) => {
             if (value == 0 || value > 3) return "false"
@@ -69,8 +82,16 @@ class WMIOperation {
         }
     }
     public PerformaceMode = {
-        SetPerformaceMode: async (value: eumPerformaceMode) => {
-            return IpcRenderer.sendIPC(`${enumBuildType.PerformaceMode}-${PerformaceModeBuild.SetPerformaceMode}-${value}`)
+        SetPerformaceMode: async (value: eumPerformaceMode):Promise<eumPerformaceMode> => {
+            switch (await IpcRenderer.sendIPC(`${enumBuildType.PerformaceMode}-${PerformaceModeBuild.SetPerformaceMode}-${value}`)) {
+                case "BalanceMode": return eumPerformaceMode.GamingMode
+                case "PerformanceMode": return eumPerformaceMode.RampageMode
+                case "QuietMode": return eumPerformaceMode.OfficeMode
+                default:return eumPerformaceMode.Unknow
+            }
+        },
+        GetPerformaceMode: async () => {
+            return IpcRenderer.sendIPC(`${enumBuildType.PerformaceMode}-${PerformaceModeBuild.GetPerformaceMode}-1`)
         }
     }
     public System = {
@@ -93,7 +114,9 @@ class WMIOperation {
             }
         }
     }
-
+    async GetLogoLight() {
+        return IpcRenderer.sendIPC(`${enumBuildType.LogoLight}-${LogoLightBuild.GetLogoLight}-1`)
+    }
     async SetLogoLight(value: ResultState) {
         return IpcRenderer.sendIPC(`${enumBuildType.LogoLight}-${LogoLightBuild.SetLogoLight}-${value}`)
     }

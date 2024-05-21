@@ -1,49 +1,18 @@
 import {createStore} from 'vuex';
 import wmiOperation from "./WMIOperation/WMIOperation.ts";
+import {eumCPUPower, eumPerformaceMode, ResultState} from "./WMIOperation/Models/IPCModels.ts";
 
 export enum HomeTab {
     HOME,
     CPU,
     EventLoop,
-    PerformaceMode,
+    Information,
     Fan,
     Keyboard
 }
 
-interface JiaoLongStore {
-    state: {
-        SwitchPages: HomeTab
-        CpuPage: {
-            longPower: number,
-            tempWall: number,
-            shortPower: number
-        }
-        FanPage: {
-            isTrue: boolean,
-            SetFanSpeed: number
-        }
-        OS: {
-            CPU: {
-                temperature:number
-            },
-            GPU: {
-                temperature:number,
-                gpuUsage:number,
-                gpuFreq:number,
 
-            }
-        },
-        EventLoopPage:{
-            isRun:boolean
-            eventLoop:Function | null;
-            STC:number[][],
-            LTC:number[][],
-            TFS:number[][]
-        }
-    }
-}
-
-const storeModels: JiaoLongStore = {
+const storeModels = {
     state: {
         SwitchPages: HomeTab.HOME,
         CpuPage: {
@@ -56,38 +25,52 @@ const storeModels: JiaoLongStore = {
             SetFanSpeed: 3500,
         },
         OS: {
+            PerformaceMode:eumPerformaceMode.Unknow,
+            LogoLight:(await wmiOperation.GetLogoLight()),
+            Customize:eumCPUPower.Unknow,
+            SwitchMaxFanSpeed:ResultState.OFF,
             CPU: {
                 temperature:0,
+                CPUFanSpeed:0,
+                tempWall:0
             },
             GPU: {
                 temperature:0,
-                gpuUsage:0,
-                gpuFreq:0,
+                GPUFanSpeed:0,
+                GpuMode:( await wmiOperation.Gpu.GetGpuMode())
             }
         },
         EventLoopPage:{
             isRun:false,
             eventLoop:null,
             STC: [
-                [45, 100],[55, 80],[65, 70],[85, 60],[140, 55],
+                [35, 100],[45, 90],[55, 80],[65, 70],[75, 50],[85, 40],[95, 30],[100, 20],[110, 10],[120, 0]
             ],
             // Temperature long-term power consumption scheduling
             LTC:[
-                [45, 100],[55, 80],[65, 70],[85, 60],[140, 55],
+                [35, 100],[45, 90],[55, 80],[65, 70],[75, 50],[85, 40],[95, 30],[100, 20],[110, 10],[120, 0]
             ],
             // Temperature and speed
             TFS:[
-                [3500, 60],[3600, 70],[3800, 80 ],[4800, 90],[5800, 100]
+                [3500, 60],[3600, 65],[3700, 70],[3800, 75],[4000, 80],[4500, 90],[4800, 95],[5000, 98],[5500, 99],[5800, 100]
             ]
         }
     },
 }
 const store = createStore(storeModels);
 setInterval(async () => {
-    const {gpuUsage,gpuTemp,gpuFreq,cpuTemp} = await wmiOperation.System.GetInfo()
+    const {gpuTemp,cpuTemp} = await wmiOperation.System.GetInfo()
+    const {CPUFanSpeed,GPUFanSpeed} =  await wmiOperation.Fan.GetFanSpeed()
+    store.state.OS.PerformaceMode = await wmiOperation.PerformaceMode.GetPerformaceMode()
+    store.state.OS.Customize = await wmiOperation.Cpu.GetCPUPower();
+    store.state.OS.SwitchMaxFanSpeed = await wmiOperation.Fan.GetSwitchMaxFanSpeed()
+
+    store.state.OS.CPU.CPUFanSpeed = CPUFanSpeed
     store.state.OS.CPU.temperature = cpuTemp
+    store.state.OS.CPU.tempWall = await wmiOperation.Cpu.GetCPUTempWall()
+
+    store.state.OS.GPU.GPUFanSpeed = GPUFanSpeed
     store.state.OS.GPU.temperature = gpuTemp
-    store.state.OS.GPU.gpuUsage = gpuUsage
-    store.state.OS.GPU.gpuFreq = gpuFreq
+
 }, 5000)
 export default store;

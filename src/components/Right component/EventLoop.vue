@@ -3,14 +3,11 @@
 // 游戏 3500 - 5000
 // 办公 2200 - 3200
 
-// import wmiOperation from "../../WMIOperation/WMIOperation";
-// TODO ... EvnetLoop
-
 import {onMounted, ref} from "vue";
 import EchartsInit from "../tools/EventLoopTools.ts";
 import store from "../../store";
 import wmiOperation from "../../WMIOperation/WMIOperation.ts";
-import {eumPerformaceMode} from "../../../electron/Models/IPCModels.ts";
+import {eumPerformaceMode} from "../../WMIOperation/Models/IPCModels.ts";
 
 let STC = ref(null)
 let LTC = ref(null)
@@ -90,7 +87,7 @@ function Closest(array: number[][], CpuTemperature: number) {
   return closestArray[0]
 }
 
-function Pay() {
+async function Pay() {
   removeLoop()
   store.state.EventLoopPage.eventLoop = setInterval(async () => {
     const CpuTemperature = store.state.OS.CPU.temperature
@@ -101,11 +98,11 @@ function Pay() {
     await wmiOperation.Cpu.SetCpuShortPower(STC)
     await wmiOperation.Cpu.SetCpuLongPower(LTC)
     if (TFS > 2200 && TFS < 3200) {
-      await wmiOperation.PerformaceMode.SetPerformaceMode(eumPerformaceMode.BalanceMode)
+      await wmiOperation.PerformaceMode.SetPerformaceMode(eumPerformaceMode.OfficeMode)
     } else if (TFS > 3500 && TFS < 5000) {
-      await wmiOperation.PerformaceMode.SetPerformaceMode(eumPerformaceMode.PerformanceMode)
+      await wmiOperation.PerformaceMode.SetPerformaceMode(eumPerformaceMode.GamingMode)
     } else if (TFS > 5000 && TFS < 5900) {
-      await wmiOperation.PerformaceMode.SetPerformaceMode(eumPerformaceMode.QuietMode)
+      await wmiOperation.PerformaceMode.SetPerformaceMode(eumPerformaceMode.RampageMode)
     } else {
       TFS = 58;
     }

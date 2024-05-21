@@ -3,7 +3,7 @@ import store, {HomeTab} from "../store.ts";
 import CPU from '../assets/CPU.png'
 import HOME from '../assets/HOME.png'
 import Event from '../assets/Event.png'
-import PerformaceMode from '../assets/PerformaceMode.png'
+import Information from '../assets/Information.png'
 import Fan from '../assets/Fan.png'
 import Keyboard from "../assets/Keyboard.png";
 
@@ -24,9 +24,9 @@ const HomeCardType = [
     eum: HomeTab.EventLoop
   },
   {
-    title: "PerformaceMode",
-    icon: PerformaceMode,
-    eum: HomeTab.PerformaceMode
+    title: "Information",
+    icon: Information,
+    eum: HomeTab.Information
   },
   {
     title: "Fan",

@@ -1,9 +1,5 @@
 
 class IPCRenderer {
-    constructor() {
-
-    }
-
     public async sendIPC(CMD: string):Promise<string> {
         return new Promise((resolve, reject)=>{
             console.log(CMD)
@@ -21,8 +17,6 @@ class IPCRenderer {
             })
         })
     };
-
-
 }
 
 const IpcRenderer = new IPCRenderer()

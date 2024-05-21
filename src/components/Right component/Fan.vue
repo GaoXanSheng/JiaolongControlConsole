@@ -1,17 +1,17 @@
 <script setup lang="ts">
 import wmiOperation from "../../WMIOperation/WMIOperation.ts";
 import store from "../../store.ts";
-import {ResultState} from "../../../electron/Models/IPCModels.ts";
+import {ResultState} from "../../WMIOperation/Models/IPCModels.ts";
 import IpcAlert from "../tools/IpcAlert.ts";
+import ConvertParameters from "../tools/ConvertParameters.ts";
 
 const fanData = store.state.FanPage
 
 async function aPay() {
-  const data = [
-    await wmiOperation.Fan.SwitchMaxFanSpeed(ResultState.ON),
-    await wmiOperation.Fan.SetFanSpeed(Number(String(fanData.SetFanSpeed)[0] + String(fanData.SetFanSpeed)[1])),
-  ]
-  IpcAlert(data)
+  if (store.state.OS.SwitchMaxFanSpeed == ResultState.OFF){
+    await wmiOperation.Fan.SwitchMaxFanSpeed(ResultState.ON)
+  }
+  IpcAlert([await wmiOperation.Fan.SetFanSpeed(ConvertParameters(fanData.SetFanSpeed))])
 }
 </script>
 

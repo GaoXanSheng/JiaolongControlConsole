@@ -2,14 +2,14 @@ import {exec,spawn} from "child_process";
 import {app} from "electron";
 async function KillExe():Promise<boolean> {
     return new Promise((resolve,reject)=>{
-        exec('tasklist', (err, stdout, stderr) => {
+        exec('tasklist', (err, stdout, _stderr) => {
             if (err) {
                 reject(err)
             }
             // 检查进程列表中是否有 JiaoLongWMI.exe
             if (stdout.toLowerCase().includes('jiaolongwmi.exe')) {
                 // 杀死进程
-                exec('taskkill /F /IM JiaoLongWMI.exe', (err, stdout, stderr) => {
+                exec('taskkill /F /IM JiaoLongWMI.exe', (err, _stdout, _stderr) => {
                     if (err) {
                         reject(err)
                     }
@@ -30,8 +30,7 @@ async function initWMI(path:string){
     });
 
     process.stderr.on('data', (data) => {
-        const output = iconv.decode(Buffer.from(data), 'gbk');
-        console.error(`stderr: ${output}`);
+        console.error(`stderr: ${data}`);
     });
 
     process.on('close', (code) => {
