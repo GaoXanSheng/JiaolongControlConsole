@@ -25,7 +25,7 @@ const storeModels =   {
         },
         OS: {
             PerformaceMode:eumPerformaceMode.Unknow,
-            LogoLight:"",
+            LogoLight:ResultState.OFF,
             Customize:eumCPUPower.Unknow,
             SwitchMaxFanSpeed:ResultState.OFF,
             CPU: {

@@ -1,5 +1,4 @@
 import {exec,spawn} from "child_process";
-import {app} from "electron";
 async function KillExe():Promise<boolean> {
     return new Promise((resolve,reject)=>{
         exec('tasklist', (err, stdout, _stderr) => {
@@ -38,8 +37,8 @@ async function initWMI(path:string){
     });
 }
 export default async (path:string)=>{
-    if (app.isPackaged){
+    // if (app.isPackaged){
         await initWMI(path)
-    }
+    // }
 }
 

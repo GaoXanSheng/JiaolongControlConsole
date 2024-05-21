@@ -114,8 +114,11 @@ class WMIOperation {
             }
         }
     }
-    async GetLogoLight() {
-        return IpcRenderer.sendIPC(`${enumBuildType.LogoLight}-${LogoLightBuild.GetLogoLight}-1`)
+    async GetLogoLight():Promise<ResultState> {
+       switch (await IpcRenderer.sendIPC(`${enumBuildType.LogoLight}-${LogoLightBuild.GetLogoLight}-1`)) {
+           case "ON":return ResultState.ON;
+           default:return ResultState.OFF
+       }
     }
     async SetLogoLight(value: ResultState) {
         return IpcRenderer.sendIPC(`${enumBuildType.LogoLight}-${LogoLightBuild.SetLogoLight}-${value}`)
