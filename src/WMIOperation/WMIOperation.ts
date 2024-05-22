@@ -107,7 +107,7 @@ class WMIOperation {
             return {
                 gpuUsage: backData[0],
                 gpuTemp: backData[1],
-                gpuFreq: backData[2],
+                gpuFreq: backData[2]*1000,
                 rate: backData[3],
                 speed: backData[4],
                 cpuTemp: backData[5]

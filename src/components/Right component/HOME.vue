@@ -1,4 +1,7 @@
 <script setup lang="ts">
+// TODO 彩蛋
+// 当电脑为 7945HX+4060+32GRAM 将HOME 的图片设置成视频播放
+
 </script>
 
 <template>

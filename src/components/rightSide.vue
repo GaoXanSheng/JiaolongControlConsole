@@ -26,8 +26,8 @@ import Seting from "./Right component/Seting.vue";
 
 <style scoped>
 .rightSide{
-  padding-left: 220px;
-  width: calc(100vw - 220px);
+  padding-left: 200px;
+  width: calc(100vw - 200px);
   height: 100%;
 }
 </style>

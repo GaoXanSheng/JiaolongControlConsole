@@ -39,6 +39,8 @@ const storeModels =   {
             GPU: {
                 temperature:0,
                 GPUFanSpeed:0,
+                GpuUsage:0,
+                GpuFreq:0,
                 GpuMode:eumGPUMode.Unknow
             }
         },
@@ -66,7 +68,7 @@ const store = createStore(storeModels);
     store.state.OS.GPU.GpuMode = await wmiOperation.Gpu.GetGpuMode()
 })()
 setInterval(async () => {
-    const {gpuTemp,cpuTemp} = await wmiOperation.System.GetInfo()
+    const {gpuTemp,cpuTemp,gpuUsage,gpuFreq} = await wmiOperation.System.GetInfo()
     const {CPUFanSpeed,GPUFanSpeed} =  await wmiOperation.Fan.GetFanSpeed()
     store.state.OS.PerformaceMode = await wmiOperation.PerformaceMode.GetPerformaceMode()
     store.state.OS.Customize = await wmiOperation.Cpu.GetCPUPower();
@@ -78,6 +80,8 @@ setInterval(async () => {
 
     store.state.OS.GPU.GPUFanSpeed = GPUFanSpeed
     store.state.OS.GPU.temperature = gpuTemp
+    store.state.OS.GPU.GpuUsage = gpuUsage
+    store.state.OS.GPU.GpuFreq = gpuFreq
 
 }, 5000)
 window["Debug"] = function () {
