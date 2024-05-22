@@ -7,7 +7,6 @@ import IpcAlert from "../tools/IpcAlert.ts";
 const CPUData = store.state.CpuPage
 async function aPay() {
   const data = [
-    await wmiOperation.System.OpenCustomMode(ResultState.ON),
     await wmiOperation.Cpu.SetCpuLongPower(CPUData.longPower),
     await wmiOperation.Cpu.SetCpuShortPower(CPUData.shortPower),
     await wmiOperation.Cpu.SetCPUTempWall(CPUData.tempWall),

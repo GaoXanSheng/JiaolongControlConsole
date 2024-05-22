@@ -1,8 +1,6 @@
-
 class IPCRenderer {
     public async sendIPC(CMD: string):Promise<string> {
         return new Promise((resolve, reject)=>{
-            console.log(CMD)
             const url = 'http://localhost:9871/';
             fetch(url, {
                 method: 'POST',
