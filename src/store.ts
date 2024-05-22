@@ -8,11 +8,14 @@ export enum HomeTab {
     EventLoop,
     Information,
     Fan,
-    Keyboard
+    Keyboard,
+    Settings,
+    Debug=255
 }
 
 const storeModels =   {
     state: {
+        Debug:false,
         SwitchPages: HomeTab.HOME,
         CpuPage: {
             longPower: 45,
@@ -77,4 +80,7 @@ setInterval(async () => {
     store.state.OS.GPU.temperature = gpuTemp
 
 }, 5000)
+window["Debug"] = function () {
+    store.state.Debug = true
+}
 export default store;

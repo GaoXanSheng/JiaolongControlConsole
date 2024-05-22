@@ -6,6 +6,8 @@ import EventLoop from "./Right component/EventLoop.vue";
 import Information from "./Right component/Information.vue";
 import Fan from "./Right component/Fan.vue";
 import Keyboard from "./Right component/KeyBoard.vue";
+import Debug from "./Right component/Debug.vue";
+import Seting from "./Right component/Seting.vue";
 
 </script>
 
@@ -17,6 +19,8 @@ import Keyboard from "./Right component/KeyBoard.vue";
     <Information v-if="store.state.SwitchPages==HomeTab.Information"></Information>
     <Fan v-if="store.state.SwitchPages==HomeTab.Fan"></Fan>
     <Keyboard v-if="store.state.SwitchPages==HomeTab.Keyboard"></Keyboard>
+    <Seting v-if="store.state.SwitchPages==HomeTab.Settings"></Seting>
+    <Debug v-if="store.state.SwitchPages==HomeTab.Debug"></Debug>
 </div>
 </template>
 

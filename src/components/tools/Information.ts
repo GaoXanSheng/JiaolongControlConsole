@@ -56,12 +56,7 @@ export function showTemperature(dom:any,title:string,max:number) {
                     fontWeight: 'bolder',
                     formatter: `${title}`,
                     color: 'inherit'
-                },
-                data: [
-                    {
-                        value: 20
-                    }
-                ]
+                }
             }
         ]
     };

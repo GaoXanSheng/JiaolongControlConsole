@@ -6,43 +6,50 @@ import Event from '../assets/Event.png'
 import Information from '../assets/Information.png'
 import Fan from '../assets/Fan.png'
 import Keyboard from "../assets/Keyboard.png";
-
+import Settings from "../assets/Settings.png";
+import Dev from '../assets/Dev.png'
 const HomeCardType = [
   {
-    title: "HOME",
+    title: "主页",
     icon: HOME,
     eum: HomeTab.HOME
   },
   {
-    title: "CPU",
+    title: "中央处理器",
     icon: CPU,
     eum: HomeTab.CPU
   },
   {
-    title: "Event Loop",
+    title: "事件循环",
     icon: Event,
     eum: HomeTab.EventLoop
   },
   {
-    title: "Information",
+    title: "仪表盘",
     icon: Information,
     eum: HomeTab.Information
   },
   {
-    title: "Fan",
+    title: "风扇",
     icon: Fan,
     eum: HomeTab.Fan
   },
   {
-    title: "Keyboard",
+    title: "键盘",
     icon: Keyboard,
     eum: HomeTab.Keyboard
-  }
+  },
+  // {
+  //   title: "设置",
+  //   icon: Settings,
+  //   eum: HomeTab.Settings
+  // }
 ]
 
 function setStoreData(data:number) {
   store.state.SwitchPages = data
 }
+
 </script>
 
 <template>
@@ -53,6 +60,13 @@ function setStoreData(data:number) {
         <div class="mdui-list-item-content">{{ i.title }}</div>
       </li>
     </ul>
+    <ul class="mdui-list" v-if="store.state.Debug">
+    <li class="mdui-list-item mdui-ripple"  @click="setStoreData(HomeTab.Debug)">
+      <img class="mdui-list-item-icon mdui-icon material-icons" :src="Dev" draggable="false" alt="">
+      <div class="mdui-list-item-content">Debug</div>
+    </li>
+  </ul>
+
   </div>
 </template>
 

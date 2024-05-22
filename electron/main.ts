@@ -55,6 +55,7 @@ function createWindow() {
         win.loadFile(path.join(process.env.DIST, 'index.html'))
     }
     // 检测进程
+
     JiaoLongWMI(path.join(rootDirectory, '\\JiaoLongWMI.exe')).then(_r =>{
         console.log("Server run")
     })
