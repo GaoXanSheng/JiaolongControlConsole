@@ -1,6 +1,7 @@
-import {app, BrowserWindow} from 'electron'
+import {app, BrowserWindow, ipcMain} from 'electron'
 import path from 'node:path'
 import JiaoLongWMI from "./tools/JiaoLongWMI.ts";
+import Probe from "./tools/Probe.ts";
 // The built directory structure
 //
 // ├─┬─┬ dist
@@ -42,7 +43,7 @@ function createWindow() {
     })
 
     // Test active push message to Renderer-process.
-    win.webContents.on('did-finish-load', () => {
+    win.webContents.on('did-finish-load', async () => {
         win?.webContents.send('main-process-message', (new Date).toLocaleString())
     })
 
@@ -54,8 +55,9 @@ function createWindow() {
     } else {
         win.loadFile(path.join(process.env.DIST, 'index.html'))
     }
-    // 检测进程
-
+    ipcMain.handle('custom-event-ProbeData', async (_event, args: string) => {
+        return await Probe()
+    })
     JiaoLongWMI(path.join(rootDirectory, '\\JiaoLongWMI.exe')).then(_r =>{
         console.log("Server run")
     })
@@ -73,12 +75,13 @@ app.on('window-all-closed', () => {
     }
 })
 
-app.on('activate', () => {
+app.on('activate', async () => {
     // On OS X it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
     if (BrowserWindow.getAllWindows().length === 0) {
         createWindow()
     }
+
 })
 
 app.whenReady().then(createWindow)

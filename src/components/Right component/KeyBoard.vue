@@ -2,7 +2,6 @@
 import wmiOperation from "../../WMIOperation/WMIOperation";
 import {ref} from "vue";
 import IpcAlert from "../tools/IpcAlert";
-import delay from "../tools/delay.ts";
 const Data = ref({
   red:0,
   blue:0,
@@ -19,20 +18,6 @@ wmiOperation.Keyboard.GetkeyboardLightBrightness().then(res=>{
 
 })
 async function aPay() {
-  // setInterval(async ()=>{
-  //   await wmiOperation.Keyboard.SetkeyboardLightBrightness(1)
-  //   await delay(300)
-  //   await wmiOperation.Keyboard.SetkeyboardLightBrightness(2)
-  //   await delay(300)
-  //   await wmiOperation.Keyboard.SetkeyboardLightBrightness(3)
-  //   await delay(300)
-  //   await wmiOperation.Keyboard.SetkeyboardLightBrightness(3)
-  //   await delay(300)
-  //   await wmiOperation.Keyboard.SetkeyboardLightBrightness(2)
-  //   await delay(300)
-  //   await wmiOperation.Keyboard.SetkeyboardLightBrightness(1)
-  //   await delay(300)
-  // },600)
   const data = [
     await wmiOperation.Keyboard.SetRGBKeyboardColor(Data.value.red,Data.value.blue,Data.value.green),
     await wmiOperation.Keyboard.SetkeyboardLightBrightness(Data.value.LightBrightness)

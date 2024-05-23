@@ -3,6 +3,8 @@
 
 import LeftSide from "./components/leftSide.vue";
 import RightSide from "./components/rightSide.vue";
+import store from "./store.ts";
+
 </script>
 
 <template>

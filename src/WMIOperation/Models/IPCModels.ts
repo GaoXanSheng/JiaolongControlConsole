@@ -11,8 +11,8 @@ export enum eumPerformaceMode {
 }
 export enum eumGPUMode
 {
-    HybridMode,
     DiscreteMode,
+    HybridMode,
     Unknow = 255
 }
 export enum eumCPUPower

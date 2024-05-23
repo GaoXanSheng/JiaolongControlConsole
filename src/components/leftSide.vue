@@ -2,8 +2,8 @@
 import store, {HomeTab} from "../store.ts";
 import CPU from '../assets/CPU.png'
 import HOME from '../assets/HOME.png'
-import Event from '../assets/Event.png'
 import Information from '../assets/Information.png'
+import Event from '../assets/Event.png'
 import Fan from '../assets/Fan.png'
 import Keyboard from "../assets/Keyboard.png";
 import Settings from "../assets/Settings.png";
@@ -20,14 +20,14 @@ const HomeCardType = [
     eum: HomeTab.CPU
   },
   {
-    title: "事件循环",
+    title: "调度控制",
     icon: Event,
     eum: HomeTab.EventLoop
   },
   {
-    title: "仪表盘",
+    title: "信息报表",
     icon: Information,
-    eum: HomeTab.Information
+    eum: HomeTab.Information,
   },
   {
     title: "风扇",
@@ -56,8 +56,8 @@ function setStoreData(data:number) {
   <div class="mdui-drawer mdui-drawer-open">
     <ul class="mdui-list">
       <li d class="mdui-list-item mdui-ripple" v-for="i of HomeCardType" @click="setStoreData(i.eum)" :key="i.eum">
-        <img class="mdui-list-item-icon mdui-icon material-icons" :src="i.icon" draggable="false" alt="">
-        <div class="mdui-list-item-content">{{ i.title }}</div>
+          <img class="mdui-list-item-icon mdui-icon material-icons" :src="i.icon" draggable="false" alt="">
+          <div class="mdui-list-item-content">{{ i.title }}</div>
       </li>
     </ul>
     <ul class="mdui-list" v-if="store.state.Debug">

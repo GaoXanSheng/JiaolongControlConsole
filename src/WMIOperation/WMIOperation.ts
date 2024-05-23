@@ -9,7 +9,7 @@ import {
     PerformaceModeBuild,
     SystemBuild
 } from "./Models/CmdBuild"
-import {eumGPUMode, eumPerformaceMode, ResultState} from "./Models/IPCModels.ts";
+import {eumCPUPower, eumGPUMode, eumPerformaceMode, ResultState} from "./Models/IPCModels.ts";
 
 class WMIOperation {
     public Cpu = {
@@ -23,7 +23,12 @@ class WMIOperation {
             return IpcRenderer.sendIPC(`${enumBuildType.CPU}-${CPUBuild.SetCPUTempWall}-${value.toFixed(0)}`)
         },
         GetCPUPower: async () => {
-            return IpcRenderer.sendIPC(`${enumBuildType.CPU}-${CPUBuild.GetCPUPower}-1`)
+            switch (await IpcRenderer.sendIPC(`${enumBuildType.CPU}-${CPUBuild.GetCPUPower}-1`)) {
+                case 'CloseState': return eumCPUPower.CloseState
+                case 'OpenState': return eumCPUPower.OpenState
+                default : return eumCPUPower.Unknow
+            }
+
         },
         GetCPUTempWall: async () => {
             return IpcRenderer.sendIPC(`${enumBuildType.CPU}-${CPUBuild.GetCPUTempWall}-1`)
@@ -43,10 +48,10 @@ class WMIOperation {
     }
     public Fan = {
         SwitchMaxFanSpeed: async (value: ResultState) => {
-            return IpcRenderer.sendIPC(`${enumBuildType.Fan}-${FanBuild.SwitchMaxFanSpeed}-${value}`)
+            return await IpcRenderer.sendIPC(`${enumBuildType.Fan}-${FanBuild.SwitchMaxFanSpeed}-${value}`)
         },
-        GetSwitchMaxFanSpeed: async ():Promise<ResultState> => {
-            return Number(IpcRenderer.sendIPC(`${enumBuildType.Fan}-${FanBuild.GetSwitchMaxFanSpeed}-1`))
+        GetSwitchMaxFanSpeed: async () => {
+            return IpcRenderer.sendIPC(`${enumBuildType.Fan}-${FanBuild.GetSwitchMaxFanSpeed}-1`)
         },
         SetFanSpeed: async (value: number):Promise<string> => {
             return await IpcRenderer.sendIPC(`${enumBuildType.Fan}-${FanBuild.SetFanSpeed}-${value}`)
@@ -95,7 +100,7 @@ class WMIOperation {
         }
     }
     public System = {
-        OpenCustomMode: async (value: ResultState) => {
+        OpenCustomMode: async (value: eumCPUPower) => {
             return IpcRenderer.sendIPC(`${enumBuildType.System}-${SystemBuild.OpenCustomMode}-${value}`)
         },
         GetACType: async () => {

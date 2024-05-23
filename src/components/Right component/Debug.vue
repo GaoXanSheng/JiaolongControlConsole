@@ -4,9 +4,10 @@ import store from "../../store.ts";
 </script>
 
 <template>
-<pre>
-  {{ JSON.stringify(store.state,null,2) }}
-</pre>
+  <div class="mdui-textfield">
+    <textarea class="mdui-textfield-input"  placeholder="Description">{{JSON.stringify(store.state,null,2)}}</textarea>
+  </div>
+
 </template>
 
 <style scoped>
