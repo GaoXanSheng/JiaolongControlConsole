@@ -34,12 +34,6 @@ import BackgroundVideo from '../../assets/28、黑龙女孩 作者 SDL 彦程.mp
   .title {
     width: 600px;
     height: 300px;
-    //box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.3);
-    //border-radius: 5px;
-    //background-size: cover;
-    //background-position: center;
-    //background-image: url(../../assets/background.jpg);
-    //background-color: white;
     video{
       width: 600px;
       height: 300px;
