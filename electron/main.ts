@@ -2,26 +2,16 @@ import {app, BrowserWindow, ipcMain} from 'electron'
 import path from 'node:path'
 import JiaoLongWMI from "./tools/JiaoLongWMI.ts";
 import Probe from "./tools/Probe.ts";
-// The built directory structure
-//
-// ├─┬─┬ dist
-// │ │ └── index.html
-// │ │
-// │ ├─┬ dist-electron
-// │ │ ├── main.js
-// │ │ └── preload.js
-// │
+import finishLoad from "./tools/finish-load.ts";
+import tray from "./tools/tray.ts";
+import wmiDirectory from "./tools/wmiDirectory.ts";
+
 process.env.DIST = path.join(__dirname, '../dist')
 process.env.VITE_PUBLIC = app.isPackaged ? process.env.DIST : path.join(process.env.DIST, '../public')
-let rootDirectory = ""
-if (app.isPackaged) {
-    rootDirectory = path.join(app.getAppPath(), '..\\JiaoLongWMI')
-} else {
-    rootDirectory = path.join(app.getAppPath(), '\\JiaoLongWMI')
-}
+let rootDirectory = wmiDirectory()
+
 
 let win: BrowserWindow | null
-// 🚧 Use ['ENV_NAME'] avoid vite:define plugin - Vite@2.x
 const VITE_DEV_SERVER_URL = process.env['VITE_DEV_SERVER_URL']
 
 function createWindow() {
@@ -31,21 +21,18 @@ function createWindow() {
         frame: true, // 设置为 false，去掉窗口的默认边框
         transparent: false, // 设置为 true，使窗口背景透明
         // 设置窗口形状
-        height:700,
-        width:1000,
-        minHeight:700,
-        minWidth:1000,
-        resizable:false,
+        height: 700,
+        width: 1000,
+        minHeight: 700,
+        minWidth: 1000,
+        resizable: false,
         webPreferences: {
             preload: path.join(__dirname, 'preload.js'),
-            nodeIntegration:true
+            nodeIntegration: true
         },
     })
-
-    // Test active push message to Renderer-process.
-    win.webContents.on('did-finish-load', async () => {
-        win?.webContents.send('main-process-message', (new Date).toLocaleString())
-    })
+    finishLoad(win)
+    tray(win,path.join(process.env.VITE_PUBLIC, '/appicon/Icon-24@2x.png'))
 
     if (VITE_DEV_SERVER_URL) {
         win.loadURL(VITE_DEV_SERVER_URL)
@@ -55,14 +42,12 @@ function createWindow() {
     } else {
         win.loadFile(path.join(process.env.DIST, 'index.html'))
     }
-    ipcMain.handle('custom-event-ProbeData', async (_event, args: string) => {
+    ipcMain.handle('custom-event-ProbeData', async (_event, _args: string) => {
         return await Probe()
     })
-    JiaoLongWMI(path.join(rootDirectory, '\\JiaoLongWMI.exe')).then(_r =>{
+    JiaoLongWMI(path.join(rootDirectory, '\\JiaoLongWMI.exe')).then(_r => {
         console.log("Server run")
     })
-
-
 }
 
 // Quit when all windows are closed, except on macOS. There, it's common
