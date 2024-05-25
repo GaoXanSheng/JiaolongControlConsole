@@ -19,7 +19,7 @@ wmiOperation.Keyboard.GetkeyboardLightBrightness().then(res=>{
 })
 async function aPay() {
   const data = [
-    await wmiOperation.Keyboard.SetRGBKeyboardColor(Data.value.red,Data.value.blue,Data.value.green),
+    await wmiOperation.Keyboard.SetRGBKeyboardColor(Data.value.red,Data.value.green,Data.value.blue),
     await wmiOperation.Keyboard.SetkeyboardLightBrightness(Data.value.LightBrightness)
   ]
   IpcAlert(data)
