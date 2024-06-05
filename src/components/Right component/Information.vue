@@ -1,10 +1,6 @@
 <script setup lang="ts">
-import {onMounted} from "vue";
 import store from "../../store";
 import {ProbeData} from "../../../electron/ProbeModels";
-import {fanGraphicalInterface} from "../tools/Information";
-import is from "@sindresorhus/is";
-import string = is.string;
 import {eumCPUPower, ResultState} from "../../WMIOperation/Models/IPCModels.ts";
 import wmiOperation from "../../WMIOperation/WMIOperation.ts";
 
