@@ -41,49 +41,49 @@ wmiOperation.Keyboard.GetkeyboardLightBrightness().then(res=>{
 //     }
 //   }
 // }
-// const running = ref(true); // Control variable to manage the loop
+const running = ref(true); // Control variable to manage the loop
+
+function getGradientColor(startColor, endColor, percent) {
+  const interpolate = (start, end, percent) => Math.round(start + (end - start) * percent);
+
+  const r = interpolate(startColor.r, endColor.r, percent);
+  const g = interpolate(startColor.g, endColor.g, percent);
+  const b = interpolate(startColor.b, endColor.b, percent);
+
+  return { r, g, b };
+}
 //
-// function getGradientColor(startColor, endColor, percent) {
-//   const interpolate = (start, end, percent) => Math.round(start + (end - start) * percent);
-//
-//   const r = interpolate(startColor.r, endColor.r, percent);
-//   const g = interpolate(startColor.g, endColor.g, percent);
-//   const b = interpolate(startColor.b, endColor.b, percent);
-//
-//   return { r, g, b };
-// }
-//
-// async function applyLoopingGradientColor() {
-//   const colors = [
-//     { r: 255, g: 0, b: 0 },   // Red
-//     { r: 0, g: 255, b: 0 },   // Green
-//     { r: 0, g: 0, b: 255 }    // Blue
-//   ];
-//   const steps = 100;
-//   const delay = 50; // Milliseconds
-//
-//   running.value = true; // Ensure the loop runs when started
-//
-//   while (running.value) {
-//     for (let i = 0; i < colors.length && running; i++) {
-//       const startColor = colors[i];
-//       const endColor = colors[(i + 1) % colors.length];
-//       for (let j = 0; j <= steps && running; j++) {
-//         const percent = j / steps;
-//         const color = getGradientColor(startColor, endColor, percent);
-//
-//         await wmiOperation.Keyboard.SetRGBKeyboardColor(color.r, color.g, color.b);
-//
-//         // Wait for the specified delay
-//         await new Promise(resolve => setTimeout(resolve, delay));
-//       }
-//     }
-//   }
-// }
-//
-// function stopLoopingGradientColor() {
-//   running.value = false; // Set the control variable to false to stop the loop
-// }
+async function applyLoopingGradientColor() {
+  const colors = [
+    { r: 255, g: 0, b: 0 },   // Red
+    { r: 0, g: 255, b: 0 },   // Green
+    { r: 0, g: 0, b: 255 }    // Blue
+  ];
+  const steps = 100;
+  const delay = 50; // Milliseconds
+
+  running.value = true; // Ensure the loop runs when started
+
+  while (running.value) {
+    for (let i = 0; i < colors.length && running; i++) {
+      const startColor = colors[i];
+      const endColor = colors[(i + 1) % colors.length];
+      for (let j = 0; j <= steps && running; j++) {
+        const percent = j / steps;
+        const color = getGradientColor(startColor, endColor, percent);
+
+        await wmiOperation.Keyboard.SetRGBKeyboardColor(color.r, color.g, color.b);
+
+        // Wait for the specified delay
+        await new Promise(resolve => setTimeout(resolve, delay));
+      }
+    }
+  }
+}
+
+function stopLoopingGradientColor() {
+  running.value = false; // Set the control variable to false to stop the loop
+}
 
 async function aPay() {
   // await applyLoopingGradientColor();
