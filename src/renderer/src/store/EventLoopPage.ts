@@ -1,7 +1,17 @@
-export default async function() {
+interface eventLoop {
+  isRun:boolean
+  eventLoop:any
+  STC:number[][]
+  LTC:number[][]
+  TFS:number[][]
+}
+
+
+
+export default async function():Promise<eventLoop> {
   return {
     isRun: false,
-    eventLoop: null,
+    eventLoop: undefined,
     STC: [
       [35, 100], [45, 90], [55, 80], [65, 70], [75, 50], [85, 40], [95, 30], [100, 20], [110, 10], [120, 0]
     ],

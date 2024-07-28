@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import index from "../../store";
-import {ProbeData} from "../../../electron/ProbeModels";
-import {eumCPUPower, ResultState} from "../../WMIOperation/Models/IPCModels.ts";
-import wmiOperation from "../../WMIOperation/WMIOperation.ts";
+import {eumCPUPower, ResultState} from "../../WMIOperation/Models/IPCModels";
+import wmiOperation from "../../WMIOperation/WMIOperation";
 
 // TODO
 // CPU 温度 频率 核心数量 使用率
@@ -12,7 +11,7 @@ import wmiOperation from "../../WMIOperation/WMIOperation.ts";
 // 自定义功能 一键模式 独显直连设定 logo灯设定
 
 
-const info = index.state.ProbeData as ProbeData
+const info = index.state.ProbeData
 const gpuInfo = info.gpu.controllers[info.gpu.controllers.findIndex((value) => {
   if (value.vendor == "NVIDIA") return value
 })]
@@ -133,7 +132,7 @@ async function setCpuCustomize() {
           <td>
             <div @click="setCpuCustomize">
               <label class="mdui-switch">
-                <input :checked="Number(index.state.OS.Customize)" type="checkbox"/>
+                <input :checked="!!Number(index.state.OS.Customize)" type="checkbox"/>
                 <i class="mdui-switch-icon"></i>
               </label>
             </div>
@@ -144,7 +143,7 @@ async function setCpuCustomize() {
           <td>
             <div @click="setSwitchMaxFanSpeed">
               <label class="mdui-switch">
-                <input :checked="Number(index.state.OS.SwitchMaxFanSpeed)" type="checkbox"/>
+                <input :checked="!!Number(index.state.OS.SwitchMaxFanSpeed)" type="checkbox"/>
                 <i class="mdui-switch-icon"></i>
               </label>
             </div>
@@ -153,7 +152,7 @@ async function setCpuCustomize() {
           <td>
             <div @click="setLogoLight">
               <label class="mdui-switch">
-                <input :checked="index.state.OS.LogoLight" type="checkbox"/>
+                <input :checked="!!index.state.OS.LogoLight" type="checkbox"/>
                 <i class="mdui-switch-icon"></i>
               </label>
             </div>

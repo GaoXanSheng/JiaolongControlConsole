@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import wmiOperation from "../../WMIOperation/WMIOperation.ts";
+import wmiOperation from "../../WMIOperation/WMIOperation";
 import index from "../../store";
-import {ResultState} from "../../WMIOperation/Models/IPCModels.ts";
-import IpcAlert from "../tools/IpcAlert.ts";
-import ConvertParameters from "../tools/ConvertParameters.ts";
+import {ResultState} from "../../WMIOperation/Models/IPCModels";
+import IpcAlert from "../tools/IpcAlert";
+import ConvertParameters from "../tools/ConvertParameters";
 
 const fanData = index.state.FanPage
 

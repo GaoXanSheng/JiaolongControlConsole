@@ -69,7 +69,7 @@ function Init() {
   })
 }
 function removeLoop() {
-  clearInterval(store.state.EventLoopPage.eventLoop)
+  clearInterval(store.state.EventLoopPage.eventLoop as NodeJS.Timeout)
   store.state.EventLoopPage.isRun = false
 }
 
@@ -117,6 +117,7 @@ function shareConfig() {
     TFS:store.state.EventLoopPage.TFS
   }
   const base64 =  btoa(JSON.stringify(config))
+  // @ts-ignore
   mdui.dialog({
     title: '分享配置文件',
     content: `${base64}`,
@@ -134,6 +135,7 @@ function shareConfig() {
   });
 }
 function importConfig() {
+  // @ts-ignore
   mdui.prompt('导入配置文件',
       function (config:string) {
         try {
@@ -145,9 +147,11 @@ function importConfig() {
           store.state.EventLoopPage.STC = iConfig.STC
           store.state.EventLoopPage.LTC = iConfig.LTC
           store.state.EventLoopPage.TFS = iConfig.TFS
+          // @ts-ignore
           mdui.alert(`应用成功`)
           Init()
         }catch (e) {
+          // @ts-ignore
           mdui.alert(`应用失败 : ` +e)
         }
 

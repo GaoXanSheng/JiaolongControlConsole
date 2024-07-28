@@ -1,5 +1,6 @@
 appId: top.yunmouren.Control_Console
 productName: Jiaolong-Control-Console
+icon: ./resources/ItunesArtwork@2x.png
 directories:
   buildResources: build
 files:
@@ -12,10 +13,9 @@ files:
 asarUnpack:
   - resources/**
 win:
-  executableName: Jiaolong-Control-Console
+  executableName: JiaolongControlConsole
   requestedExecutionLevel: "highestAvailable"
 nsis:
-  requestedExecutionLevel: "highestAvailable"
   artifactName: ${name}-${version}-setup.${ext}
   shortcutName: ${productName}
   uninstallDisplayName: ${productName}

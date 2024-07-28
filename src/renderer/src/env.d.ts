@@ -3,7 +3,7 @@
 import { ElectronAPI } from '@electron-toolkit/preload'
 
 declare global {
-
+  mdui:unknown
   interface Window {
     electron: ElectronAPI
     api: unknown

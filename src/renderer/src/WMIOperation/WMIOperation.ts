@@ -56,8 +56,8 @@ class WMIOperation {
     SwitchMaxFanSpeed: async (value: ResultState) => {
       return await IpcRenderer.sendIPC(`${enumBuildType.Fan}-${FanBuild.SwitchMaxFanSpeed}-${value}`)
     },
-    GetSwitchMaxFanSpeed: async () => {
-      return IpcRenderer.sendIPC(`${enumBuildType.Fan}-${FanBuild.GetSwitchMaxFanSpeed}-1`)
+    GetSwitchMaxFanSpeed: async ():Promise<number> => {
+      return Number(await IpcRenderer.sendIPC(`${enumBuildType.Fan}-${FanBuild.GetSwitchMaxFanSpeed}-1`))
     },
     SetFanSpeed: async (value: number): Promise<string> => {
       return await IpcRenderer.sendIPC(`${enumBuildType.Fan}-${FanBuild.SetFanSpeed}-${value}`)
@@ -117,15 +117,22 @@ class WMIOperation {
       return IpcRenderer.sendIPC(`${enumBuildType.System}-${SystemBuild.GetACType}-${1}`)
     },
     // 缝缝补补
-    GetInfo: async () => {
+    GetInfo: async (): Promise<{
+      gpuUsage: number,
+      gpuTemp: number,
+      gpuFreq: number,
+      rate: number,
+      speed: number,
+      cpuTemp: number
+    }> => {
       const backData = (await IpcRenderer.sendIPC(`${enumBuildType.System}-${SystemBuild.GetInfo}-${1}`)).split('-')
       return {
-        gpuUsage: backData[0],
-        gpuTemp: backData[1],
+        gpuUsage: Number(backData[0]),
+        gpuTemp: Number(backData[1]),
         gpuFreq: Number(backData[2]) * 1000,
-        rate: backData[3],
-        speed: backData[4],
-        cpuTemp: backData[5]
+        rate: Number(backData[3]),
+        speed: Number(backData[4]),
+        cpuTemp: Number(backData[5])
       }
     }
   }

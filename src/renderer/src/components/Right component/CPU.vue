@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import wmiOperation from "../../WMIOperation/WMIOperation";
 import index from "../../store";
-import {ResultState} from "../../WMIOperation/Models/IPCModels";
-import IpcAlert from "../tools/IpcAlert.ts";
+import IpcAlert from "../tools/IpcAlert";
 
 const CPUData = index.state.CpuPage
 async function aPay() {
