@@ -13,45 +13,6 @@
   <!--      </label>-->
   <!--    </li>-->
   <!--  </ul>-->
-  <div class="mdui-panel" mdui-panel>
-
-    <div class="mdui-panel-item">
-      <div class="mdui-panel-item-header">First</div>
-      <div class="mdui-panel-item-body">
-        <p>First content</p>
-        <p>First content</p>
-        <p>First content</p>
-        <p>First content</p>
-        <p>First content</p>
-        <p>First content</p>
-      </div>
-    </div>
-
-    <div class="mdui-panel-item">
-      <div class="mdui-panel-item-header">Second</div>
-      <div class="mdui-panel-item-body">
-        <p>Second content</p>
-        <p>Second content</p>
-        <p>Second content</p>
-        <p>Second content</p>
-        <p>Second content</p>
-        <p>Second content</p>
-      </div>
-    </div>
-
-    <div class="mdui-panel-item">
-      <div class="mdui-panel-item-header">Third</div>
-      <div class="mdui-panel-item-body">
-        <p>Third content</p>
-        <p>Third content</p>
-        <p>Third content</p>
-        <p>Third content</p>
-        <p>Third content</p>
-        <p>Third content</p>
-      </div>
-    </div>
-
-  </div>
 </template>
 
 <style scoped>

@@ -1,40 +1,66 @@
-<script setup lang="ts">
-import wmiOperation from "../../tools/WMIOperation/WMIOperation";
-import index from "../../store";
-import {ResultState} from "../../tools/WMIOperation/Models/IPCModels";
-import IpcAlert from "../tools/IpcAlert";
-import ConvertParameters from "../tools/ConvertParameters";
+<script setup lang='ts'>
+import wmiOperation from '../../tools/WMIOperation/WMIOperation'
+import index from '../../store'
+import { ResultState } from '../../tools/WMIOperation/Models/IPCModels'
+import successful from '../tools/successful'
+import { ref } from 'vue'
+import { Message } from '@arco-design/web-vue'
 
 const fanData = index.state.FanPage
+const loading = ref(false)
 
-async function aPay() {
-  if (index.state.OS.SwitchMaxFanSpeed == ResultState.OFF){
+function ConvertParameters(v: number) {
+  return Number(String(v)[0] + String(v)[1])
+}
+
+async function handleClick() {
+  loading.value = true
+  if (index.state.OS.SwitchMaxFanSpeed == ResultState.OFF) {
     await wmiOperation.Fan.SwitchMaxFanSpeed(ResultState.ON)
   }
-  IpcAlert([await wmiOperation.Fan.SetFanSpeed(ConvertParameters(fanData.SetFanSpeed))])
+  const data = [await wmiOperation.Fan.SetFanSpeed(ConvertParameters(fanData.SetFanSpeed))]
+  const callback = successful(data)
+  if (callback) {
+    Message.success('Fan设置成功')
+  } else {
+    Message.error(JSON.stringify(data))
+  }
+  loading.value = false
 }
 </script>
 
 <template>
-  <div class="Fan mdui-center">
-    <label class="mdui-switch">
-      我知道我在做什么
-      <input v-model="fanData.isTrue" type="checkbox"/>
-      <i class="mdui-switch-icon"></i>
-    </label>
-    <div class="mdui-textfield mdui-textfield-floating-label mdui-textfield-not-empty">
-      <label class="mdui-textfield-label">FanSpeed 设置风扇最大转速</label>
-      <input class="mdui-textfield-input" type="number" v-model="fanData.SetFanSpeed"/>
-
-    </div>
-    <button v-if="fanData.isTrue" class="mdui-btn mdui-btn-raised mdui-color-theme-accent mdui-btn-block" @click="aPay">应用</button>
+  <div class='Fan'>
+    <a-row justify='center'>
+      <a-col :span='16'>
+        <a-typography-title class='title'>
+          Fan Settings
+        </a-typography-title>
+      </a-col>
+      <a-col :span='16' class='item'>
+        <a-input-number v-model='fanData.SetFanSpeed' placeholder='ShortPower' :min='3500' :max='5800' model-event='input'>
+          <template #append>
+            风扇转速
+          </template>
+        </a-input-number>
+      </a-col>
+      <a-col :span='16' class='item'>
+        <a-button type='primary' :loading='loading' @click='handleClick'>确认</a-button>
+      </a-col>
+    </a-row>
   </div>
 </template>
 
 <style scoped>
 .Fan {
   padding-top: 20px;
-  padding-bottom: 20px;
-  width: 600px;
+
+  .title {
+    text-align: left;
+  }
+
+  .item {
+    margin-top: 10px;
+  }
 }
 </style>

@@ -20,16 +20,16 @@ const HomeCardType = [
     icon: CPU,
     eum: HomeTab.CPU
   },
-  {
-    title: '调度控制',
-    icon: Event,
-    eum: HomeTab.EventLoop
-  },
-  {
-    title: '信息报表',
-    icon: Information,
-    eum: HomeTab.Information
-  },
+  // {
+  //   title: '调度控制',
+  //   icon: Event,
+  //   eum: HomeTab.EventLoop
+  // },
+  // {
+  //   title: '信息报表',
+  //   icon: Information,
+  //   eum: HomeTab.Information
+  // },
   {
     title: '风扇',
     icon: Fan,
@@ -40,11 +40,11 @@ const HomeCardType = [
     icon: Keyboard,
     eum: HomeTab.Keyboard
   },
-  {
-    title: '设置',
-    icon: Settings,
-    eum: HomeTab.Settings
-  }
+  // {
+  //   title: '设置',
+  //   icon: Settings,
+  //   eum: HomeTab.Settings
+  // }
 ]
 
 function onClickMenuItem(key: HomeTab) {
