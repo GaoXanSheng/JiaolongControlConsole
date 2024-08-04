@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import wmiOperation from "../../WMIOperation/WMIOperation";
+import wmiOperation from "../../tools/WMIOperation/WMIOperation";
 import index from "../../store";
-import {ResultState} from "../../WMIOperation/Models/IPCModels";
+import {ResultState} from "../../tools/WMIOperation/Models/IPCModels";
 import IpcAlert from "../tools/IpcAlert";
 import ConvertParameters from "../tools/ConvertParameters";
 
@@ -27,7 +27,7 @@ async function aPay() {
       <input class="mdui-textfield-input" type="number" v-model="fanData.SetFanSpeed"/>
 
     </div>
-    <button v-if="fanData.isTrue" class="mdui-btn mdui-btn-raised mdui-color-theme-accent" @click="aPay">应用</button>
+    <button v-if="fanData.isTrue" class="mdui-btn mdui-btn-raised mdui-color-theme-accent mdui-btn-block" @click="aPay">应用</button>
   </div>
 </template>
 

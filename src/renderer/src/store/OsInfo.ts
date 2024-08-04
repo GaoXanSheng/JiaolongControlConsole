@@ -1,4 +1,4 @@
-import wmiOperation from '../WMIOperation/WMIOperation'
+import wmiOperation from '../tools/WMIOperation/WMIOperation'
 
 export default async function() {
   const { gpuTemp, cpuTemp, gpuUsage, gpuFreq } = await wmiOperation.System.GetInfo()

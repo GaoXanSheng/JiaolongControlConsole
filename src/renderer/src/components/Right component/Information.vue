@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import index from "../../store";
-import {eumCPUPower, ResultState} from "../../WMIOperation/Models/IPCModels";
-import wmiOperation from "../../WMIOperation/WMIOperation";
+import {eumCPUPower, ResultState} from "../../tools/WMIOperation/Models/IPCModels";
+import wmiOperation from "../../tools/WMIOperation/WMIOperation";
 
 // TODO
 // CPU 温度 频率 核心数量 使用率

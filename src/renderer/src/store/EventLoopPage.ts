@@ -8,10 +8,10 @@ interface eventLoop {
 
 
 
-export default async function():Promise<eventLoop> {
+export default function() {
   return {
     isRun: false,
-    eventLoop: undefined,
+    eventLoop: setInterval,
     STC: [
       [35, 100], [45, 90], [55, 80], [65, 70], [75, 50], [85, 40], [95, 30], [100, 20], [110, 10], [120, 0]
     ],

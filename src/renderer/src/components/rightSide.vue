@@ -20,7 +20,6 @@ import Seting from "./Right component/Seting.vue";
     <div v-if="index.state.SwitchPages==HomeTab.Information && index.state.ProbeData.cpu==undefined">
       <div class="mdui-progress">
         <div class="mdui-progress-indeterminate"></div>
-
       </div>
       <h1>正在收集数据载入中</h1>
     </div>
@@ -33,8 +32,7 @@ import Seting from "./Right component/Seting.vue";
 
 <style scoped>
 .rightSide {
-  padding-left: 200px;
-  width: calc(100vw - 200px);
+  width: 100%;
   height: 100%;
 }
 </style>

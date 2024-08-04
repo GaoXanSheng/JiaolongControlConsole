@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://github.com/GaoXanSheng/JiaolongControlConsole/blob/master/src/assets/Background.jpg?raw=true" alt="Logo" height=190></a>
+  <img src="./resources/icon.png?raw=true" alt="Logo" height=200></a>
 </p>
 <h1 align="center">JiaolongControlConsole</h1>
 

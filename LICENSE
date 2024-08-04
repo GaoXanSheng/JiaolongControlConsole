@@ -1,0 +1,14 @@
+根据既往不咎原则，该LICENSE在上传时，之前版本为MIT协议
+Based on the principle of "forgive and forget," the LICENSE upon upload was previously under the MIT License.
+
+君子之约
+作为商业用途使用的应用必须满足以下其中之一条件
+    1.打包的文件中需要存在该文件许可证，并说明项目部分代码引用该项目
+    2.公开源代码，确保用户可以从源代码构建出该软件的免费版本
+    3.为不愿意付费的用户提供一个CDK并在明显位置标注，确保该CDK最短试用时间为30天
+
+A gentleman's agreement
+For applications used for commercial purposes, at least one of the following conditions must be met:
+    1. The packaged files must include this file license and indicate that some parts of the code are derived from this project.
+    2. The source code must be made public to ensure that users can build a free version of the software from the source code.
+    3. Provide a CDK to users who are unwilling to pay, clearly marked in a prominent location, ensuring a minimum trial period of 30 days for the CDK.

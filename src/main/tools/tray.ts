@@ -23,7 +23,7 @@ export default function (win: BrowserWindow,icon:string) {
     })
     tray.setContextMenu(contextMenu);
     // 最小化到托盘
-    win.on('minimize', function (event) {
+    win.on('close', function (event) {
         event.preventDefault();
         win.hide();
     });

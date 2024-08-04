@@ -1,13 +1,13 @@
 import { createStore } from 'vuex'
-import wmiOperation from '../WMIOperation/WMIOperation'
+import wmiOperation from '../tools/WMIOperation/WMIOperation'
 import CpuPage from './CpuPage'
 import FanPage from './FanPage'
-import EventLoopPage from './EventLoopPage'
 import OsInfo from './OsInfo'
 import ProbeData from './ProbeData'
+import EventLoopPage from './EventLoopPage'
 
 export enum HomeTab {
-  HOME,
+  HOME=1,
   CPU,
   EventLoop,
   Information,
@@ -25,12 +25,16 @@ const storeModels = async () => {
       CpuPage: await CpuPage(),
       FanPage: await FanPage(),
       OS: await OsInfo(),
-      EventLoopPage: await EventLoopPage(),
+      EventLoopPage:EventLoopPage(),
       ProbeData:await ProbeData()
     }
   }
 }
 const index = createStore(await storeModels())
+
+/**
+ * 信息采集
+ */
 setInterval(async () => {
   const { gpuTemp, cpuTemp, gpuUsage, gpuFreq } = await wmiOperation.System.GetInfo()
   const { CPUFanSpeed, GPUFanSpeed } = await wmiOperation.Fan.GetFanSpeed()

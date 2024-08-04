@@ -6,8 +6,8 @@
 import {onMounted, ref} from "vue";
 import EchartsInit from "../tools/EventLoopTools";
 import store from "../../store";
-import wmiOperation from "../../WMIOperation/WMIOperation";
-import {eumPerformaceMode} from "../../WMIOperation/Models/IPCModels";
+import wmiOperation from "../../tools/WMIOperation/WMIOperation";
+import {eumPerformaceMode} from "../../tools/WMIOperation/Models/IPCModels";
 
 let STC = ref(null)
 let LTC = ref(null)

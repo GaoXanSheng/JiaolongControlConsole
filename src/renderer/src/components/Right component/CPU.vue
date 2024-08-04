@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import wmiOperation from "../../WMIOperation/WMIOperation";
+import wmiOperation from "../../tools/WMIOperation/WMIOperation";
 import index from "../../store";
 import IpcAlert from "../tools/IpcAlert";
 
@@ -24,7 +24,6 @@ async function aPay() {
     <label class="mdui-slider mdui-slider-discrete">
       <input type="range" step="1" min="0" max="100">
     </label>
-
     <div class="mdui-textfield mdui-textfield-floating-label mdui-textfield-not-empty">
       <label class="mdui-textfield-label">ShortPower 短时CPU功耗</label>
       <input class="mdui-textfield-input" type="number" v-model="CPUData.shortPower"/>
@@ -37,7 +36,7 @@ async function aPay() {
       <label class="mdui-textfield-label">TempWall 温度墙</label>
       <input class="mdui-textfield-input" type="number" v-model="CPUData.tempWall"/>
     </div>
-    <button v-if="CPUData.isTrue" class="mdui-btn mdui-btn-raised mdui-color-theme-accent" @click="aPay">应用</button>
+    <button v-if="CPUData.isTrue" class="mdui-btn mdui-btn-raised mdui-color-theme-accent mdui-btn-block" @click="aPay">应用</button>
   </div>
 </template>
 
