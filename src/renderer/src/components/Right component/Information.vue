@@ -2,6 +2,7 @@
 import index from "../../store";
 import {eumCPUPower, ResultState} from "../../tools/WMIOperation/Models/IPCModels";
 import wmiOperation from "../../tools/WMIOperation/WMIOperation";
+import InformationInfo from '../tools/InformationInfo'
 
 // TODO
 // CPU 温度 频率 核心数量 使用率
@@ -9,40 +10,6 @@ import wmiOperation from "../../tools/WMIOperation/WMIOperation";
 // RAM 总大小 容量 使用率
 // 风扇 使用率 转速
 // 自定义功能 一键模式 独显直连设定 logo灯设定
-
-
-const info = index.state.ProbeData
-const gpuInfo = info.gpu.controllers[info.gpu.controllers.findIndex((value) => {
-  if (value.vendor == "NVIDIA") return value
-})]
-const ramInfo = info.ram.memLayout.map(layout => {
-  return {
-    size: {
-      text: "内存大小",
-      data: layout.size
-    },
-    type: {
-      text: "类型",
-      data: layout.type
-    },
-    clockSpeed: {
-      text: "时钟速度",
-      data: layout.clockSpeed
-    },
-    formFactor: {
-      text: "插槽",
-      data: layout.formFactor
-    },
-    manufacturer: {
-      text: "制造商",
-      data: layout.formFactor
-    },
-    serialNum: {
-      text: "序列号",
-      data: layout.serialNum
-    }
-  }
-})
 
 async function setLogoLight() {
   if (index.state.OS.LogoLight != ResultState.ON) {
@@ -68,136 +35,21 @@ async function setCpuCustomize() {
   }
   index.state.OS.Customize = await wmiOperation.Cpu.GetCPUPower();
 }
+
 </script>
 
 <template>
   <div class="Information">
-    <a-descriptions style="margin-top: 20px">
-      <template #label>1</template>
-      <template #value>2</template>
-    </a-descriptions>
-<!--    <div class="mdui-table-fluid">-->
-<!--      <table class="mdui-table mdui-table-hoverable">-->
-<!--        <tbody>-->
-<!--        <tr>-->
-<!--          <td>CPU</td>-->
-<!--          <td>{{ info.cpu.model }}</td>-->
-<!--          <td>核心数量</td>-->
-<!--          <td>{{ info.cpu.cors }}</td>-->
-<!--        </tr>-->
-<!--        </tbody>-->
-<!--      </table>-->
-<!--      <table class="mdui-table mdui-table-hoverable">-->
-<!--        <tbody>-->
-<!--        <tr>-->
-<!--          <td>GPU</td>-->
-<!--          <td>{{ gpuInfo.name }}</td>-->
-<!--          <td>驱动版本</td>-->
-<!--          <td>{{ gpuInfo.driverVersion }}</td>-->
-<!--        </tr>-->
-<!--        </tbody>-->
-<!--      </table>-->
-<!--      <table class="mdui-table mdui-table-hoverable">-->
-<!--        <tbody>-->
-<!--        <tr>-->
-<!--          <td>BIOS版本</td>-->
-<!--          <td>{{ info.bios.version }}</td>-->
-<!--          <td>发行日期</td>-->
-<!--          <td>{{ info.bios.releaseDate }}</td>-->
-<!--        </tr>-->
-<!--        <tr>-->
-<!--          <td>序列码</td>-->
-<!--          <td>{{ info.bios.serial }}</td>-->
-<!--          <td>供应商</td>-->
-<!--          <td>{{ info.bios.vendor }}</td>-->
-<!--        </tr>-->
-<!--        </tbody>-->
-<!--      </table>-->
-<!--      <table class="mdui-table mdui-table-hoverable">-->
-<!--        <tbody>-->
-<!--        <tr v-for="i in ramInfo">-->
-<!--          <td>{{ i.formFactor.text }}</td>-->
-<!--          <td>{{ i.formFactor.data }}</td>-->
-<!--          <td>{{ i.type.text }}</td>-->
-<!--          <td>{{ i.type.data }}</td>-->
-<!--          <td>{{ i.clockSpeed.text }}</td>-->
-<!--          <td>{{ i.clockSpeed.data }}</td>-->
-<!--          <td>{{ i.size.text }}</td>-->
-<!--          <td>{{ i.size.data }}</td>-->
-<!--        </tr>-->
-<!--        </tbody>-->
-<!--      </table>-->
-<!--      <table class="mdui-table mdui-table-hoverable">-->
-<!--        <tbody>-->
-<!--        <tr>-->
-<!--          <td>系统模式</td>-->
-<!--          <td>{{ index.state.OS.PerformaceMode }}</td>-->
-<!--          <td>CPU增压</td>-->
-<!--          <td>-->
-<!--            <div @click="setCpuCustomize">-->
-<!--              <label class="mdui-switch">-->
-<!--                <input :checked="!!Number(index.state.OS.Customize)" type="checkbox"/>-->
-<!--                <i class="mdui-switch-icon"></i>-->
-<!--              </label>-->
-<!--            </div>-->
-<!--          </td>-->
-<!--        </tr>-->
-<!--        <tr>-->
-<!--          <td>风扇控制模式</td>-->
-<!--          <td>-->
-<!--            <div @click="setSwitchMaxFanSpeed">-->
-<!--              <label class="mdui-switch">-->
-<!--                <input :checked="!!Number(index.state.OS.SwitchMaxFanSpeed)" type="checkbox"/>-->
-<!--                <i class="mdui-switch-icon"></i>-->
-<!--              </label>-->
-<!--            </div>-->
-<!--          </td>-->
-<!--          <td>Logo灯</td>-->
-<!--          <td>-->
-<!--            <div @click="setLogoLight">-->
-<!--              <label class="mdui-switch">-->
-<!--                <input :checked="!!index.state.OS.LogoLight" type="checkbox"/>-->
-<!--                <i class="mdui-switch-icon"></i>-->
-<!--              </label>-->
-<!--            </div>-->
-<!--          </td>-->
-<!--        </tr>-->
-<!--        </tbody>-->
-<!--      </table>-->
-<!--      <table class="mdui-table mdui-table-hoverable">-->
-<!--        <tbody>-->
-<!--        <tr >-->
-<!--          <td>CPU温度</td>-->
-<!--          <td>{{ index.state.OS.CPU.temperature }} °C</td>-->
-<!--          <td>CPU风扇转速</td>-->
-<!--          <td>{{ index.state.OS.CPU.CPUFanSpeed }}</td>-->
-<!--        </tr>-->
-<!--        <tr >-->
-<!--          <td>GPU温度</td>-->
-<!--          <td>{{ index.state.OS.GPU.temperature }} °C</td>-->
-<!--          <td>GPU风扇转速</td>-->
-<!--          <td>{{ index.state.OS.GPU.GPUFanSpeed }}</td>-->
-<!--        </tr>-->
-<!--        <tr >-->
-<!--          <td>GPU使用率</td>-->
-<!--          <td>{{ index.state.OS.GPU.GpuUsage }} %</td>-->
-<!--          <td>GPU模式</td>-->
-<!--          <td> {{ index.state.OS.GPU.GpuMode ? "DiscreteMode" : "HybridMode" }}</td>-->
-<!--        </tr>-->
-<!--        <tr >-->
-<!--          <td>键盘模式</td>-->
-<!--          <td>{{ index.state.OS.KeyboardMode }}</td>-->
-<!--          <td>电源接口</td>-->
-<!--          <td> {{ index.state.OS.AcType }}</td>-->
-<!--        </tr>-->
-<!--        </tbody>-->
-<!--      </table>-->
-<!--    </div>-->
+    <a-table :pagination='false' :columns="InformationInfo.CpuInfo.columns" :data="InformationInfo.CpuInfo.data" />
+    <a-table :pagination='false' :columns="InformationInfo.CpuTemperatureInfo.columns" :data="InformationInfo.CpuTemperatureInfo.data" />
+    <a-table :pagination='false' :columns="InformationInfo.GpuInfo.columns" :data="InformationInfo.GpuInfo.data" />
+    <a-table :pagination='false' :columns="InformationInfo.GpuTemperatureInfo.columns" :data="InformationInfo.GpuTemperatureInfo.data" />
+    <a-table :pagination='false' :columns="InformationInfo.RamInfo.columns" :data="InformationInfo.RamInfo.data" />
+    <a-table :pagination='false' :columns="InformationInfo.BiosInfo.columns" :data="InformationInfo.BiosInfo.data" />
+    <a-table :pagination='false' :columns="InformationInfo.OSInfo.columns" :data="InformationInfo.OSInfo.data" />
   </div>
 </template>
 
 <style lang="scss" scoped>
-.Information {
-  margin-top: 20px;
-}
+
 </style>

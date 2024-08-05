@@ -7,6 +7,7 @@ export default function(win: BrowserWindow, icon: string) {
     {
       label: '显示界面',
       click: function() {
+        isQuitting = false
         win.show()
       }
     },

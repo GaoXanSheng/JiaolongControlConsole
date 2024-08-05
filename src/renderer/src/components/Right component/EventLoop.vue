@@ -3,11 +3,12 @@
 // 游戏 3500 - 5000
 // 办公 2200 - 3200
 
-import { onMounted, ref } from 'vue'
+import { h, onMounted, ref } from 'vue'
 import EchartsInit from '../tools/EventLoopTools'
 import store from '../../store'
 import wmiOperation from '../../tools/WMIOperation/WMIOperation'
 import { eumPerformaceMode } from '../../tools/WMIOperation/Models/IPCModels'
+import { Button, Message, Modal } from '@arco-design/web-vue'
 
 let STC = ref(null)
 let LTC = ref(null)
@@ -113,64 +114,55 @@ async function handleClick() {
   store.state.EventLoopPage.isRun = true
 }
 
-function shareConfig() {
+async function shareConfig() {
   const config = {
     STC: store.state.EventLoopPage.STC,
     LTC: store.state.EventLoopPage.LTC,
     TFS: store.state.EventLoopPage.TFS
   }
   const base64 = btoa(JSON.stringify(config))
-  // @ts-ignore
-  mdui.dialog({
-    title: '分享配置文件',
-    content: `${base64}`,
-    buttons: [
-      {
-        text: '关闭'
-      },
-      {
-        text: '复制到剪切板',
-        onClick: async function() {
-          await navigator.clipboard.writeText(base64)
-        }
-      }
-    ]
-  })
+  await navigator.clipboard.writeText(base64)
+  Message.success('已复制到剪切板')
 }
 
-function importConfig() {
-  // @ts-ignore
-  mdui.prompt('导入配置文件',
-    function(config: string) {
-      try {
-        const iConfig = JSON.parse(atob(config)) as {
-          STC: any,
-          LTC: any,
-          TFS: any
-        }
-        store.state.EventLoopPage.STC = iConfig.STC
-        store.state.EventLoopPage.LTC = iConfig.LTC
-        store.state.EventLoopPage.TFS = iConfig.TFS
-        // @ts-ignore
-        mdui.alert(`应用成功`)
-        Init()
-      } catch (e) {
-        // @ts-ignore
-        mdui.alert(`应用失败 : ` + e)
-      }
+const importConfigVisible = ref(false)
+const importConfigValue = ref('')
 
+function importConfigHandleCancel() {
+  importConfigValue.value = ''
+}
+
+function importConfigHandleBeforeOk() {
+  try {
+    const iConfig = JSON.parse(atob(importConfigValue.value)) as {
+      STC: any,
+      LTC: any,
+      TFS: any
     }
-  )
-
+    store.state.EventLoopPage.STC = iConfig.STC
+    store.state.EventLoopPage.LTC = iConfig.LTC
+    store.state.EventLoopPage.TFS = iConfig.TFS
+    Message.success('导入成功')
+    Init()
+  } catch (e) {
+    Message.error(JSON.stringify(e))
+  }
+  importConfigHandleCancel()
+  return true
 }
-
 </script>
 
 <template>
 
   <div class='EventLoop'>
-
-
+    <a-modal
+      v-model:visible='importConfigVisible'
+      title='导入配置文件'
+      @cancel='importConfigHandleCancel'
+      @before-ok='importConfigHandleBeforeOk'
+    >
+      <a-input v-model='importConfigValue' />
+    </a-modal>
     <a-row justify='center'>
       <a-col :span='16' style='margin-bottom: 20px'>
         <a-typography-title class='title'>
@@ -181,12 +173,13 @@ function importConfig() {
       <div class='LTC' ref='LTC'></div>
       <div class='TFS' ref='TFS'></div>
       <a-col :span='16' class='item'>
-        <button v-if='!store.state.EventLoopPage.isRun' @click='Pay'>启动</button>
-        <button v-else @click='removeLoop'>停止</button>
+        <a-button type='primary' v-if='!store.state.EventLoopPage.isRun' @click='handleClick'>启动</a-button>
+        <a-button type='primary' v-else @click='removeLoop'>停止</a-button>
       </a-col>
       <a-col :span='16' class='item'>
-        <button @click='importConfig'>导入配置</button>
-        <button @click='shareConfig'>分享配置</button>
+        <a-button style='margin: 5px' type='primary' @click='importConfigVisible =!importConfigVisible'>导入配置
+        </a-button>
+        <a-button style='margin: 5px' type='primary' @click='shareConfig'>分享配置</a-button>
       </a-col>
     </a-row>
   </div>
@@ -195,9 +188,11 @@ function importConfig() {
 <style lang='scss' scoped>
 .EventLoop {
   padding-top: 20px;
+
   .title {
     text-align: left;
   }
+
   .STC {
     width: 300px;
     height: 200px;
