@@ -1,20 +1,52 @@
 <script setup lang='ts'>
+import { ref } from 'vue'
+import electron from '../../tools/electron'
 
+const self_starting = ref({
+  loading: false
+})
+const self_starting_function =async () => {
+  self_starting.value.loading = true
+  await electron.ipcRenderer.invoke('custom-event-setLoginItemSettings',{
+    openAtLogin:true,
+    openAsHidden:false,
+  })
+  self_starting.value.loading = false
+}
 </script>
 
 <template>
-  <!--  <ul class="mdui-list">-->
-  <!--    <li class="mdui-list-item mdui-ripple">-->
-  <!--      <i class="mdui-list-item-icon mdui-icon material-icons">network_wifi</i>-->
-  <!--      <div class="mdui-list-item-content">独显直连</div>-->
-  <!--      <label class="mdui-switch">-->
-  <!--        <input type="checkbox" checked/>-->
-  <!--        <i class="mdui-switch-icon"></i>-->
-  <!--      </label>-->
-  <!--    </li>-->
-  <!--  </ul>-->
+  <div class='setting'>
+    <a-row justify='center'>
+      <a-col :span='16'>
+        <a-typography-title class='title'>
+          Settings
+        </a-typography-title>
+      </a-col>
+      <a-col :span='16'>
+        <a-input disabled placeholder='设置开机启动' allow-clear>
+          <template #append>
+            <a-switch :onclick='self_starting_function' :loading='self_starting.loading'>
+              <template #checked-icon>
+                <icon-check />
+              </template>
+              <template #unchecked-icon>
+                <icon-close />
+              </template>
+            </a-switch>
+          </template>
+        </a-input>
+      </a-col>
+    </a-row>
+  </div>
 </template>
 
 <style scoped>
+.setting {
+  padding-top: 20px;
 
+  .title {
+    text-align: left;
+  }
+}
 </style>

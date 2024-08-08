@@ -13,8 +13,6 @@ export enum CPUBuild {
     SetCpuShortPower="SetCpuShortPower",
     SetCpuLongPower="SetCpuLongPower",
     SetCPUTempWall="SetCPUTempWall",
-    GetCPUPower="GetCPUPower",
-    GetCPUTempWall="GetCPUTempWall"
 }
 
 export enum FanBuild {

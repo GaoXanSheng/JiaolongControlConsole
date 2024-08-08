@@ -21,20 +21,6 @@ class WMIOperation {
     },
     SetCPUTempWall: async (value: number) => {
       return IpcRenderer.sendIPC(`${enumBuildType.CPU}-${CPUBuild.SetCPUTempWall}-${value.toFixed(0)}`)
-    },
-    GetCPUPower: async () => {
-      switch (await IpcRenderer.sendIPC(`${enumBuildType.CPU}-${CPUBuild.GetCPUPower}-1`)) {
-        case 'CloseState':
-          return eumCPUPower.CloseState
-        case 'OpenState':
-          return eumCPUPower.OpenState
-        default :
-          return eumCPUPower.Unknow
-      }
-
-    },
-    GetCPUTempWall: async () => {
-      return IpcRenderer.sendIPC(`${enumBuildType.CPU}-${CPUBuild.GetCPUTempWall}-1`)
     }
   }
   public Gpu = {

@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "JiaolongControlConsole",
   "main": "./out/main/index.js",
-  "author": "example.com",
+  "author": "yunmouren.top",
   "scripts": {
     "format": "prettier --write .",
     "lint": "eslint . --ext .js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts,.vue --fix",
