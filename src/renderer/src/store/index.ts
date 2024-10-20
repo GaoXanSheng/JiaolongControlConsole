@@ -1,56 +1,55 @@
-import { createStore } from 'vuex'
-import wmiOperation from '../tools/WMIOperation/WMIOperation'
-import CpuPage from './CpuPage'
-import FanPage from './FanPage'
+import { defineStore } from 'pinia'
 import OsInfo from './OsInfo'
-import ProbeData from './ProbeData'
-import EventLoopPage from './EventLoopPage'
+import { HomeTab } from '../doc/HomeTab'
+import wmiOperation from '../tools/WMIOperation'
 
-export enum HomeTab {
-  HOME=1,
-  CPU,
-  EventLoop,
-  Information,
-  Fan,
-  Keyboard,
-  Settings,
-  Debug = 255
-}
+const useStore = defineStore('store', {
+	state: () => {
+		return {
+			Debug: false,
+			SwitchPages: HomeTab.HOME,
+			OS: {
+				KeyboardMode: '',
+				AcType: '',
+				CPU: {
+					CPUFanSpeed: 0,
+					temperature: 0
+				},
+				GPU: {
+					GPUFanSpeed: 0,
+					temperature: 0,
+					GpuUsage: 0,
+					GpuFreq: 0,
+					GpuMode: 0
+				},
+				PerformaceMode: '',
+				SwitchMaxFanSpeed: 0
+			}
+		}
+	}
+})
 
-const storeModels = async () => {
-  return {
-    state: {
-      Debug: false,
-      SwitchPages: HomeTab.HOME,
-      CpuPage: await CpuPage(),
-      FanPage: await FanPage(),
-      OS: await OsInfo(),
-      EventLoopPage:EventLoopPage(),
-      ProbeData:await ProbeData()
-    }
-  }
-}
-const index = createStore(await storeModels())
-
-/**
- * 信息采集
- */
+setTimeout(async () => {
+	const store = useStore()
+	const { KeyboardMode, AcType, PerformaceMode, SwitchMaxFanSpeed, CPU, GPU } = await OsInfo()
+	store.OS.KeyboardMode = KeyboardMode
+	store.OS.AcType = AcType
+	store.OS.PerformaceMode = PerformaceMode
+	store.OS.SwitchMaxFanSpeed = SwitchMaxFanSpeed
+	store.OS.CPU = CPU
+	store.OS.GPU = GPU
+}, 0)
 setInterval(async () => {
-  const { gpuTemp, cpuTemp, gpuUsage, gpuFreq } = await wmiOperation.System.GetInfo()
-  const { CPUFanSpeed, GPUFanSpeed } = await wmiOperation.Fan.GetFanSpeed()
-  index.state.OS.PerformaceMode = await wmiOperation.PerformaceMode.GetPerformaceMode()
-  index.state.OS.Customize = await wmiOperation.Cpu.GetCPUPower()
-  index.state.OS.SwitchMaxFanSpeed = await wmiOperation.Fan.GetSwitchMaxFanSpeed()
-
-  index.state.OS.CPU.CPUFanSpeed = CPUFanSpeed
-  index.state.OS.CPU.temperature = cpuTemp
-  index.state.OS.CPU.tempWall = await wmiOperation.Cpu.GetCPUTempWall()
-
-  index.state.OS.GPU.GPUFanSpeed = GPUFanSpeed
-  index.state.OS.GPU.temperature = gpuTemp
-  index.state.OS.GPU.GpuUsage = gpuUsage
-  index.state.OS.GPU.GpuFreq = gpuFreq
+	const store = useStore()
+	const { gpuTemp, cpuTemp, gpuUsage, gpuFreq } = await wmiOperation.System.GetInfo()
+	const { CPUFanSpeed, GPUFanSpeed } = await wmiOperation.Fan.GetFanSpeed()
+	store.OS.PerformaceMode = await wmiOperation.PerformaceMode.GetPerformaceMode()
+	store.OS.SwitchMaxFanSpeed = await wmiOperation.Fan.GetSwitchMaxFanSpeed()
+	store.OS.CPU.CPUFanSpeed = CPUFanSpeed
+	store.OS.CPU.temperature = cpuTemp
+	store.OS.GPU.GPUFanSpeed = GPUFanSpeed
+	store.OS.GPU.temperature = gpuTemp
+	store.OS.GPU.GpuUsage = gpuUsage
+	store.OS.GPU.GpuFreq = gpuFreq
 }, 5000)
-
-
-export default index
+export default useStore
