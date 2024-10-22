@@ -4,11 +4,15 @@ import successful from '../tools/successful'
 import { ref } from 'vue'
 import { Message } from '@arco-design/web-vue'
 import { config } from '../../store/Config'
-
+const { shortPower, longPower, tempWall } = await config.get<{
+	shortPower: number
+	longPower: number
+	tempWall: number
+}>('Setting.CPU')
 const CPUData = ref({
-	shortPower: await config.get<number>('Setting.CPU.shortPower'),
-	longPower: await config.get<number>('Setting.CPU.longPower'),
-	tempWall: await config.get<number>('Setting.CPU.tempWall')
+	shortPower,
+	longPower,
+	tempWall
 })
 const loading = ref(false)
 

@@ -1,4 +1,3 @@
-import { is } from '@electron-toolkit/utils'
 import SystemInfo from '../tools/SystemInfo'
 
 const InitializeConfiguration = {
@@ -35,7 +34,7 @@ class Config {
 	 * @private
 	 */
 	private ConfigInit(): void {
-		if (!this.has('global.Version') || (is.dev && process.env['ELECTRON_RENDERER_URL'])) {
+		if (!this.has('global.Version')) {
 			this.set('global', InitializeConfiguration)
 		}
 		SystemInfo().then((info) => {

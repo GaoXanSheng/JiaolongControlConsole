@@ -8,14 +8,13 @@ function ConvertParameters(v: number) {
 	return Number(String(v)[0] + String(v)[1])
 }
 export default async function () {
-	const autoApply = {
-		enabled: await config.get('autoApply.enabled'),
-		autoApplyFan: await config.get('autoApply.autoApplyFan'),
-		autoApplyCpu: await config.get('autoApply.autoApplyCpu')
-	}
-
-	if (autoApply.enabled) {
-		if (autoApply.autoApplyFan) {
+	const { enabled, autoApplyFan, autoApplyCpu } = await config.get<{
+		enabled: boolean
+		autoApplyFan: boolean
+		autoApplyCpu: boolean
+	}>('autoApply')
+	if (enabled) {
+		if (autoApplyFan) {
 			const store = useStore()
 			const FanSpeed = await config.get<number>('Setting.FanSpeed')
 			if (store.OS.SwitchMaxFanSpeed == ResultState.OFF) {
@@ -25,25 +24,25 @@ export default async function () {
 			const callback = successful(data)
 			if (callback) {
 				await config.set('Setting.FanSpeed', FanSpeed)
-				Message.success('Fan设置成功')
+				Message.success('自动应用风扇设置成功')
 			} else {
 				Message.error(JSON.stringify(data))
 			}
 		}
-		if (autoApply.autoApplyCpu) {
-			const CPUData = {
-				shortPower: await config.get<number>('Setting.CPU.shortPower'),
-				longPower: await config.get<number>('Setting.CPU.longPower'),
-				tempWall: await config.get<number>('Setting.CPU.tempWall')
-			}
+		if (autoApplyCpu) {
+			const { shortPower, longPower, tempWall } = await config.get<{
+				shortPower: number
+				longPower: number
+				tempWall: number
+			}>('Setting.CPU')
 			const data = [
-				await wmiOperation.Cpu.SetCpuLongPower(CPUData.longPower),
-				await wmiOperation.Cpu.SetCpuShortPower(CPUData.shortPower),
-				await wmiOperation.Cpu.SetCPUTempWall(CPUData.tempWall)
+				await wmiOperation.Cpu.SetCpuLongPower(longPower),
+				await wmiOperation.Cpu.SetCpuShortPower(shortPower),
+				await wmiOperation.Cpu.SetCPUTempWall(tempWall)
 			]
 			const callback = successful(data)
 			if (callback) {
-				Message.success('CPU设置成功')
+				Message.success('自动应用CPU设置成功')
 			} else {
 				Message.error(JSON.stringify(data))
 			}

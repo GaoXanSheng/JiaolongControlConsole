@@ -13,14 +13,16 @@ const self_starting_function = async () => {
 	})
 	loading.value = false
 }
+const { openAtLogin, openAsHidden, enabled } = await config.get<{
+	openAtLogin: boolean
+	openAsHidden: boolean
+	enabled: boolean
+}>('PowerBoot')
 const powerBoot = ref({
-	openAtLogin: false,
-	openAsHidden: false,
-	enabled: false
+	openAtLogin,
+	openAsHidden,
+	enabled
 })
-if (!config.has('PowerBoot')) {
-	powerBoot.value = await config.get('PowerBoot')
-}
 </script>
 
 <template>

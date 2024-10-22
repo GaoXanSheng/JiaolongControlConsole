@@ -16,7 +16,7 @@ export default function () {
 				enabled,
 				name: 'JiaolongControlConsole'
 			})
-			config.set('PowerBoot', {
+			config.set('global.PowerBoot', {
 				openAtLogin,
 				openAsHidden,
 				enabled,

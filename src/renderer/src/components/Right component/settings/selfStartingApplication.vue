@@ -6,17 +6,24 @@ const pageConfig = ref({
 	autoApplyCpu: false,
 	autoApplyFan: false
 })
-if (config.has('Window.autoApply.enabled')) {
-	pageConfig.value.enabled = await config.get('Window.autoApply.enabled')
-	pageConfig.value.autoApplyCpu = await config.get('Window.autoApply.autoApplyCpu')
-	pageConfig.value.autoApplyFan = await config.get('Window.autoApply.autoApplyFan')
+if (await config.has('Window.autoApply.enabled')) {
+	const { enabled, autoApplyCpu, autoApplyFan } = await config.get<{
+		enabled: boolean
+		autoApplyCpu: boolean
+		autoApplyFan: boolean
+	}>('Window.autoApply')
+	pageConfig.value.enabled = enabled
+	pageConfig.value.autoApplyCpu = autoApplyCpu
+	pageConfig.value.autoApplyFan = autoApplyFan
 }
 const loading = ref(false)
 async function apply() {
 	loading.value = true
-	await config.set('Window.autoApply.autoApplyCpu', pageConfig.value.autoApplyCpu)
-	await config.set('Window.autoApply.autoApplyFan', pageConfig.value.autoApplyFan)
-	await config.set('Window.autoApply.enabled', pageConfig.value.enabled)
+	await config.set('Window.autoApply', {
+		autoApplyCpu: pageConfig.value.autoApplyCpu,
+		autoApplyFan: pageConfig.value.autoApplyFan,
+		enabled: pageConfig.value.enabled
+	})
 	loading.value = false
 }
 </script>
