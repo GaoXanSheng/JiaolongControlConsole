@@ -6,16 +6,16 @@ function configAPI<T>(args: { func: string; data?: any; key: string }): Promise<
 
 export const config = {
 	get: async function <T>(key: string): Promise<T> {
-		return configAPI<T>({ func: 'get', key })
+		return configAPI<T>({ func: 'get', key: `global.${key}` })
 	},
-	set: async function <T>(key: string, value): Promise<void> {
-		return configAPI({ func: 'set', key, data: value })
+	set: async function <T>(key: string, value: T): Promise<void> {
+		return configAPI({ func: 'set', key: `global.${key}`, data: value })
 	},
 	/**
 	 * 如果没有这个 key 返回 true
 	 * @param key
 	 */
 	has: async function (key: string): Promise<boolean> {
-		return configAPI<boolean>({ func: 'has', key })
+		return configAPI<boolean>({ func: 'has', key: `global.${key}` })
 	}
 }

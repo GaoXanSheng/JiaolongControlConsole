@@ -9,6 +9,7 @@ const useStore = defineStore('store', {
 			Debug: false,
 			SwitchPages: HomeTab.HOME,
 			OS: {
+				LogoLight: 0,
 				KeyboardMode: '',
 				AcType: '',
 				CPU: {

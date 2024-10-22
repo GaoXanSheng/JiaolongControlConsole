@@ -4,17 +4,12 @@ import { config } from '../../../store/Config'
 
 const PageData = ref({
 	loading: false,
-	switchValue: (await config.get('Window.minimize')) || false
+	switchValue: await config.get('Window.minimize')
 })
+
 async function minimize_func() {
 	PageData.value.loading = true
-	if (PageData.value.switchValue) {
-		await config.set('Window.minimize', false)
-	} else {
-		await config.set('Window.minimize', true)
-	}
-	PageData.value.switchValue = await config.get('Window.minimize')
-	console.log(PageData.value.switchValue)
+	await config.set('Window.minimize', PageData.value.switchValue)
 	PageData.value.loading = false
 }
 </script>

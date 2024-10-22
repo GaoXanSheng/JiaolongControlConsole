@@ -1,9 +1,8 @@
-import { app, BrowserWindow, Menu, Tray } from 'electron'
+import { BrowserWindow, Menu, Tray } from 'electron'
 import { config } from './Config'
 
 export default function (win: BrowserWindow, icon: string): void {
 	const tray = new Tray(icon) // 请确保这里有一个图标文件
-	let isQuitting = false
 	const contextMenu = Menu.buildFromTemplate([
 		{
 			label: '显示界面',
@@ -14,8 +13,7 @@ export default function (win: BrowserWindow, icon: string): void {
 		{
 			label: '退出',
 			click: function (): void {
-				isQuitting = false
-				app.quit()
+				win.webContents.close()
 			}
 		}
 	])
@@ -27,8 +25,7 @@ export default function (win: BrowserWindow, icon: string): void {
 	tray.setContextMenu(contextMenu)
 	// 最小化到托盘
 	win.on('close', function (event) {
-		isQuitting = config.get<boolean>('minimize')
-		if (!isQuitting) {
+		if (config.get('global.Window.minimize')) {
 			event.preventDefault()
 			win.hide()
 		}

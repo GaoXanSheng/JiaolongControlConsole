@@ -4,6 +4,7 @@ import createWindow from './electron/createWindow'
 import Event from './electron/Event'
 import JiaoLongWMI from './tools/JiaoLongWMI'
 
+const wmi = new JiaoLongWMI()
 app.whenReady().then(() => {
 	electronApp.setAppUserModelId('top.yunmouren')
 	Event()
@@ -17,7 +18,7 @@ app.whenReady().then(() => {
 })
 app.on('window-all-closed', () => {
 	if (process.platform !== 'darwin') {
+		wmi.kill()
 		app.quit()
-		JiaoLongWMI.kill()
 	}
 })

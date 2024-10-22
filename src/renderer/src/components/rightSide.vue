@@ -18,7 +18,7 @@ const store = useStore()
 		<HOME v-if="store.SwitchPages == HomeTab.HOME"></HOME>
 		<CPU v-if="store.SwitchPages == HomeTab.CPU"></CPU>
 		<!--		<EventLoop v-if="store.SwitchPages == HomeTab.EventLoop"></EventLoop>-->
-		<!--		<Information v-if="store.SwitchPages == HomeTab.Information"></Information>-->
+		<Information v-if="store.SwitchPages == HomeTab.Information"></Information>
 		<Fan v-if="store.SwitchPages == HomeTab.Fan"></Fan>
 		<Keyboard v-if="store.SwitchPages == HomeTab.Keyboard"></Keyboard>
 		<Seting v-if="store.SwitchPages == HomeTab.Settings"></Seting>

@@ -2,7 +2,6 @@
 import CPU from './assets/CPU.png'
 import HOME from './assets/HOME.png'
 import Information from './assets/Information.png'
-import Event from './assets/Event.png'
 import Fan from './assets/Fan.png'
 import Keyboard from './assets/Keyboard.png'
 import Settings from './assets/Settings.png'
@@ -10,10 +9,12 @@ import RightSide from './components/rightSide.vue'
 import { onMounted } from 'vue'
 import { HomeTab } from './doc/HomeTab'
 import useStore from './store'
+import autoApply from './components/tools/autoApply'
 const store = useStore()
 onMounted(() => {
 	const loader = document.getElementsByClassName('loader').item(0)
 	if (loader) loader.remove()
+	autoApply()
 })
 const HomeCardType = [
 	{
@@ -31,11 +32,11 @@ const HomeCardType = [
 	// 	icon: Event,
 	// 	eum: HomeTab.EventLoop
 	// },
-	// {
-	// 	title: '信息报表',
-	// 	icon: Information,
-	// 	eum: HomeTab.Information
-	// },
+	{
+		title: '信息报表',
+		icon: Information,
+		eum: HomeTab.Information
+	},
 	{
 		title: '风扇',
 		icon: Fan,

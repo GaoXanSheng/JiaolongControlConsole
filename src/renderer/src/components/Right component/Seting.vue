@@ -2,6 +2,8 @@
 import Self_starting from './settings/self_starting.vue'
 import logolight from './settings/logolight.vue'
 import Minimize from './settings/minimize.vue'
+import selfStartingApplication from './settings/selfStartingApplication.vue'
+const list = [Self_starting, logolight, Minimize, selfStartingApplication]
 </script>
 
 <template>
@@ -10,15 +12,7 @@ import Minimize from './settings/minimize.vue'
 			<a-col :span="16">
 				<a-typography-title class="title"> Settings </a-typography-title>
 			</a-col>
-			<a-col :span="16">
-				<self_starting></self_starting>
-			</a-col>
-			<a-col :span="16">
-				<minimize></minimize>
-			</a-col>
-			<a-col :span="16">
-				<logolight></logolight>
-			</a-col>
+			<a-col v-for="component in list" :span="16"> <component :is="component"></component> </a-col>
 		</a-row>
 	</div>
 </template>

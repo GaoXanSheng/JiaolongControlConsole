@@ -1,6 +1,32 @@
 import { is } from '@electron-toolkit/utils'
 import SystemInfo from '../tools/SystemInfo'
 
+const InitializeConfiguration = {
+	Version: '8.1',
+	Window: {
+		minimize: false
+	},
+	PowerBoot: {
+		openAtLogin: false,
+		openAsHidden: false,
+		enabled: false
+	},
+	Setting: {
+		CPU: {
+			longPower: 45,
+			tempWall: 99,
+			shortPower: 65
+		},
+		FanSpeed: 3500
+	},
+	KeyBoard: {
+		red: 0,
+		blue: 0,
+		green: 0,
+		LightBrightness: 0
+	}
+}
+
 class Config {
 	private store
 	/**
@@ -9,33 +35,11 @@ class Config {
 	 * @private
 	 */
 	private ConfigInit(): void {
-		if (!this.has('Version') || (is.dev && process.env['ELECTRON_RENDERER_URL'])) {
-			this.set('Window', {
-				minimize: false
-			})
-			this.set('PowerBoot', {
-				openAtLogin: false,
-				openAsHidden: false,
-				enabled: false
-			})
-			this.set('Version', '8.1')
-			this.set('Setting', {
-				CPU: {
-					longPower: 45,
-					tempWall: 99,
-					shortPower: 65
-				},
-				FanSpeed: 3500
-			})
-			this.set('KeyBoard', {
-				red: 0,
-				blue: 0,
-				green: 0,
-				LightBrightness: 0
-			})
+		if (!this.has('global.Version') || (is.dev && process.env['ELECTRON_RENDERER_URL'])) {
+			this.set('global', InitializeConfiguration)
 		}
 		SystemInfo().then((info) => {
-			this.set('SystemInfo', info)
+			this.set('global.SystemInfo', info)
 		})
 	}
 

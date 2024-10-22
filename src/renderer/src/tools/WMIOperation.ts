@@ -160,12 +160,12 @@ class WMIOperation {
 		}
 	}
 
-	async GetLogoLight(): Promise<boolean> {
+	async GetLogoLight(): Promise<ResultState> {
 		switch (await http.post(`${enumBuildType.LogoLight}-${LogoLightBuild.GetLogoLight}-1`)) {
 			case 'ON':
-				return true
+				return ResultState.ON
 			default:
-				return false
+				return ResultState.OFF
 		}
 	}
 

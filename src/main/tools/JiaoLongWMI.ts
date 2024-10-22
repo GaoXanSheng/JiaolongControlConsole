@@ -16,5 +16,4 @@ function initWMI(): ChildProcessWithoutNullStreams {
 	console.log('Server run')
 	return process
 }
-const wmi = initWMI()
-export default wmi
+export default initWMI
