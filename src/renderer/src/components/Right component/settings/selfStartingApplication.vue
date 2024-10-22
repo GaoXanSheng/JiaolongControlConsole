@@ -50,7 +50,7 @@ async function apply() {
 		allow-clear
 	>
 		<template #append>
-			<a-switch>
+			<a-switch v-model="pageConfig.autoApplyCpu">
 				<template #checked-icon>
 					<icon-check />
 				</template>
@@ -69,7 +69,7 @@ async function apply() {
 		:loading="loading"
 	>
 		<template #append>
-			<a-switch>
+			<a-switch v-model="pageConfig.autoApplyFan">
 				<template #checked-icon>
 					<icon-check />
 				</template>
