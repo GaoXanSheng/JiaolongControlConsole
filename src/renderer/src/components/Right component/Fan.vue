@@ -9,7 +9,7 @@ import { config } from '../../store/Config'
 
 const store = useStore()
 const loading = ref(false)
-const FanSpeed = ref(await config.get('Setting.FanSpeed'))
+const FanSpeed = ref(await config.get<number>('Setting.FanSpeed'))
 function ConvertParameters(v: number) {
 	return Number(String(v)[0] + String(v)[1])
 }
@@ -19,7 +19,7 @@ async function handleClick() {
 	if (store.OS.SwitchMaxFanSpeed == ResultState.OFF) {
 		await wmiOperation.Fan.SwitchMaxFanSpeed(ResultState.ON)
 	}
-	const data = [await wmiOperation.Fan.SetFanSpeed(ConvertParameters(FanSpeed))]
+	const data = [await wmiOperation.Fan.SetFanSpeed(ConvertParameters(FanSpeed.value))]
 	const callback = successful(data)
 	if (callback) {
 		await config.set('Setting.FanSpeed', FanSpeed.value)

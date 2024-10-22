@@ -1,11 +1,28 @@
 import { config } from '../../store/Config'
+import { ProbeData } from '../../doc/ProbeModels'
 
-export default async function (store) {
-	const info = await config.get('SystemInfo')
+export default async function (store: {
+	OS: {
+		CPU: {
+			temperature: number
+			CPUFanSpeed: number
+		}
+		GPU: {
+			temperature: number
+			GPUFanSpeed: number
+			GpuUsage: number
+			GpuMode: boolean
+		}
+		KeyboardMode: string
+		AcType: string
+	}
+}) {
+	const info = (await config.get<never>('SystemInfo')) as ProbeData
 	const gpuInfo =
 		info.gpu.controllers[
 			info.gpu.controllers.findIndex((value) => {
 				if (value.vendor == 'NVIDIA') return value
+				return null
 			})
 		]
 	const RamInfo = {

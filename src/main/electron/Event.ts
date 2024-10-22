@@ -26,7 +26,11 @@ export default function () {
 		}
 	)
 	ipcMain.handle('custom-event-Config', (_event, args: custom_event_Config) => {
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+		// @ts-ignore
 		if (args.data == void 0) return config[args.func](args.key)
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+		// @ts-ignore
 		return config[args.func](args.key, args.data)
 	})
 }

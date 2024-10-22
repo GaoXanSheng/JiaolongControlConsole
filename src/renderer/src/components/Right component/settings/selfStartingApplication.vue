@@ -6,6 +6,11 @@ const pageConfig = ref({
 	autoApplyCpu: false,
 	autoApplyFan: false
 })
+if (config.has('Window.autoApply.enabled')) {
+	pageConfig.value.enabled = await config.get('Window.autoApply.enabled')
+	pageConfig.value.autoApplyCpu = await config.get('Window.autoApply.autoApplyCpu')
+	pageConfig.value.autoApplyFan = await config.get('Window.autoApply.autoApplyFan')
+}
 const loading = ref(false)
 async function apply() {
 	loading.value = true

@@ -4,7 +4,7 @@ import createWindow from './electron/createWindow'
 import Event from './electron/Event'
 import JiaoLongWMI from './tools/JiaoLongWMI'
 
-const wmi = new JiaoLongWMI()
+const wmi = JiaoLongWMI()
 app.whenReady().then(() => {
 	electronApp.setAppUserModelId('top.yunmouren')
 	Event()

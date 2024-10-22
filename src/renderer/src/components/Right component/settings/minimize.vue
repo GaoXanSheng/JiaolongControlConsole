@@ -4,7 +4,7 @@ import { config } from '../../../store/Config'
 
 const PageData = ref({
 	loading: false,
-	switchValue: await config.get('Window.minimize')
+	switchValue: await config.get<boolean>('Window.minimize')
 })
 
 async function minimize_func() {

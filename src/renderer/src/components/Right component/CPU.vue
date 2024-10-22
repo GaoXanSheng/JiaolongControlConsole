@@ -6,9 +6,9 @@ import { Message } from '@arco-design/web-vue'
 import { config } from '../../store/Config'
 
 const CPUData = ref({
-	shortPower: await config.get('Setting.CPU.shortPower'),
-	longPower: await config.get('Setting.CPU.longPower'),
-	tempWall: await config.get('Setting.CPU.tempWall')
+	shortPower: await config.get<number>('Setting.CPU.shortPower'),
+	longPower: await config.get<number>('Setting.CPU.longPower'),
+	tempWall: await config.get<number>('Setting.CPU.tempWall')
 })
 const loading = ref(false)
 
