@@ -1,40 +1,32 @@
 <script async setup lang="ts">
 import wmiOperation from '../../tools/WMIOperation'
 import { ref } from 'vue'
-import successful from '../tools/successful'
 import { Message } from '@arco-design/web-vue'
-import { config } from '../../store/Config'
 
-const [red, green, blue] = await wmiOperation.Keyboard.GetRGBKeyboardColor()
+const KeyboardColorData = await wmiOperation.Keyboard.Color.Get()
 const Data = ref({
-	red: Number(red),
-	green: Number(green),
-	blue: Number(blue),
-	LightBrightness: Number(await wmiOperation.Keyboard.GetkeyboardLightBrightness())
+	red: KeyboardColorData.red,
+	green: KeyboardColorData.green,
+	blue: KeyboardColorData.blue,
+	LightBrightness: await wmiOperation.Keyboard.LightBrightness.Get()
 })
 const loading = ref(false)
 
 async function handleClick() {
 	loading.value = true
-	const data = [
-		await wmiOperation.Keyboard.SetRGBKeyboardColor(
-			Data.value.red,
-			Data.value.green,
-			Data.value.blue
-		),
-		await wmiOperation.Keyboard.SetkeyboardLightBrightness(Data.value.LightBrightness)
-	]
-	const callback = successful(data)
-	if (callback) {
-		await config.set('Keyboard', {
-			red: Data.value.red,
-			green: Data.value.green,
-			blue: Data.value.blue,
-			LightBrightness: Data.value.LightBrightness
-		})
-		Message.success('Keyboard 设置成功')
+	// const data = [
+	const ColorRes = await wmiOperation.Keyboard.Color.Set(
+		Data.value.red,
+		Data.value.green,
+		Data.value.blue
+	)
+	const LightBrightnessRes = await wmiOperation.Keyboard.LightBrightness.Set(
+		Data.value.LightBrightness
+	)
+	if (ColorRes && LightBrightnessRes) {
+		Message.success('应用成功')
 	} else {
-		Message.error(JSON.stringify(data))
+		Message.error('应用失败')
 	}
 	loading.value = false
 }

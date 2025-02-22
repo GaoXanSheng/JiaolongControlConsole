@@ -1,5 +1,4 @@
 import { BrowserWindow, Menu, Tray } from 'electron'
-import { config } from './Config'
 
 export default function (win: BrowserWindow, icon: string): void {
 	const tray = new Tray(icon) // 请确保这里有一个图标文件
@@ -24,10 +23,10 @@ export default function (win: BrowserWindow, icon: string): void {
 	})
 	tray.setContextMenu(contextMenu)
 	// 最小化到托盘
-	win.on('close', function (event) {
-		if (config.get('global.Window.minimize')) {
-			event.preventDefault()
-			win.hide()
-		}
-	})
+	// win.on('close', function (event) {
+	// 	if (config.get('global.Window.minimize')) {
+	// 		event.preventDefault()
+	// 		win.hide()
+	// 	}
+	// })
 }

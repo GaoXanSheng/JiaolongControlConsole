@@ -1,32 +1,14 @@
 <script async setup lang="ts">
-import wmiOperation from '../../tools/WMIOperation'
-import { ResultState } from '../../doc/IPCModels'
-import successful from '../tools/successful'
 import { ref } from 'vue'
 import { Message } from '@arco-design/web-vue'
-import useStore from '../../store'
-import { config } from '../../store/Config'
+import electron from '@renderer/tools/electron'
 
-const store = useStore()
 const loading = ref(false)
-const FanSpeed = ref(await config.get<number>('Setting.FanSpeed'))
-function ConvertParameters(v: number) {
-	return Number(String(v)[0] + String(v)[1])
-}
-
+const FanSpeed = ref(1500)
 async function handleClick() {
 	loading.value = true
-	if (store.OS.SwitchMaxFanSpeed == ResultState.OFF) {
-		await wmiOperation.Fan.SwitchMaxFanSpeed(ResultState.ON)
-	}
-	const data = [await wmiOperation.Fan.SetFanSpeed(ConvertParameters(FanSpeed.value))]
-	const callback = successful(data)
-	if (callback) {
-		await config.set('Setting.FanSpeed', FanSpeed.value)
-		Message.success('Fan设置成功')
-	} else {
-		Message.error(JSON.stringify(data))
-	}
+	await electron.ipcRenderer.invoke('FanController', FanSpeed.value)
+	Message.success('Fan设置成功')
 	loading.value = false
 }
 </script>
@@ -36,12 +18,15 @@ async function handleClick() {
 		<a-row justify="center">
 			<a-col :span="16">
 				<a-typography-title class="title"> Fan Settings </a-typography-title>
+				<a-typography-title class="title" code>
+					警告：该功能会损害硬件，请谨慎使用
+				</a-typography-title>
 			</a-col>
 			<a-col :span="16" class="item">
 				<a-input-number
 					v-model="FanSpeed"
 					placeholder="ShortPower"
-					:min="3500"
+					:min="1500"
 					:max="5800"
 					model-event="input"
 				>

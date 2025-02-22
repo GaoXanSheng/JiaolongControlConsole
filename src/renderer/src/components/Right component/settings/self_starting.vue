@@ -8,19 +8,16 @@ const self_starting_function = async () => {
 	loading.value = true
 	await electron.ipcRenderer.invoke('custom-event-PowerBoot', {
 		openAtLogin: powerBoot.value.openAtLogin,
-		openAsHidden: powerBoot.value.openAsHidden,
 		enabled: powerBoot.value.enabled
 	})
 	loading.value = false
 }
-const { openAtLogin, openAsHidden, enabled } = await config.get<{
+const { openAtLogin, enabled } = await config.get<{
 	openAtLogin: boolean
-	openAsHidden: boolean
 	enabled: boolean
 }>('PowerBoot')
 const powerBoot = ref({
 	openAtLogin,
-	openAsHidden,
 	enabled
 })
 </script>
@@ -42,22 +39,6 @@ const powerBoot = ref({
 		<template #append>
 			<a-switch
 				v-model="powerBoot.openAtLogin"
-				:onclick="self_starting_function"
-				:loading="loading"
-			>
-				<template #checked-icon>
-					<icon-check />
-				</template>
-				<template #unchecked-icon>
-					<icon-close />
-				</template>
-			</a-switch>
-		</template>
-	</a-input>
-	<a-input v-if="powerBoot.enabled" disabled placeholder="开机时隐藏" allow-clear>
-		<template #append>
-			<a-switch
-				v-model="powerBoot.openAsHidden"
 				:onclick="self_starting_function"
 				:loading="loading"
 			>

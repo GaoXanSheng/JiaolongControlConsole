@@ -1,7 +1,7 @@
 import { ChildProcessWithoutNullStreams, spawn } from 'child_process'
 import WmiExe from '../../../resources/JiaoLongWMI.exe?asset&asarUnpack'
 function initWMI(): ChildProcessWithoutNullStreams {
-	const process = spawn(WmiExe, [`Socket-9871-localhost`])
+	const process = spawn(WmiExe, ['SocketServer', 'true', '9871', '127.0.0.1'])
 	process.stdout.on('data', (data) => {
 		console.log(`stdout: ${data}`)
 	})

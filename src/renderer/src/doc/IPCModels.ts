@@ -4,7 +4,7 @@ export enum ResultState {
 	Unknow = 255
 }
 
-export enum eumPerformaceMode {
+export enum PerformaceMode {
 	GamingMode,
 	RampageMode,
 	OfficeMode,

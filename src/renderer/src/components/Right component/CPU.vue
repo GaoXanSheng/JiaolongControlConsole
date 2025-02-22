@@ -1,40 +1,30 @@
 <script async setup lang="ts">
 import wmiOperation from '../../tools/WMIOperation'
-import successful from '../tools/successful'
 import { ref } from 'vue'
 import { Message } from '@arco-design/web-vue'
-import { config } from '../../store/Config'
-const { shortPower, longPower, tempWall } = await config.get<{
-	shortPower: number
-	longPower: number
-	tempWall: number
-}>('Setting.CPU')
+
 const CPUData = ref({
-	shortPower,
-	longPower,
-	tempWall
+	shortPower: 65,
+	longPower: 45,
+	tempWall: 88
 })
 const loading = ref(false)
-
+const _thisCpu = wmiOperation.CPU
 async function handleClick() {
 	loading.value = true
-	const data = [
-		await wmiOperation.Cpu.SetCpuLongPower(CPUData.value.longPower),
-		await wmiOperation.Cpu.SetCpuShortPower(CPUData.value.shortPower),
-		await wmiOperation.Cpu.SetCPUTempWall(CPUData.value.tempWall)
+	const result = [
+		await _thisCpu.SetCpuLongPower(CPUData.value.longPower),
+		await _thisCpu.SetCpuShortPower(CPUData.value.shortPower),
+		await _thisCpu.SetCPUTempWall(CPUData.value.tempWall)
 	]
-	const callback = successful(data)
-	if (callback) {
-		Message.success('CPU设置成功')
-	} else {
-		Message.error(JSON.stringify(data))
-	}
-	loading.value = false
-	await config.set('Setting.CPU', {
-		shortPower: CPUData.value.shortPower,
-		longPower: CPUData.value.longPower,
-		tempWall: CPUData.value.tempWall
+	result.map((item) => {
+		if (item.toLowerCase() == 'true') {
+			Message.success('应用成功')
+		} else {
+			Message.error('应用失败')
+		}
 	})
+	loading.value = false
 }
 </script>
 

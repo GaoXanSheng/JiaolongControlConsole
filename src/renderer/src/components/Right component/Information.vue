@@ -8,10 +8,10 @@ import informationInfo from '../tools/InformationInfo'
 // RAM 总大小 容量 使用率
 // 风扇 使用率 转速
 // 自定义功能 一键模式 独显直连设定 logo灯设定
-const store = useStore()
+// const store = useStore()
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-const InformationInfo = await informationInfo(store)
+// const InformationInfo = await informationInfo(store)
 </script>
 
 <template>
