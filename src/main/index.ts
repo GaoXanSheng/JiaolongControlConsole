@@ -6,6 +6,12 @@ import { FanController } from './tools/JiaoLongEC'
 import RgbEventLoop from './tools/RgbEventLoop'
 
 const wmi = JiaoLongWMI()
+
+const isFirstInstance = app.requestSingleInstanceLock()
+if (!isFirstInstance) {
+	app.quit()
+	process.exit()
+}
 app.whenReady().then(() => {
 	electronApp.setAppUserModelId('top.yunmouren')
 	app.on('browser-window-created', (_, window) => {
