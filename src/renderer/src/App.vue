@@ -18,6 +18,7 @@ function LoadConfig() {
 		const value = localStorage.getItem(key)
 		if (value) store.$state[key] = JSON.parse(value)
 	})
+	store.$state.RgbEventLoop = false
 	store.$subscribe(() => {
 		Object.keys(store.$state).map((key) => {
 			localStorage.setItem(key, JSON.stringify(store.$state[key]))
