@@ -1,51 +1,31 @@
 <script setup lang="ts">
-import CPU from './assets/CPU.png'
-import HOME from './assets/HOME.png'
-// import Information from './assets/Information.png'
-import Fan from './assets/Fan.png'
-import Keyboard from './assets/Keyboard.png'
-import Settings from './assets/Settings.png'
 import RightSide from './components/rightSide.vue'
-import { HomeTab } from './doc/HomeTab'
-import useStore from './store'
+
+import useStore, { HomeCardType } from './store'
 import { onMounted } from 'vue'
 
 const store = useStore()
-const HomeCardType = [
-	{
-		title: '主页',
-		icon: HOME,
-		eum: HomeTab.HOME
-	},
-	{
-		title: '中央处理器',
-		icon: CPU,
-		eum: HomeTab.CPU
-	},
-	{
-		title: '风扇',
-		icon: Fan,
-		eum: HomeTab.Fan
-	},
-	{
-		title: '键盘',
-		icon: Keyboard,
-		eum: HomeTab.Keyboard
-	},
-	{
-		title: '设置',
-		icon: Settings,
-		eum: HomeTab.Settings
-	}
-]
-
 function onClickMenuItem(key: number) {
-	store.SwitchPages = key
+	store.$state.SwitchPages = key
 }
 onMounted(() => {
 	const loader = document.getElementsByClassName('loader').item(0)
 	if (loader) loader.remove()
 })
+function LoadConfig() {
+	console.log('LoadConfig')
+	Object.keys(store.$state).map((key) => {
+		const value = localStorage.getItem(key)
+		if (value) store.$state[key] = JSON.parse(value)
+	})
+	store.$subscribe(() => {
+		Object.keys(store.$state).map((key) => {
+			localStorage.setItem(key, JSON.stringify(store.$state[key]))
+		})
+	})
+}
+
+LoadConfig()
 </script>
 
 <template>

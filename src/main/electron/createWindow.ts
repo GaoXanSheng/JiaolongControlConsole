@@ -3,7 +3,7 @@ import icon from '../../../resources/icon.png?asset'
 import { join } from 'path'
 import { shell, BrowserWindow } from 'electron'
 import { is } from '@electron-toolkit/utils'
-// import Tray from './Tray'
+import Tray from './Tray'
 export default function () {
 	const mainWindow = new BrowserWindow({
 		icon,
@@ -27,6 +27,7 @@ export default function () {
 	mainWindow.on('ready-to-show', () => {
 		mainWindow.show()
 	})
+	Tray(mainWindow, icon)
 	mainWindow.webContents.setWindowOpenHandler((details) => {
 		shell.openExternal(details.url)
 		return { action: 'deny' }
@@ -37,7 +38,5 @@ export default function () {
 	} else {
 		mainWindow.loadFile(join(__dirname, '../renderer/index.html'))
 	}
-	// Tray(mainWindow, icon)
-
 	return mainWindow
 }

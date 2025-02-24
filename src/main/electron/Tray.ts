@@ -12,7 +12,7 @@ export default function (win: BrowserWindow, icon: string): void {
 		{
 			label: '退出',
 			click: function (): void {
-				win.webContents.close()
+				process.kill(0)
 			}
 		}
 	])
@@ -23,10 +23,8 @@ export default function (win: BrowserWindow, icon: string): void {
 	})
 	tray.setContextMenu(contextMenu)
 	// 最小化到托盘
-	// win.on('close', function (event) {
-	// 	if (config.get('global.Window.minimize')) {
-	// 		event.preventDefault()
-	// 		win.hide()
-	// 	}
-	// })
+	win.on('close', function (event) {
+		event.preventDefault()
+		win.hide()
+	})
 }

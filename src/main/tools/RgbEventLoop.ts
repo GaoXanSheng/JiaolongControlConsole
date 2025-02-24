@@ -10,7 +10,7 @@ export default async function RgbEventLoop(run: boolean) {
 		if (run) {
 			running.process = spawn(WmiExe, ['RGBBreathingLightEffect', 'Start'])
 		} else {
-			process.kill(0)
+			if (running.process) running.process.kill(0)
 		}
 		resolve({ msg: '执行成功' })
 	})
