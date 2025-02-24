@@ -2,20 +2,17 @@
 import wmiOperation from '../../tools/WMIOperation'
 import { ref } from 'vue'
 import { Message } from '@arco-design/web-vue'
+import useStore from '@renderer/store'
+const store = useStore()
 
-const CPUData = ref({
-	shortPower: 65,
-	longPower: 45,
-	tempWall: 88
-})
 const loading = ref(false)
 const _thisCpu = wmiOperation.CPU
 async function handleClick() {
 	loading.value = true
 	const result = [
-		await _thisCpu.SetCpuLongPower(CPUData.value.longPower),
-		await _thisCpu.SetCpuShortPower(CPUData.value.shortPower),
-		await _thisCpu.SetCPUTempWall(CPUData.value.tempWall)
+		await _thisCpu.SetCpuLongPower(store.$state.CPUData.longPower),
+		await _thisCpu.SetCpuShortPower(store.$state.CPUData.shortPower),
+		await _thisCpu.SetCPUTempWall(store.$state.CPUData.tempWall)
 	]
 	result.map((item) => {
 		if (item.toLowerCase() == 'true') {
@@ -36,7 +33,7 @@ async function handleClick() {
 			</a-col>
 			<a-col :span="16" class="item">
 				<a-input-number
-					v-model="CPUData.shortPower"
+					v-model="store.$state.CPUData.shortPower"
 					placeholder="ShortPower"
 					:min="30"
 					:max="255"
@@ -47,7 +44,7 @@ async function handleClick() {
 			</a-col>
 			<a-col :span="16" class="item">
 				<a-input-number
-					v-model="CPUData.longPower"
+					v-model="store.$state.CPUData.longPower"
 					placeholder="LongPower"
 					:min="30"
 					:max="255"
@@ -59,7 +56,7 @@ async function handleClick() {
 			<a-space direction="vertical" size="large"> </a-space>
 			<a-col :span="16" class="item">
 				<a-input-number
-					v-model="CPUData.tempWall"
+					v-model="store.$state.CPUData.tempWall"
 					placeholder="TempWall"
 					:min="1"
 					:max="100"
@@ -78,11 +75,9 @@ async function handleClick() {
 <style scoped>
 .CPU {
 	padding-top: 20px;
-
 	.title {
 		text-align: left;
 	}
-
 	.item {
 		margin-top: 10px;
 	}

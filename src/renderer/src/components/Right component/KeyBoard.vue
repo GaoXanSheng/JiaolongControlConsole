@@ -2,7 +2,6 @@
 import wmiOperation from '../../tools/WMIOperation'
 import { ref } from 'vue'
 import { Message } from '@arco-design/web-vue'
-
 const KeyboardColorData = await wmiOperation.Keyboard.Color.Get()
 const Data = ref({
 	red: KeyboardColorData.red,

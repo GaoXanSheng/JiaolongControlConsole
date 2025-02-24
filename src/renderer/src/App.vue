@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import CPU from './assets/CPU.png'
 import HOME from './assets/HOME.png'
-import Information from './assets/Information.png'
+// import Information from './assets/Information.png'
 import Fan from './assets/Fan.png'
 import Keyboard from './assets/Keyboard.png'
 import Settings from './assets/Settings.png'
@@ -9,6 +9,7 @@ import RightSide from './components/rightSide.vue'
 import { HomeTab } from './doc/HomeTab'
 import useStore from './store'
 import { onMounted } from 'vue'
+
 const store = useStore()
 const HomeCardType = [
 	{
@@ -30,6 +31,11 @@ const HomeCardType = [
 		title: '键盘',
 		icon: Keyboard,
 		eum: HomeTab.Keyboard
+	},
+	{
+		title: '设置',
+		icon: Settings,
+		eum: HomeTab.Settings
 	}
 ]
 

@@ -2,13 +2,17 @@
 import { ref } from 'vue'
 import { Message } from '@arco-design/web-vue'
 import electron from '@renderer/tools/electron'
-
+import useStore from '@renderer/store'
+const store = useStore()
 const loading = ref(false)
-const FanSpeed = ref(1500)
 async function handleClick() {
 	loading.value = true
-	await electron.ipcRenderer.invoke('FanController', FanSpeed.value)
-	Message.success('Fan设置成功')
+	const { msg } = await electron.ipcRenderer.invoke('FanController', store.$state.FanSpeed)
+	if (msg != '成功执行') {
+		Message.error(msg)
+	} else {
+		Message.success(msg)
+	}
 	loading.value = false
 }
 </script>
@@ -24,7 +28,7 @@ async function handleClick() {
 			</a-col>
 			<a-col :span="16" class="item">
 				<a-input-number
-					v-model="FanSpeed"
+					v-model="store.$state.FanSpeed"
 					placeholder="ShortPower"
 					:min="1500"
 					:max="5800"

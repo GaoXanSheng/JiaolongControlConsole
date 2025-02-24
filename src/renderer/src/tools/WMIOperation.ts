@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { Message } from '@arco-design/web-vue'
 
 export enum GPUMode {
 	DiscreteMode,
@@ -21,6 +22,9 @@ export enum PerformaceMode {
 
 async function http<T>(data: T) {
 	const res = await axios.post('http://localhost:9871/', data)
+	if (res.data.msg) {
+		Message.error(res.data.msg)
+	}
 	return res.data.result
 }
 
@@ -52,15 +56,6 @@ const WMIOperation = {
 				type: 'CPU',
 				method: 'SetCPUTempWall',
 				args: [centigrade]
-			})
-		}
-	},
-	SystemModels: {
-		GetInfo() {
-			return http({
-				type: 'SystemModels',
-				method: 'GetInfo',
-				args: []
 			})
 		}
 	},
@@ -187,6 +182,19 @@ const WMIOperation = {
 				method: 'Get',
 				args: []
 			})
+		}
+	},
+	Fan: {
+		async Get() {
+			const { CPUFanSpeed, GPUFanSpeed } = await http({
+				type: 'Fan',
+				method: 'Get',
+				args: []
+			})
+			return {
+				CPUFanSpeed,
+				GPUFanSpeed
+			}
 		}
 	}
 }
