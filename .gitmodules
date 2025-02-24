@@ -1,0 +1,3 @@
+[submodule "resources/JiaoLongWMI"]
+	path = resources/JiaoLongWMI
+	url = git@github.com:GaoXanSheng/JiaoLongWMI.git
