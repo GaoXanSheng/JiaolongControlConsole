@@ -1,3 +1,6 @@
 [submodule "resources/JiaoLongWMI"]
 	path = resources/JiaoLongWMI
 	url = git@github.com:GaoXanSheng/JiaoLongWMI.git
+[submodule "resources/JiaoLongEC"]
+	path = resources/JiaoLongEC
+	url = git@github.com:GaoXanSheng/JiaoLong16Pro_EC_Tools.git
