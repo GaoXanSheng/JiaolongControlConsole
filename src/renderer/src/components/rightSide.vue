@@ -15,7 +15,15 @@ const store = useStore()
 		<HOME v-if="store.SwitchPages == HomeTab.HOME"></HOME>
 		<CPU v-if="store.SwitchPages == HomeTab.CPU"></CPU>
 		<Fan v-if="store.SwitchPages == HomeTab.Fan"></Fan>
-		<Keyboard v-if="store.SwitchPages == HomeTab.Keyboard"></Keyboard>
+		<Keyboard v-if="store.SwitchPages == HomeTab.Keyboard && !store.$state.RgbEventLoop"></Keyboard>
+		<a-row
+			v-if="store.SwitchPages == HomeTab.Keyboard && store.$state.RgbEventLoop"
+			justify="center"
+		>
+			<a-col :span="16">
+				<a-typography-title class="title"> 开启RGB时不可用 </a-typography-title>
+			</a-col>
+		</a-row>
 		<Settings v-if="store.SwitchPages == HomeTab.Settings"></Settings>
 	</div>
 </template>
