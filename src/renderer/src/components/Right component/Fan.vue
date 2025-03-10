@@ -29,7 +29,7 @@ async function handleClick() {
 			<a-col :span="16" class="item">
 				<a-input-number
 					v-model="store.$state.FanSpeed"
-					placeholder="ShortPower"
+					placeholder="FanSpeed"
 					:min="1500"
 					:max="5800"
 					model-event="input"
