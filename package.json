@@ -22,11 +22,8 @@
     "@electron-toolkit/preload": "^3.0.0",
     "@electron-toolkit/utils": "^3.0.0",
     "axios": "^1.7.9",
-    "echarts": "^5.5.1",
-    "electron-store": "^10.0.0",
     "pinia": "^2.2.4",
-    "sass": "^1.77.8",
-    "systeminformation": "^5.22.11"
+    "sass": "^1.77.8"
   },
   "devDependencies": {
     "@arco-design/web-vue": "^2.56.2",
