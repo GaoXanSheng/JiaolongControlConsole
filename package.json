@@ -21,7 +21,7 @@
   "dependencies": {
     "@electron-toolkit/preload": "^3.0.0",
     "@electron-toolkit/utils": "^3.0.0",
-    "axios": "^1.7.9",
+    "axios": "^1.8.2",
     "pinia": "^2.2.4",
     "sass": "^1.77.8"
   },
