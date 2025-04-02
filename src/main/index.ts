@@ -2,7 +2,6 @@ import { app, BrowserWindow, ipcMain } from 'electron'
 import { electronApp, optimizer } from '@electron-toolkit/utils'
 import createWindow from './electron/createWindow'
 import JiaoLongWMI from './tools/JiaoLongWMI'
-import { FanController } from './tools/JiaoLongEC'
 import RgbEventLoop from './tools/RgbEventLoop'
 
 const wmi = JiaoLongWMI()
@@ -20,9 +19,6 @@ app.whenReady().then(() => {
 	createWindow()
 	app.on('activate', function () {
 		if (BrowserWindow.getAllWindows().length === 0) createWindow()
-	})
-	ipcMain.handle('FanController', async (_event, args) => {
-		return await FanController(args)
 	})
 	ipcMain.handle('RgbEventLoop', async (_event, args: boolean) => {
 		return await RgbEventLoop(args)

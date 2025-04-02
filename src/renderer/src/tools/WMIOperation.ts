@@ -185,10 +185,33 @@ const WMIOperation = {
 		}
 	},
 	Fan: {
-		async Get() {
+		async SetMaxFanSpeedSwitch(b: boolean) {
+			let state = 0
+			if (b) {
+				state = 1
+			}
+			return http({
+				type: 'Fan',
+				method: 'SetMaxFanSpeedSwitch',
+				args: [state]
+			})
+		},
+		async SetFanSpeed(FanSpeed: number) {
+			const speed = FanSpeed.toString().slice(0, 2)
+			if (parseInt(speed) <= 58) {
+				return http({
+					type: 'Fan',
+					method: 'SetFanSpeed',
+					args: [parseInt(speed)]
+				})
+			} else {
+				return '风扇转速超出范围'
+			}
+		},
+		async GetFanSpeed() {
 			const { CPUFanSpeed, GPUFanSpeed } = await http({
 				type: 'Fan',
-				method: 'Get',
+				method: 'GetFanSpeed',
 				args: []
 			})
 			return {

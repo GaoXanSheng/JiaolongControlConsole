@@ -1,14 +1,15 @@
 <script async setup lang="ts">
 import { ref } from 'vue'
 import { Message } from '@arco-design/web-vue'
-import electron from '@renderer/tools/electron'
 import useStore from '@renderer/store'
+import wmiOperation from '@renderer/tools/WMIOperation'
 const store = useStore()
 const loading = ref(false)
+const _thisFan = wmiOperation.Fan
 async function handleClick() {
 	loading.value = true
-	const { msg } = await electron.ipcRenderer.invoke('FanController', store.$state.FanSpeed)
-	if (msg != '成功执行') {
+	const msg = await _thisFan.SetFanSpeed(store.$state.FanSpeed)
+	if (msg != 'Fan Speed Set OK') {
 		Message.error(msg)
 	} else {
 		Message.success(msg)
