@@ -185,6 +185,13 @@ const WMIOperation = {
 		}
 	},
 	Fan: {
+		async GetMaxFanSpeedSwitch() {
+			return http({
+				type: 'Fan',
+				method: 'GetMaxFanSpeedSwitch',
+				args: []
+			})
+		},
 		async SetMaxFanSpeedSwitch(b: boolean) {
 			let state = 0
 			if (b) {
