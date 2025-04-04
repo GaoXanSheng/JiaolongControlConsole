@@ -1,5 +1,5 @@
 <script async setup lang="ts">
-import wmiOperation from '../../tools/WMIOperation'
+import wmiOperation from '@renderer/tools/WMIOperation'
 import { ref } from 'vue'
 import { Message } from '@arco-design/web-vue'
 

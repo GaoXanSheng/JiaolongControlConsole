@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import useStore from '../store'
-import HOME from './Right component/HOME.vue'
-import CPU from './Right component/CPU.vue'
-import Fan from './Right component/Fan.vue'
-import Keyboard from './Right component/KeyBoard.vue'
-import Settings from './Right component/settings.vue'
-import { HomeTab } from '@renderer/doc/HomeTab'
+import HOME from '@renderer/components/RightComponent/HOME.vue'
+import CPU from '@renderer/components/RightComponent/CPU.vue'
+import Fan from '@renderer/components/RightComponent/Fan.vue'
+import Keyboard from '@renderer/components/RightComponent/KeyBoard.vue'
+import Settings from '@renderer/components/RightComponent/settings.vue'
+import { HomeTab } from '@renderer/store/HomeTab'
 
 const store = useStore()
 </script>

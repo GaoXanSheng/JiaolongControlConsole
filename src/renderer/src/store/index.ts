@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { HomeTab } from '@renderer/doc/HomeTab'
+import { HomeTab } from '@renderer/store/HomeTab'
 import HOME from '@renderer/assets/HOME.png'
 import CPU from '@renderer/assets/CPU.png'
 import Fan from '@renderer/assets/Fan.png'

@@ -144,12 +144,19 @@ const WMIOperation = {
 				args: [On]
 			})
 		},
-		Get() {
-			return http({
+		async Get() {
+			const res = await http({
 				type: 'LogoLight',
 				method: 'Get',
 				args: []
 			})
+			if (res == 'ON') {
+				return ResultState.ON
+			} else if (res == 'OFF') {
+				return ResultState.OFF
+			} else {
+				return ResultState.Unknow
+			}
 		}
 	},
 	GPUMode: {
@@ -160,12 +167,19 @@ const WMIOperation = {
 				args: [mode]
 			})
 		},
-		Get() {
-			return http({
+		async Get() {
+			const res = await http({
 				type: 'GPUMode',
 				method: 'Get',
 				args: []
 			})
+			if (res == 'DiscreteMode') {
+				return GPUMode.DiscreteMode
+			} else if (res == 'HybridMode') {
+				return GPUMode.HybridMode
+			} else {
+				return GPUMode.Unknow
+			}
 		}
 	},
 	PerformaceMode: {
