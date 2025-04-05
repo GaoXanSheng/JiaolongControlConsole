@@ -35,3 +35,4 @@ build
 !/package-lock.json
 .idea/
 
+/resources/JiaoLongWMI.pdb
