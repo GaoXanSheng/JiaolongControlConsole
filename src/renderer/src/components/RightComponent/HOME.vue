@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import BackgroundVideo from '../../assets/绘梨衣30S动态壁纸.mp4'
+import BackgroundVideo from '../../assets/loading_yiliya.mp4'
 </script>
 
 <template>

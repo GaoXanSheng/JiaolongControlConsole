@@ -8,7 +8,6 @@ const loading = ref(false)
 const _thisFan = wmiOperation.Fan
 async function handleClick() {
 	loading.value = true
-	await _thisFan.SetMaxFanSpeedSwitch(true)
 	const msg = await _thisFan.SetFanSpeed(store.$state.FanSpeed)
 	if (msg != 'Fan Speed Set OK') {
 		Message.error(msg)
