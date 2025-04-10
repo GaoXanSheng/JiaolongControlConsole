@@ -10,6 +10,7 @@ files:
   - '!{.eslintignore,.eslintrc.cjs,.prettierignore,.prettierrc.yaml,dev-app-update.yml,CHANGELOG.md,README.md}'
   - '!{.env,.env.*,.npmrc,pnpm-lock.yaml}'
   - '!{Config.json,tsconfig.node.json,tsconfig.web.json}'
+  - '!JiaoLongWMI'
 asarUnpack:
   - resources/**
 win:
@@ -22,6 +23,6 @@ nsis:
   createDesktopShortcut: always
 appImage:
   artifactName: ${name}-${version}.${ext}
-npmRebuild: false
+npmRebuild: true
 electronDownload:
   mirror: https://npmmirror.com/mirrors/electron/

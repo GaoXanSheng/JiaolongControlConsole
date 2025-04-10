@@ -35,7 +35,7 @@ function enter(el, done) {
 	})
 }
 
-function leave(el, done) {
+function leave(_el, done) {
 	done()
 }
 </script>
