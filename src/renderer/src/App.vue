@@ -3,15 +3,20 @@ import RightSide from './components/rightSide.vue'
 
 import useStore, { HomeCardType } from './store'
 import { onMounted } from 'vue'
+import { HomeTab } from '@renderer/store/HomeTab'
 
 const store = useStore()
-function onClickMenuItem(key: number) {
+
+function onClickMenuItem(key: HomeTab) {
 	store.$state.SwitchPages = key
 }
+
 onMounted(() => {
 	const loader = document.getElementsByClassName('loader').item(0)
 	if (loader) loader.remove()
+	document.body.setAttribute('arco-theme', store.$state.theme)
 })
+
 function LoadConfig() {
 	console.log('LoadConfig')
 	Object.keys(store.$state).map((key) => {
@@ -37,6 +42,7 @@ LoadConfig()
 					<a-menu-item v-for="item in HomeCardType" :key="item.eum">
 						<template #icon>
 							<a-image
+								class="theme"
 								width="16"
 								shape="square"
 								:src="item.icon"
@@ -52,7 +58,7 @@ LoadConfig()
 				</template>
 			</a-layout-sider>
 			<a-layout>
-				<a-layout style="padding: 2px">
+				<a-layout class="content">
 					<a-layout-content>
 						<RightSide></RightSide>
 					</a-layout-content>
@@ -78,6 +84,24 @@ LoadConfig()
 		text-align: center;
 		font-weight: 400;
 		background: var(--color-bg-3);
+	}
+}
+
+body[arco-theme='dark'] {
+	.content {
+		padding-left: 0;
+	}
+	.theme {
+		filter: invert(100%);
+	}
+}
+
+body[arco-theme='light'] {
+	.theme {
+		filter: invert(0);
+	}
+	.content {
+		padding-left: 2px;
 	}
 }
 </style>

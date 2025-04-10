@@ -3,6 +3,8 @@ import RgbEventLoop from '@renderer/components/RightComponent/setting/RgbEventLo
 import FanSpeedSwitch from '@renderer/components/RightComponent/setting/FanSpeedSwitch.vue'
 import GPUDirectConnection from '@renderer/components/RightComponent/setting/GPUDirectConnection.vue'
 import LogoLight from '@renderer/components/RightComponent/setting/LogoLight.vue'
+import Theme from '@renderer/components/RightComponent/setting/theme.vue'
+import PowerMode from '@renderer/components/RightComponent/setting/PowerMode.vue'
 </script>
 
 <template>
@@ -15,6 +17,8 @@ import LogoLight from '@renderer/components/RightComponent/setting/LogoLight.vue
 			<FanSpeedSwitch></FanSpeedSwitch>
 			<GPUDirectConnection></GPUDirectConnection>
 			<LogoLight></LogoLight>
+			<theme></theme>
+			<power-mode></power-mode>
 		</a-row>
 	</div>
 </template>

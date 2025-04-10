@@ -5,7 +5,7 @@ import BackgroundVideo from '../../assets/loading_yiliya.mp4'
 <template>
 	<div class="home">
 		<a-row justify="center">
-			<a-col :span="16" style="margin-top: 16px">
+			<a-col :span="16" style="margin-top: 30px">
 				<div class="title">
 					<video :src="BackgroundVideo" muted loop autoplay></video>
 				</div>
@@ -37,14 +37,21 @@ import BackgroundVideo from '../../assets/loading_yiliya.mp4'
 	text-align: left;
 }
 .title {
-	width: 600px;
-	height: 300px;
-	box-shadow: 0 0 1px rgba(0, 0, 0, 0.3);
+	width: 620px;
+	height: 350px;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	border-radius: 5px;
+	box-shadow: 0 0 2px rgba(0, 0, 0, 0.6);
 	video {
-		width: 600px;
-		height: 300px;
+		width: 100%;
+		height: 100%;
 		object-fit: cover;
-		border-radius: 5px;
+		margin: 0;
+		box-shadow: none;
+		padding: 0;
+		display: block;
 	}
 }
 </style>

@@ -8,6 +8,7 @@ const loading = ref(false)
 const _thisFan = wmiOperation.Fan
 async function handleClick() {
 	loading.value = true
+	await _thisFan.SetMaxFanSpeedSwitch(true)
 	const msg = await _thisFan.SetFanSpeed(store.$state.FanSpeed)
 	if (msg != 'Fan Speed Set OK') {
 		Message.error(msg)
@@ -23,9 +24,6 @@ async function handleClick() {
 		<a-row justify="center">
 			<a-col :span="16">
 				<a-typography-title class="title"> Fan Settings </a-typography-title>
-				<a-typography-title class="title" code>
-					警告：该功能会损害硬件，请谨慎使用
-				</a-typography-title>
 			</a-col>
 			<a-col :span="16" class="item">
 				<a-input-number

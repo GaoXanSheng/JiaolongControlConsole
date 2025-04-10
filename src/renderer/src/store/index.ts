@@ -17,7 +17,8 @@ const useStore = defineStore('store', {
 				longPower: 45,
 				tempWall: 88
 			},
-			RgbEventLoop: false
+			RgbEventLoop: false,
+			theme: 'light'
 		}
 	}
 })

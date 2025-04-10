@@ -2,6 +2,7 @@
 import { onMounted, ref } from 'vue'
 import WMIOperation from '@renderer/tools/WMIOperation'
 import { Message } from '@arco-design/web-vue'
+import SettingCardComponent from '@renderer/components/RightComponent/setting/SettingCardComponent.vue'
 const GPUDirectConnection = ref(false)
 onMounted(async () => {
 	const result = await WMIOperation.GPUMode.Get()
@@ -20,20 +21,18 @@ async function GPUDirectConnection_handleClick() {
 </script>
 
 <template>
-	<a-col :span="16">
-		<a-input disabled placeholder="独显直连" allow-clear>
-			<template #append>
-				<a-switch v-model="GPUDirectConnection" @change="GPUDirectConnection_handleClick">
-					<template #checked-icon>
-						<icon-check />
-					</template>
-					<template #unchecked-icon>
-						<icon-close />
-					</template>
-				</a-switch>
-			</template>
-		</a-input>
-	</a-col>
+	<setting-card-component title="独显直连">
+		<template #extra>
+			<a-switch v-model="GPUDirectConnection" @change="GPUDirectConnection_handleClick">
+				<template #checked-icon>
+					<icon-check />
+				</template>
+				<template #unchecked-icon>
+					<icon-close />
+				</template>
+			</a-switch>
+		</template>
+	</setting-card-component>
 </template>
 
 <style scoped></style>
