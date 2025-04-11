@@ -6,5 +6,6 @@ export enum HomeTab {
 	Fan,
 	Keyboard,
 	Settings,
+	OpenProSettings,
 	Debug = 255
 }

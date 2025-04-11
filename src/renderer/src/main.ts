@@ -5,5 +5,13 @@ import './assets/magic.min.css'
 import ArcoVue from '@arco-design/web-vue'
 import ArcoVueIcon from '@arco-design/web-vue/es/icon'
 import { createPinia } from 'pinia'
-
-createApp(App).use(createPinia()).use(ArcoVue).use(ArcoVueIcon).mount('#app')
+import routes from '@renderer/routes'
+import 'vue-data-ui/style.css'
+import { VueUiRadar } from 'vue-data-ui'
+createApp(App)
+	.use(createPinia())
+	.use(routes)
+	.use(ArcoVue)
+	.use(ArcoVueIcon)
+	.component('VueUiRadar', VueUiRadar)
+	.mount('#app')
