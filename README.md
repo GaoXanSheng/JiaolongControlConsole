@@ -1,12 +1,32 @@
 <p align="center">
-  <img src="./resources/icon.png?raw=true" alt="Logo" height=200></a>
+  <img src="./resources/icon.png?raw=true" alt="Logo" height="200">
 </p>
+
 <h1 align="center">JiaolongControlConsole</h1>
 
-### 针对于【蛟龙16PRO】 7945HX+4060版本开发，其他版本风险自负
+<p align="center">
+  <strong>基于【蛟龙16PRO】 7945HX + RTX 4060 BIOS v35 EC v35 版本开发</strong><br>
+  <em>其他版本[16PRO版本]使用风险自负</em>
+</p>
+
+---
+
+## 📦 安装依赖
 
 ```bash
-npm install                 # 安装依赖
-npm run dev                 # 通过代码开发
-npm run build               # 通过代码构建
+npm install
 ```
+
+## 🧪 启动开发模式
+
+```bash
+npm run dev
+```
+
+## 🏗️ 构建项目
+
+```bash
+npm run build
+```
+
+---
