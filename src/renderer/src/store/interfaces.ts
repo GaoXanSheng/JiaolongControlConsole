@@ -9,7 +9,6 @@ export type CpuData = {
 	Load: MetricItem[]
 	Power: MetricItem[]
 	Clock: MetricItem[]
-	Factor: MetricItem[]
 	Voltage: MetricItem[]
 	Temperature: MetricItem[]
 	Name: string
@@ -59,9 +58,8 @@ export type Battery = {
 	Current: MetricItem[]
 	Power: MetricItem[]
 }
-// 总数据结构类型（如果你后续还有其他硬件也可以放在这里）
 export interface HardwareMonitorInfo {
-	CPU: CpuData
+	Cpu: CpuData
 	Memory: Memory
 	GpuAmd: GpuAmd
 	GpuNvidia: GpuNvidia

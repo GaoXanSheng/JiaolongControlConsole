@@ -1,32 +1,21 @@
-<script setup lang="ts">
-import SparkLine from '@renderer/components/ProSettingComponent/SparkLine.vue'
-import { ref } from 'vue'
+<script async setup lang="ts">
+import { onMounted, ref } from 'vue'
 import wmiOperation from '@renderer/tools/WMIOperation'
-type VueUiSparklineDatasetItem = {
-	period: string
-	value: number
-}
-const CPUFanSpeedData = ref<VueUiSparklineDatasetItem[]>([
-	{
-		period: 'CPUFanSpeedData',
-		value: 0
-	}
-])
-const GPUFanSpeedData = ref<VueUiSparklineDatasetItem[]>([
-	{
-		period: 'GPUFanSpeed',
-		value: 0
-	}
-])
-setInterval(async () => {
-	const MonitorInfo = await wmiOperation.GetHardwareMonitorInfo()
-	console.log(MonitorInfo)
-}, 5000)
+import { HardwareMonitorInfo } from '@renderer/store/interfaces'
+import CpuHeatMapData from '@renderer/components/ProSettingComponent/CpuHeatMapData.vue'
+import FanSpeedData from '@renderer/components/ProSettingComponent/FanSpeedData.vue'
+
+const MonitorInfo = ref<HardwareMonitorInfo>(await wmiOperation.GetHardwareMonitorInfo())
+onMounted(async () => {
+	setInterval(async () => {
+		MonitorInfo.value = await wmiOperation.GetHardwareMonitorInfo()
+	}, 5000)
+})
 </script>
 
 <template>
-	<SparkLine title="CPUFan" :data="CPUFanSpeedData"></SparkLine>
-	<SparkLine title="GPUFan" :data="GPUFanSpeedData"></SparkLine>
+	<FanSpeedData></FanSpeedData>
+	<CpuHeatMapData :data="MonitorInfo"></CpuHeatMapData>
 </template>
 
 <style scoped></style>
