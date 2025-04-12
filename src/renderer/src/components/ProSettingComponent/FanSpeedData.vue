@@ -41,14 +41,18 @@ onMounted(async () => {
 
 <template>
 	<div class="fanSpeed">
-		<SparkLine title="CPUFan" :data="CPUFanSpeedData"></SparkLine>
-		<SparkLine title="GPUFan" :data="GPUFanSpeedData"></SparkLine>
+		<SparkLine class="cell" title="CPUFan" :data="CPUFanSpeedData"></SparkLine>
+		<SparkLine class="cell" title="GPUFan" :data="GPUFanSpeedData"></SparkLine>
 	</div>
 </template>
 
 <style scoped>
 .fanSpeed {
-	width: 650px;
-	height: 280px;
+	width: 100%;
+	height: 100%;
+	.cell {
+		height: calc(100% / 2);
+		width: 100%;
+	}
 }
 </style>
