@@ -3,8 +3,11 @@
 <head>
 	<meta charset="UTF-8"/>
 	<title>Control Console</title>
-	<meta http-equiv='Content-Security-Policy'
-				content="connect-src *; default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;">
+	<meta http-equiv="Content-Security-Policy" content="
+  default-src 'self' 'unsafe-inline' 'unsafe-eval' data: gap: https://ssl.gstatic.com;
+  connect-src 'self' http://localhost:9871;
+">
+
 	<style>
 		.loader {
 			bottom: 0;

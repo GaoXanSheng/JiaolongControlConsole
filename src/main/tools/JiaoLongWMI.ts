@@ -12,9 +12,8 @@ function initWMI(): ChildProcessWithoutNullStreams {
 	})
 
 	process.on('close', (code) => {
-		console.log(`子进程退出，退出码：${code}`)
+		console.log(`Error：${code}`)
 	})
-	console.log('Server run')
 	return process
 }
 export default initWMI

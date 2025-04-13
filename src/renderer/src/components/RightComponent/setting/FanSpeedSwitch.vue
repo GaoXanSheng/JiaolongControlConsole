@@ -1,14 +1,10 @@
-<script setup lang="ts">
-import { onMounted, ref } from 'vue'
+<script async setup lang="ts">
+import { ref } from 'vue'
 import WMIOperation from '@renderer/tools/WMIOperation'
 import { Message } from '@arco-design/web-vue'
 import SettingCardComponent from '@renderer/components/RightComponent/setting/SettingCardComponent.vue'
 
-const FanSpeedSwitch = ref(false)
-onMounted(async () => {
-	const result = await WMIOperation.Fan.GetMaxFanSpeedSwitch()
-	FanSpeedSwitch.value = result == 1
-})
+const FanSpeedSwitch = ref((await WMIOperation.Fan.GetMaxFanSpeedSwitch()) == 1)
 
 async function FanSpeedSwitch_handleClick() {
 	const msg: string | boolean = await WMIOperation.Fan.SetMaxFanSpeedSwitch(FanSpeedSwitch.value)

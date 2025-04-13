@@ -249,34 +249,34 @@ setInterval(() => {
 		<SparkLine class="cell" :title="`GPU Memory Load`" :data="GpuData.Load.GPUMemory"></SparkLine>
 		<SparkLine
 			class="cell"
-			:title="`GPU Video Engine Load`"
+			:title="`GPU Video Engine`"
 			:data="GpuData.Load.GPUVideoEngine"
 		></SparkLine>
 		<SparkLine
 			class="cell"
-			:title="`GPU Memory Controller Load`"
+			:title="`Memory Controller`"
 			:data="GpuData.Load.MemoryController"
-		></SparkLine>
-		<SparkLine
-			class="cell"
-			:title="`D3D Video Decode Load`"
-			:data="GpuData.Load.D3DVideoDecode"
-		></SparkLine>
-		<SparkLine class="cell" :title="`D3D Copy Load`" :data="GpuData.Load.D3DCopy"></SparkLine>
-		<SparkLine
-			class="cell"
-			:title="`D3D Dedicated Memory Used`"
-			:data="GpuData.SmallData.D3DDedicatedMemoryUsed"
-		></SparkLine>
-		<SparkLine
-			class="cell"
-			:title="`D3D Shared Memory Used`"
-			:data="GpuData.SmallData.D3DSharedMemoryUsed"
 		></SparkLine>
 		<SparkLine
 			class="cell"
 			:title="`GPU Memory Free`"
 			:data="GpuData.SmallData.GPUMemoryFree"
+		></SparkLine>
+		<SparkLine
+			class="cell"
+			:title="`Video Decode Load`"
+			:data="GpuData.Load.D3DVideoDecode"
+		></SparkLine>
+		<SparkLine class="cell" :title="`Copy Load`" :data="GpuData.Load.D3DCopy"></SparkLine>
+		<SparkLine
+			class="cell"
+			:title="`Dedicated Memory`"
+			:data="GpuData.SmallData.D3DDedicatedMemoryUsed"
+		></SparkLine>
+		<SparkLine
+			class="cell"
+			:title="`Shared Memory`"
+			:data="GpuData.SmallData.D3DSharedMemoryUsed"
 		></SparkLine>
 	</div>
 </template>

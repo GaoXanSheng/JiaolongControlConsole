@@ -1,14 +1,10 @@
-<script setup lang="ts">
-import { onMounted, ref } from 'vue'
+<script async setup lang="ts">
+import { ref } from 'vue'
 import WMIOperation from '@renderer/tools/WMIOperation'
 import { Message } from '@arco-design/web-vue'
 import SettingCardComponent from '@renderer/components/RightComponent/setting/SettingCardComponent.vue'
 
-const LogoLight = ref(false)
-onMounted(async () => {
-	const result = await WMIOperation.LogoLight.Get()
-	LogoLight.value = result == 0
-})
+const LogoLight = ref((await WMIOperation.LogoLight.Get()) == 0)
 async function LogoLight_handleClick() {
 	const result = await WMIOperation.LogoLight.Set(LogoLight.value ? 1 : 0)
 	if (result == '拒绝访问') {

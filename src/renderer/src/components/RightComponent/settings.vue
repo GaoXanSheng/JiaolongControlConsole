@@ -5,6 +5,7 @@ import GPUDirectConnection from '@renderer/components/RightComponent/setting/GPU
 import LogoLight from '@renderer/components/RightComponent/setting/LogoLight.vue'
 import Theme from '@renderer/components/RightComponent/setting/theme.vue'
 import PowerMode from '@renderer/components/RightComponent/setting/PowerMode.vue'
+import CpuBoost from '@renderer/components/RightComponent/setting/CPUBoost.vue'
 </script>
 
 <template>
@@ -17,6 +18,7 @@ import PowerMode from '@renderer/components/RightComponent/setting/PowerMode.vue
 			<FanSpeedSwitch></FanSpeedSwitch>
 			<GPUDirectConnection></GPUDirectConnection>
 			<LogoLight></LogoLight>
+			<CpuBoost></CpuBoost>
 			<theme></theme>
 			<power-mode></power-mode>
 		</a-row>

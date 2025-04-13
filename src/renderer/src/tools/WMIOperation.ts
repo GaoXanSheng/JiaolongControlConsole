@@ -51,6 +51,14 @@ const WMIOperation = {
 				args: [Open]
 			})
 		},
+		async GetCustomMode() {
+			const res = await http({
+				type: 'CPU',
+				method: 'GetCustomMode',
+				args: []
+			})
+			return res == 'True'
+		},
 		SetCPUTempWall(centigrade: number) {
 			return http({
 				type: 'CPU',

@@ -37,8 +37,5 @@ function CpuHeatMapData() {
 	width: 100%;
 	height: 100%;
 	position: absolute;
-	.vue-ui-heatmap {
-		position: absolute;
-	}
 }
 </style>

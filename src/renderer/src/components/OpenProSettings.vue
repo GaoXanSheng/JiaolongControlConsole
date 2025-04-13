@@ -12,7 +12,7 @@ const MonitorInfo = ref<HardwareMonitorInfo>(await wmiOperation.GetHardwareMonit
 onMounted(async () => {
 	setInterval(async () => {
 		MonitorInfo.value = await wmiOperation.GetHardwareMonitorInfo()
-	}, 2000)
+	}, 3000)
 })
 </script>
 

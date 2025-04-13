@@ -1,13 +1,9 @@
-<script setup lang="ts">
-import { onMounted, ref } from 'vue'
+<script async setup lang="ts">
+import { ref } from 'vue'
 import WMIOperation from '@renderer/tools/WMIOperation'
 import { Message } from '@arco-design/web-vue'
 import SettingCardComponent from '@renderer/components/RightComponent/setting/SettingCardComponent.vue'
-const GPUDirectConnection = ref(false)
-onMounted(async () => {
-	const result = await WMIOperation.GPUMode.Get()
-	GPUDirectConnection.value = result == 0
-})
+const GPUDirectConnection = ref((await WMIOperation.GPUMode.Get()) == 0)
 async function GPUDirectConnection_handleClick() {
 	const result = await WMIOperation.GPUMode.Set(GPUDirectConnection.value ? 0 : 1)
 	if (result == '拒绝访问') {

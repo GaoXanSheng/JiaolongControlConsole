@@ -3,9 +3,13 @@ import { onMounted } from 'vue'
 import useStore from '@renderer/store'
 const store = useStore()
 onMounted(() => {
-	const loader = document.getElementsByClassName('loader').item(0)
-	if (loader) loader.remove()
 	document.body.setAttribute('arco-theme', store.$state.theme)
+	setTimeout(() => {
+		const loader = document.getElementsByClassName('loader').item(0)
+		if (loader) {
+			loader.remove()
+		}
+	}, 3000)
 })
 
 function LoadConfig() {
