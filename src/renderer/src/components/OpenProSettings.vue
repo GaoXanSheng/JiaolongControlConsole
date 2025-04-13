@@ -5,12 +5,14 @@ import { HardwareMonitorInfo } from '@renderer/store/interfaces'
 import CpuHeatMapData from '@renderer/components/ProSettingComponent/CpuHeatMapData.vue'
 import FanSpeedData from '@renderer/components/ProSettingComponent/FanSpeedData.vue'
 import GpuAmd from '@renderer/components/ProSettingComponent/GpuAmd.vue'
+import GpuNvidia from '@renderer/components/ProSettingComponent/GpuNvidia.vue'
+import CenterTop from '@renderer/components/ProSettingComponent/CenterTop.vue'
 
 const MonitorInfo = ref<HardwareMonitorInfo>(await wmiOperation.GetHardwareMonitorInfo())
 onMounted(async () => {
 	setInterval(async () => {
 		MonitorInfo.value = await wmiOperation.GetHardwareMonitorInfo()
-	}, 5000)
+	}, 2000)
 })
 </script>
 
@@ -22,9 +24,10 @@ onMounted(async () => {
 		</div>
 		<div class="center-top">
 			<!-- 中上区域 -->
+			<CenterTop></CenterTop>
 		</div>
 		<div class="right">
-			<!-- 右侧区域 -->
+			<GpuNvidia :data="MonitorInfo"></GpuNvidia>
 		</div>
 		<div class="left-bottom">
 			<!-- 左下区域 -->
@@ -42,14 +45,13 @@ onMounted(async () => {
 	position: relative;
 	width: 100vw;
 	height: 100vh;
-	background: rgb(243, 244, 246);
+	background-color: #f3f4f6ff;
 	.left-top {
 		position: absolute;
 		top: 0;
 		left: 0;
 		width: 20vw;
 		height: 80vh;
-		background: rgb(225, 229, 232);
 	}
 	.left-bottom {
 		position: absolute;
@@ -57,20 +59,21 @@ onMounted(async () => {
 		left: 0;
 		width: 20vw;
 		height: 20vh;
-		background: rgb(225, 229, 232);
 	}
 	.center-top {
 		position: absolute;
 		top: 0;
 		left: 20vw;
-		width: 60vw;
+		width: 55vw;
 		height: 80vh;
+		background-color: white;
+		border-radius: 5px;
 	}
 	.center-bottom {
 		position: absolute;
 		top: 75vh;
 		left: 20vw;
-		width: 60vw;
+		width: 55vw;
 		height: 25vh;
 		display: flex;
 		flex-direction: column;
@@ -79,8 +82,8 @@ onMounted(async () => {
 	.right {
 		position: absolute;
 		top: 0;
-		left: 80vw;
-		width: 20vw;
+		left: 75vw;
+		width: 25vw;
 		height: 100vh;
 	}
 }

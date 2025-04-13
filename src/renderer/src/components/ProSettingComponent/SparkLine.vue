@@ -18,7 +18,7 @@ const config: VueUiSparklineConfig = {
 	type: 'line',
 	downsample: { threshold: 500 },
 	style: {
-		backgroundColor: '#e1e5e8',
+		backgroundColor: '#f3f4f6ff',
 		fontFamily: 'inherit',
 		chartWidth: 290,
 		scaleMin: null,
