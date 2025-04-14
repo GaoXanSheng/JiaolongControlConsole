@@ -4,8 +4,8 @@ import createWindow from './electron/createWindow'
 import JiaoLongWMI from './tools/JiaoLongWMI'
 import RgbEventLoop from './tools/RgbEventLoop'
 import OpenProSettings from './electron/OpenProSettings'
+import { ChildProcessWithoutNullStreams } from 'child_process'
 
-const wmi = JiaoLongWMI()
 let proSettingsWindow: BrowserWindow | null = null
 
 const isFirstInstance = app.requestSingleInstanceLock()
@@ -13,11 +13,13 @@ if (!isFirstInstance) {
 	app.quit()
 	process.exit()
 }
-app.whenReady().then(() => {
+let wmi: ChildProcessWithoutNullStreams | null = null
+app.whenReady().then(async () => {
 	electronApp.setAppUserModelId('top.yunmouren')
 	app.on('browser-window-created', (_, window) => {
 		optimizer.watchWindowShortcuts(window)
 	})
+	wmi = await JiaoLongWMI()
 	createWindow()
 	app.on('activate', function () {
 		if (BrowserWindow.getAllWindows().length === 0) createWindow()
@@ -38,7 +40,7 @@ app.whenReady().then(() => {
 })
 app.on('window-all-closed', () => {
 	if (process.platform !== 'darwin') {
-		wmi.kill()
+		if (wmi) wmi.kill()
 		app.quit()
 	}
 })

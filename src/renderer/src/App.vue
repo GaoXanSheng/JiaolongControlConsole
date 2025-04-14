@@ -4,12 +4,10 @@ import useStore from '@renderer/store'
 const store = useStore()
 onMounted(() => {
 	document.body.setAttribute('arco-theme', store.$state.theme)
-	setTimeout(() => {
-		const loader = document.getElementsByClassName('loader').item(0)
-		if (loader) {
-			loader.remove()
-		}
-	}, 3000)
+	const loader = document.getElementsByClassName('loader').item(0)
+	if (loader) {
+		loader.remove()
+	}
 })
 
 function LoadConfig() {

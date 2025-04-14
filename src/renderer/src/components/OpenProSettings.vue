@@ -65,7 +65,7 @@ onMounted(async () => {
 		top: 0;
 		left: 20vw;
 		width: 55vw;
-		height: 80vh;
+		height: 75vh;
 		background-color: white;
 		border-radius: 5px;
 	}
