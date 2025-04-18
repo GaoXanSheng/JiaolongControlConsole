@@ -17,7 +17,7 @@ const edges = ref([])
 
 <template>
 	<div class="editor">
-		<VueFlow :nodes="nodes" :edges="edges" @connect="(event) => addEdges(event)">
+		<VueFlow :nodes="nodes" :edges="edges" @connect="(event: connectionEvent) => addEdges(event)">
 			<Controls />
 			<MiniMap pannable zoomable />
 			<DropzoneBackground> </DropzoneBackground>
