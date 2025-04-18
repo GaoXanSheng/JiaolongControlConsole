@@ -1,7 +1,7 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 
-import Main from './components/Main.vue'
-import OpenProSettings from './components/OpenProSettings.vue'
+import Main from './page/Main.vue'
+import OpenProSettings from './page/OpenProSettings.vue'
 
 const routes = [
 	{ path: '/', component: Main },

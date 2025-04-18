@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import RightSide from '@renderer/components/rightSide.vue'
-import useStore, { HomeCardType } from '@renderer/store/index'
+import useStore, { HomeCardType } from '@renderer/store'
 import { HomeTab } from '@renderer/store/HomeTab'
-import information from '@renderer/assets/information.png'
+import information from '@renderer/assets/Information.png'
 import electron from '@renderer/tools/electron'
 const store = useStore()
 

@@ -1,5 +1,7 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import Editor from '@renderer/components/ProSettingComponent/editor.vue'
+</script>
 
-<template>CenterTop</template>
+<template><Editor></Editor></template>
 
 <style scoped></style>
