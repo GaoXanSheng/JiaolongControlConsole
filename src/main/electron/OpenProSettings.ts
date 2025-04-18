@@ -1,6 +1,6 @@
 import { BrowserWindow, shell } from 'electron'
 import { join } from 'path'
-import icon from '../../../resources/logo.png?asset'
+import icon from '../../../resources/MECHREVO_LOGO.png?asset'
 import { is } from '@electron-toolkit/utils'
 export default class OpenProSettings {
 	private window: BrowserWindow | null = null

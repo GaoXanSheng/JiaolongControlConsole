@@ -11,7 +11,7 @@ files:
   - '!{.env,.env.*,.npmrc,pnpm-lock.yaml}'
   - '!{Config.json,tsconfig.node.json,tsconfig.web.json}'
   - '!JiaoLongWMI'
-  - '!JiaoLongWMI.pdb'
+  - '!{JiaoLongWMI.pdb,ItunesArtwork@2x.png,icon.png,MECHREVO_LOGO.png}'
 asarUnpack:
   - resources/**
 win:
