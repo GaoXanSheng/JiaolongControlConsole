@@ -1,6 +1,6 @@
 <script async lang="ts" setup>
 import { ref } from 'vue'
-import { useVueFlow, VueFlow } from '@vue-flow/core'
+import { Connection, useVueFlow, VueFlow } from '@vue-flow/core'
 import { MiniMap } from '@vue-flow/minimap'
 import { Controls } from '@vue-flow/controls'
 const { addEdges } = useVueFlow()
@@ -9,7 +9,6 @@ import '@vue-flow/core/dist/style.css'
 import '@vue-flow/core/dist/theme-default.css'
 import '@vue-flow/minimap/dist/style.css'
 import '@vue-flow/controls/dist/style.css'
-import Sidebar from '@renderer/components/nodes/Sidebar.vue'
 
 const nodes = ref([])
 const edges = ref([])
@@ -17,12 +16,11 @@ const edges = ref([])
 
 <template>
 	<div class="editor">
-		<VueFlow :nodes="nodes" :edges="edges" @connect="(event: connectionEvent) => addEdges(event)">
+		<VueFlow :nodes="nodes" :edges="edges" @connect="(event: Connection) => addEdges(event)">
 			<Controls />
 			<MiniMap pannable zoomable />
 			<DropzoneBackground> </DropzoneBackground>
 		</VueFlow>
-		<Sidebar />
 	</div>
 </template>
 <style scoped>
