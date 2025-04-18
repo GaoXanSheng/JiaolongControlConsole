@@ -11,6 +11,7 @@ files:
   - '!{.env,.env.*,.npmrc,pnpm-lock.yaml}'
   - '!{Config.json,tsconfig.node.json,tsconfig.web.json}'
   - '!JiaoLongWMI'
+  - '!JiaoLongWMI.pdb'
 asarUnpack:
   - resources/**
 win:
