@@ -1,29 +1,31 @@
 import { BrowserWindow, Menu, Tray } from 'electron'
+import { uninstallDriver } from '../tools/uninstallDriver'
+import JiaoLongWMI from '../tools/JiaoLongWMI'
 
-export default function (win: BrowserWindow, icon: string): void {
-	const tray = new Tray(icon) // 请确保这里有一个图标文件
+export default async function (win: BrowserWindow, icon: string): Promise<void> {
+	const tray = new Tray(icon)
+	const wmi = await JiaoLongWMI()
 	const contextMenu = Menu.buildFromTemplate([
 		{
 			label: '显示界面',
-			click: function (): void {
-				win.show()
-			}
+			click: () => win.show()
 		},
 		{
 			label: '退出',
-			click: function (): void {
-				process.kill(0)
+			click: () => {
+				if (wmi) wmi.kill('SIGINT')
+				uninstallDriver('R0JiaoLongWMI')
+				process.exit(0)
 			}
 		}
 	])
 
 	tray.setToolTip('JiaolongControlConsole')
-	tray.on('click', () => {
-		win.show()
-	})
+	tray.on('click', () => win.show())
 	tray.setContextMenu(contextMenu)
-	// 最小化到托盘
-	win.on('close', function (event) {
+
+	// 拦截关闭事件，实现最小化到托盘
+	win.on('close', (event) => {
 		event.preventDefault()
 		win.hide()
 	})
