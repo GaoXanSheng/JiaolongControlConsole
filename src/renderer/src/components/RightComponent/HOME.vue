@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import BackgroundVideo from '../../../../../resources/BackgroundVideo.mp4'
+import BackgroundVideo from '../../assets/BackgroundVideo.mp4'
 </script>
 
 <template>

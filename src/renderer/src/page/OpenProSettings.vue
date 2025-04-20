@@ -13,6 +13,8 @@ onMounted(async () => {
 	setInterval(async () => {
 		MonitorInfo.value = await wmiOperation.GetHardwareMonitorInfo()
 	}, 3000)
+	// 避免全局样式污染
+	document.body.setAttribute('arco-theme', 'light')
 })
 </script>
 

@@ -27,5 +27,5 @@ LoadConfig()
 </script>
 
 <template>
-	<Suspense> <router-view></router-view> </Suspense>
+	<Suspense> <router-view style="user-select: none"></router-view> </Suspense>
 </template>
