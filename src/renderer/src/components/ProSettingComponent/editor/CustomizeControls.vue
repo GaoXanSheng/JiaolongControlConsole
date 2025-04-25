@@ -49,11 +49,11 @@ const { onDragStart } = useDragAndDrop()
 						:draggable="true"
 						@dragstart="
 							onDragStart($event, node.type, {
-								label: node.title
+								...node.data
 							})
 						"
 					>
-						{{ node.title }}
+						{{ node.data.title }}
 					</div>
 				</a-space>
 			</a-scrollbar>

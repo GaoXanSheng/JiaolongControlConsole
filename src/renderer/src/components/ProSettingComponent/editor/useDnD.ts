@@ -1,5 +1,6 @@
-import { useVueFlow, type Node, type XYPosition } from '@vue-flow/core'
-import { ref, watch, type Ref } from 'vue'
+import { useVueFlow, type XYPosition } from '@vue-flow/core'
+import { ref, type Ref, watch } from 'vue'
+import { CustomNodeData } from '@renderer/components/ProSettingComponent/editor/CustomNodes'
 
 let id = 0
 
@@ -20,6 +21,7 @@ const state: {
 	isDragOver: ref(false),
 	isDragging: ref(false)
 }
+
 interface CustomDragPayload {
 	type: string
 	label?: string
@@ -33,6 +35,7 @@ function isCustomDragPayload(obj: unknown): obj is CustomDragPayload {
 	}
 	return false
 }
+
 export default function useDragAndDrop() {
 	const { draggedType, isDragOver, isDragging } = state
 
@@ -87,7 +90,7 @@ export default function useDragAndDrop() {
 		const rawData = event.dataTransfer?.getData('application/vueflow')
 		if (!rawData) return
 
-		let payload: unknown
+		let payload: CustomNodeData
 		try {
 			payload = JSON.parse(rawData)
 		} catch (err) {
@@ -107,16 +110,15 @@ export default function useDragAndDrop() {
 
 		const nodeId = getId()
 
-		const newNode: Node = {
+		const newNode = {
 			id: nodeId,
+			label: payload.label || 'New Node',
 			type: payload.type || 'default',
 			position,
 			data: {
-				label: payload.label || nodeId,
-				...(payload.config ?? {})
+				...payload
 			}
 		}
-
 		const { off } = onNodesInitialized(() => {
 			updateNode(nodeId, (node) => ({
 				position: {

@@ -15,17 +15,9 @@ import DropzoneBackground from '@renderer/components/ProSettingComponent/editor/
 import Dialog from '@renderer/components/ProSettingComponent/editor/Dialog.vue'
 import CustomizeControls from '@renderer/components/ProSettingComponent/editor/CustomizeControls.vue'
 import useDragAndDrop from '@renderer/components/ProSettingComponent/editor/useDnD'
-import { nodeTypes } from '@renderer/components/ProSettingComponent/editor/CustomNodes'
+import { getNodeTypes } from '@renderer/components/ProSettingComponent/editor/CustomNodes'
 const { onDragOver, onDrop, onDragLeave } = useDragAndDrop()
-const nodes = ref([
-	{ id: '1', type: 'input', data: { label: 'Start' }, position: { x: 0, y: 0 } },
-	{
-		id: '2',
-		type: 'output',
-		data: { label: `End` },
-		position: { x: 0, y: 100 }
-	}
-])
+const nodes = ref([])
 const edges = ref([])
 const modalRef = ref<InstanceType<typeof Dialog>>()
 // 普通节点删除事件 添加个弹窗确认是否删除
@@ -33,6 +25,7 @@ onNodesChange(async (changes) => {
 	const nextChanges: NodeChange[] = []
 	for (const change of changes) {
 		if (change.type === 'remove') {
+			console.log(findNode(change.id))
 			const label = findNode(change.id)?.data.label
 			const confirmed = await modalRef.value?.show('提示', `你确定要删除${label}这个组件吗？`)
 			if (confirmed) {
@@ -54,7 +47,7 @@ onEdgesChange(applyEdgeChanges)
 			:nodes="nodes"
 			:edges="edges"
 			:apply-default="false"
-			:node-types="nodeTypes"
+			:node-types="getNodeTypes()"
 			@connect="addEdges"
 			@dragover="onDragOver"
 			@dragleave="onDragLeave"
@@ -95,6 +88,9 @@ onEdgesChange(applyEdgeChanges)
 	width: 100%;
 	height: 100%;
 	.selected {
+		animation: rgb-border 2s linear infinite;
+	}
+	[selected='true'] {
 		animation: rgb-border 2s linear infinite;
 	}
 }
