@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { Message } from '@arco-design/web-vue'
 import { HardwareMonitorInfo } from '@renderer/store/interfaces'
+
 export enum GPUMode {
 	DiscreteMode,
 	HybridMode,
@@ -258,5 +259,4 @@ const WMIOperation = {
 	}
 }
 
-const wmiOperation = WMIOperation
-export default wmiOperation
+export default WMIOperation

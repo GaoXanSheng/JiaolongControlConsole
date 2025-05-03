@@ -25,7 +25,7 @@ import CpuBoost from '@renderer/components/RightComponent/setting/CPUBoost.vue'
 	</div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .setting {
 	padding-top: 20px;
 

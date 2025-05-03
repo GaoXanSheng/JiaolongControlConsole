@@ -32,7 +32,7 @@ import BackgroundVideo from '../../assets/BackgroundVideo.mp4'
 	</div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .mainDescription {
 	text-align: left;
 }

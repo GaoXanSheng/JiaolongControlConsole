@@ -1,29 +1,59 @@
 <script async setup lang="ts">
-import wmiOperation from '@renderer/tools/WMIOperation'
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { Message } from '@arco-design/web-vue'
+import WMIOperation from '@renderer/tools/WMIOperation'
 
-const KeyboardColorData = await wmiOperation.Keyboard.Color.Get()
-const Data = ref({
-	red: KeyboardColorData.red,
-	green: KeyboardColorData.green,
-	blue: KeyboardColorData.blue,
-	LightBrightness: await wmiOperation.Keyboard.LightBrightness.Get()
-})
 const loading = ref(false)
+
+const color = ref({ red: 0, green: 0, blue: 0 })
+const LightBrightness = ref(0)
+const colorPicker = ref('#000000')
+
+async function loadInitialData() {
+	const [colorData, brightness] = await Promise.all([
+		WMIOperation.Keyboard.Color.Get(),
+		WMIOperation.Keyboard.LightBrightness.Get()
+	])
+	color.value = { ...colorData }
+	LightBrightness.value = brightness
+	colorPicker.value = rgbToHex(color.value.red, color.value.green, color.value.blue)
+}
+
+await loadInitialData()
+
+function rgbToHex(r: number, g: number, b: number) {
+	return `#${[r, g, b].map((x) => x.toString(16).padStart(2, '0')).join('')}`
+}
+
+function hexToRgb(hex: string) {
+	const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
+	return result
+		? {
+				red: parseInt(result[1], 16),
+				green: parseInt(result[2], 16),
+				blue: parseInt(result[3], 16)
+			}
+		: null
+}
+
+// 自动同步 colorPicker <-> color
+watch(color, (val) => {
+	colorPicker.value = rgbToHex(val.red, val.green, val.blue)
+})
+
+watch(colorPicker, (val) => {
+	const rgb = hexToRgb(val)
+	if (rgb) Object.assign(color.value, rgb)
+})
 
 async function handleClick() {
 	loading.value = true
-	// const data = [
-	const ColorRes = await wmiOperation.Keyboard.Color.Set(
-		Data.value.red,
-		Data.value.green,
-		Data.value.blue
-	)
-	const LightBrightnessRes = await wmiOperation.Keyboard.LightBrightness.Set(
-		Data.value.LightBrightness
-	)
-	if (ColorRes && LightBrightnessRes) {
+	const [colorRes, brightnessRes] = await Promise.all([
+		WMIOperation.Keyboard.Color.Set(color.value.red, color.value.green, color.value.blue),
+		WMIOperation.Keyboard.LightBrightness.Set(LightBrightness.value)
+	])
+
+	if (colorRes && brightnessRes) {
 		Message.success('应用成功')
 	} else {
 		Message.error('应用失败')
@@ -36,64 +66,46 @@ async function handleClick() {
 	<div class="Keyboard">
 		<a-row justify="center">
 			<a-col :span="16">
-				<a-typography-title class="title"> KeyBoard Settings</a-typography-title>
+				<a-typography-title class="title">KeyBoard Settings</a-typography-title>
 			</a-col>
+
 			<div
 				class="keys"
-				:style="{ backgroundColor: `rgb(${Data.red}, ${Data.green}, ${Data.blue})` }"
+				:style="{ backgroundColor: `rgb(${color.red}, ${color.green}, ${color.blue})` }"
 			>
-				<p
-					class="Preview"
-					:style="{ color: `rgb(${255 - Data.blue}, ${255 - Data.green}, ${255 - Data.red})` }"
-				>
-					Preview
-				</p>
+				<div class="Preview">
+					<a-color-picker v-model="colorPicker" size="mini">
+						<a-tag :color="colorPicker">
+							<p
+								:style="{
+									color: `rgb(${255 - color.blue}, ${255 - color.green}, ${255 - color.red})`
+								}"
+							>
+								Preview
+							</p>
+						</a-tag>
+					</a-color-picker>
+				</div>
 			</div>
-			<a-col :span="16" class="item">
-				<a-input-number
-					v-model="Data.red"
-					placeholder="Red"
-					:min="0"
-					:max="255"
-					model-event="input"
-				>
-					<template #append> Red</template>
+
+			<a-col v-for="c in ['red', 'green', 'blue']" :key="c" :span="16" class="item">
+				<a-input-number v-model="color[c]" :min="0" :max="255" :placeholder="c" model-event="input">
+					<template #append>{{ c }}</template>
 				</a-input-number>
 			</a-col>
+
 			<a-col :span="16" class="item">
 				<a-input-number
-					v-model="Data.green"
-					placeholder="Green"
+					v-model="LightBrightness"
 					:min="0"
-					:max="255"
-					model-event="input"
-				>
-					<template #append> Green</template>
-				</a-input-number>
-			</a-col>
-			<a-space direction="vertical" size="large"></a-space>
-			<a-col :span="16" class="item">
-				<a-input-number
-					v-model="Data.blue"
-					placeholder="Blue"
-					:min="0"
-					:max="255"
-					model-event="input"
-				>
-					<template #append> Blue</template>
-				</a-input-number>
-			</a-col>
-			<a-col :span="16" class="item">
-				<a-input-number
-					v-model="Data.LightBrightness"
-					:min="0"
-					placeholder="LightBrightness"
 					:max="3"
+					placeholder="LightBrightness"
 					model-event="input"
 				>
-					<template #append> LightBrightness</template>
+					<template #append>LightBrightness</template>
 				</a-input-number>
 			</a-col>
+
 			<a-col :span="16" class="item">
 				<a-button type="primary" :loading="loading" @click="handleClick">确认</a-button>
 			</a-col>
@@ -101,7 +113,7 @@ async function handleClick() {
 	</div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .Keyboard {
 	padding-top: 20px;
 
@@ -114,12 +126,13 @@ async function handleClick() {
 		height: 200px;
 
 		.Preview {
-			top: 45%;
-			position: relative;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			height: 100%;
 			text-align: center;
 		}
 	}
-
 	.item {
 		margin-top: 10px;
 	}

@@ -8,7 +8,6 @@ import { createPinia } from 'pinia'
 import routes from '@renderer/routes'
 import 'vue-data-ui/style.css'
 import { VueUiRadar } from 'vue-data-ui'
-
 createApp(App)
 	.use(createPinia())
 	.use(routes)

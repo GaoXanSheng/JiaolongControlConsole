@@ -2,7 +2,6 @@
 import SettingCardComponent from '@renderer/components/RightComponent/setting/SettingCardComponent.vue'
 import { ref } from 'vue'
 import WMIOperation from '@renderer/tools/WMIOperation'
-
 const cpuboost = ref(await WMIOperation.CPU.GetCustomMode())
 
 async function CpuBoost_handleClick() {

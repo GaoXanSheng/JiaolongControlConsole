@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import WMIOperation from '@renderer/tools/WMIOperation'
 import { Message } from '@arco-design/web-vue'
 import SettingCardComponent from '@renderer/components/RightComponent/setting/SettingCardComponent.vue'
+
 const GPUDirectConnection = ref((await WMIOperation.GPUMode.Get()) == 0)
 async function GPUDirectConnection_handleClick() {
 	const result = await WMIOperation.GPUMode.Set(GPUDirectConnection.value ? 0 : 1)

@@ -1,4 +1,4 @@
-import BaseCustomNode from '@renderer/components/ProSettingComponent/editor/Nodes/BaseCustomNode.vue'
+import DeBugNode from '@renderer/components/ProSettingComponent/editor/Nodes/DeBugNode.vue'
 import { NodeComponent, NodeTypesObject } from '@vue-flow/core'
 import { markRaw } from 'vue'
 
@@ -58,7 +58,7 @@ const nodes: CustomNode[] = [
 	},
 	{
 		type: 'test',
-		Component: markRaw(BaseCustomNode) as NodeComponent,
+		Component: markRaw(DeBugNode) as NodeComponent,
 		data: {
 			title: '测试节点',
 			label: 'test',

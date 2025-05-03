@@ -1,18 +1,18 @@
 <script async setup lang="ts">
-import wmiOperation from '@renderer/tools/WMIOperation'
 import { ref } from 'vue'
 import { Message } from '@arco-design/web-vue'
 import useStore from '@renderer/store'
+import WMIOperation from '@renderer/tools/WMIOperation'
+
 const store = useStore()
 
 const loading = ref(false)
-const _thisCpu = wmiOperation.CPU
 async function handleClick() {
 	loading.value = true
 	const result = [
-		await _thisCpu.SetCpuLongPower(store.$state.CPUData.longPower),
-		await _thisCpu.SetCpuShortPower(store.$state.CPUData.shortPower),
-		await _thisCpu.SetCPUTempWall(store.$state.CPUData.tempWall)
+		await WMIOperation.CPU.SetCpuLongPower(store.$state.CPUData.longPower),
+		await WMIOperation.CPU.SetCpuShortPower(store.$state.CPUData.shortPower),
+		await WMIOperation.CPU.SetCPUTempWall(store.$state.CPUData.tempWall)
 	]
 	result.map((item) => {
 		if (item.toLowerCase() == 'true') {
@@ -72,7 +72,7 @@ async function handleClick() {
 	</div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .CPU {
 	padding-top: 20px;
 	.title {

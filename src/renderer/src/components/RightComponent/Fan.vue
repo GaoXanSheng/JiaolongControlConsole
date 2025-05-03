@@ -2,10 +2,11 @@
 import { ref } from 'vue'
 import { Message } from '@arco-design/web-vue'
 import useStore from '@renderer/store'
-import wmiOperation from '@renderer/tools/WMIOperation'
+import WMIOperation from '@renderer/tools/WMIOperation'
+
 const store = useStore()
 const loading = ref(false)
-const _thisFan = wmiOperation.Fan
+const _thisFan = WMIOperation.Fan
 async function handleClick() {
 	loading.value = true
 	await _thisFan.SetMaxFanSpeedSwitch(true)
@@ -43,7 +44,7 @@ async function handleClick() {
 	</div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .Fan {
 	padding-top: 20px;
 

@@ -27,7 +27,7 @@ const currentComponent = computed(() => {
 	}
 })
 
-function enter(el, done) {
+function enter(el: Element, done: () => void) {
 	// 进入时添加类
 	el.classList.add('swap')
 	el.addEventListener('animationend', () => {
@@ -35,7 +35,7 @@ function enter(el, done) {
 	})
 }
 
-function leave(_el, done) {
+function leave(_el: Element, done: () => void) {
 	done()
 }
 </script>
