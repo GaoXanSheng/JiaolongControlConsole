@@ -25,7 +25,6 @@ onNodesChange(async (changes) => {
 	const nextChanges: NodeChange[] = []
 	for (const change of changes) {
 		if (change.type === 'remove') {
-			console.log(findNode(change.id))
 			const label = findNode(change.id)?.data.label
 			const confirmed = await modalRef.value?.show('提示', `你确定要删除${label}这个组件吗？`)
 			if (confirmed) {
