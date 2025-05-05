@@ -12,12 +12,15 @@ export interface CustomNode {
 	Component?: NodeComponent
 	type: string
 	data: CustomNodeData
+	options?: CustomNodeOptions
 }
+export interface CustomNodeOptions extends Record<string, unknown> {}
 export interface CustomNodeData {
 	label: string
 	config: { type: string }
 	title?: string
 }
+
 export function getNodeTypes(): NodeTypesObject {
 	const temp = {}
 	nodes.map((node) => {
@@ -29,37 +32,6 @@ export function getNodeTypes(): NodeTypesObject {
 }
 
 const nodes: CustomNode[] = [
-	{
-		type: 'input',
-		data: {
-			label: 'Start',
-			title: '开始节点',
-			config: {
-				type: 'start'
-			}
-		}
-	},
-	{
-		type: 'output',
-
-		data: {
-			label: 'End',
-			title: '结束节点',
-			config: {
-				type: 'end'
-			}
-		}
-	},
-	{
-		type: 'default',
-		data: {
-			label: 'Default',
-			title: '默认节点',
-			config: {
-				type: 'default'
-			}
-		}
-	},
 	{
 		type: 'DeBug',
 		Component: markRaw(DeBugNode) as NodeComponent,

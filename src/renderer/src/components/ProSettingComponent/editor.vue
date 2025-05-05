@@ -4,29 +4,37 @@ import '@vue-flow/core/dist/theme-default.css'
 import '@vue-flow/minimap/dist/style.css'
 import '@vue-flow/controls/dist/style.css'
 
-import { ref } from 'vue'
+import { nextTick, ref } from 'vue'
 import { MiniMap } from '@vue-flow/minimap'
 import { Controls } from '@vue-flow/controls'
-import { NodeChange, useVueFlow, VueFlow } from '@vue-flow/core'
-const { addEdges, onNodesChange, applyNodeChanges, onEdgesChange, applyEdgeChanges, findNode } =
-	useVueFlow()
-
+import { EdgeChange, NodeChange, useVueFlow, VueFlow } from '@vue-flow/core'
 import DropzoneBackground from '@renderer/components/ProSettingComponent/editor/DropzoneBackground.vue'
 import Dialog from '@renderer/components/ProSettingComponent/editor/Dialog.vue'
 import CustomizeControls from '@renderer/components/ProSettingComponent/editor/CustomizeControls.vue'
 import useDragAndDrop from '@renderer/components/ProSettingComponent/editor/useDnD'
 import { getNodeTypes } from '@renderer/components/ProSettingComponent/editor/CustomNodes'
+
+const { addEdges, onNodesChange, applyNodeChanges, onEdgesChange, applyEdgeChanges, findNode } =
+	useVueFlow()
+
 const { onDragOver, onDrop, onDragLeave } = useDragAndDrop()
 const nodes = ref([])
 const edges = ref([])
 const modalRef = ref<InstanceType<typeof Dialog>>()
+
 // 普通节点删除事件 添加个弹窗确认是否删除
-onNodesChange(async (changes) => {
-	const nextChanges: NodeChange[] = []
+async function handleChanges<T extends { type: string; id?: string }>(
+	changes: T[],
+	findLabel: (id: string) => string | undefined,
+	confirmMessage: (label: string) => string,
+	applyChanges: (changes: T[]) => void
+) {
+	const nextChanges: T[] = []
+
 	for (const change of changes) {
 		if (change.type === 'remove') {
-			const label = findNode(change.id)?.data.label
-			const confirmed = await modalRef.value?.show('提示', `你确定要删除${label}这个组件吗？`)
+			const label = change.id ? (findLabel(change.id) ?? '') : ''
+			const confirmed = await modalRef.value?.show('提示', confirmMessage(label))
 			if (confirmed) {
 				nextChanges.push(change)
 			}
@@ -34,10 +42,30 @@ onNodesChange(async (changes) => {
 			nextChanges.push(change)
 		}
 	}
-	applyNodeChanges(nextChanges)
+
+	// Use nextTick to avoid triggering reactivity in the same cycle
+	await nextTick(() => {
+		applyChanges(nextChanges)
+	})
+}
+
+onNodesChange((changes) => {
+	handleChanges<NodeChange>(
+		changes,
+		(id) => findNode(id)?.data.label,
+		(label) => `你确定要删除 ${label} 这个组件吗？`,
+		applyNodeChanges
+	)
 })
-// 连线节点事件，因为默认行为被apply-default禁用了，所以需要手动添加
-onEdgesChange(applyEdgeChanges)
+
+onEdgesChange((changes) => {
+	handleChanges<EdgeChange>(
+		changes,
+		() => '', // 连线没有 label
+		() => '你确定要删除连线吗？',
+		applyEdgeChanges
+	)
+})
 </script>
 
 <template>
@@ -53,7 +81,7 @@ onEdgesChange(applyEdgeChanges)
 		>
 			<Controls />
 			<MiniMap pannable zoomable position="top-right" />
-			<DropzoneBackground> </DropzoneBackground>
+			<DropzoneBackground></DropzoneBackground>
 			<CustomizeControls></CustomizeControls>
 		</VueFlow>
 		<Dialog ref="modalRef" />
@@ -83,12 +111,15 @@ onEdgesChange(applyEdgeChanges)
 		border-color: violet;
 	}
 }
+
 .editor {
 	width: 100%;
 	height: 100%;
+
 	.selected {
 		animation: rgb-border 2s linear infinite;
 	}
+
 	[selected='true'] {
 		animation: rgb-border 2s linear infinite;
 	}

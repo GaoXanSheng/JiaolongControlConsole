@@ -1,8 +1,6 @@
 <script setup lang="ts">
-import { Handle, Position, type Node, useNodeConnections, useNodesData } from '@vue-flow/core'
-import { CustomNode } from '@renderer/components/ProSettingComponent/editor/CustomNodes'
-
-const props = defineProps<Node<CustomNode>>()
+import { Handle, Position, useNodeConnections, useNodesData } from '@vue-flow/core'
+import CustomizeNode from '@renderer/components/ProSettingComponent/editor/Nodes/CustomizeNode.vue'
 
 const inputConnections = useNodeConnections({
 	handleType: 'target'
@@ -11,18 +9,22 @@ const outputConnections = useNodeConnections({
 	handleType: 'source'
 })
 
-const inputConnectionsData = useNodesData(() => inputConnections.value[0]?.source)
-const outputConnectionsData = useNodesData(() => outputConnections.value[0]?.target)
+const inputConnectionsData = useNodesData(() =>
+	inputConnections.value.map((connection) => connection.source)
+)
+const outputConnectionsData = useNodesData(() =>
+	outputConnections.value.map((connection) => connection.target)
+)
 </script>
 
 <template>
-	<div class="custom-node">
-		<div>{{ props.data }}</div>
+	<CustomizeNode>
+		<div>DEBUG</div>
 		<div>{{ inputConnectionsData }}</div>
 		<div>{{ outputConnectionsData }}</div>
 		<Handle type="source" :position="Position.Right" />
 		<Handle type="target" :position="Position.Left" />
-	</div>
+	</CustomizeNode>
 </template>
 
 <style lang="scss" scoped>

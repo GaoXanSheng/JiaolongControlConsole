@@ -1,15 +1,26 @@
 <script setup lang="ts">
-import { type Node, Position } from '@vue-flow/core'
+import { type Node, Position, useVueFlow } from '@vue-flow/core'
 import { CustomNode } from '@renderer/components/ProSettingComponent/editor/CustomNodes'
 import CustomizeHandle from '@renderer/components/ProSettingComponent/editor/Nodes/CustomizeHandle.vue'
 import CustomizeNode from '@renderer/components/ProSettingComponent/editor/Nodes/CustomizeNode.vue'
+import { ref } from 'vue'
 const props = defineProps<Node<CustomNode>>()
+const { updateNode } = useVueFlow()
+
+const options = ref({
+	value: ''
+})
 </script>
 
 <template>
 	<CustomizeNode>
 		<a-input-group>
-			<a-select :options="['大于', '小于', '等于']" :style="{ width: '160px' }"> </a-select>
+			<a-select
+				:options="['大于', '小于', '等于']"
+				:style="{ width: '160px' }"
+				:model-value="options.value"
+				@change="() => updateNode(props.id, { data: { ...props.data, options } })"
+			/>
 		</a-input-group>
 		<CustomizeHandle
 			id="target1"

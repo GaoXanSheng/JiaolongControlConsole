@@ -1,6 +1,4 @@
-<script setup lang="ts">
-defineEmits(['updateNodeInternals'])
-</script>
+<script setup lang="ts"></script>
 <template>
 	<div class="custom-node">
 		<slot />

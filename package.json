@@ -25,6 +25,7 @@
     "@vue-flow/controls": "^1.1.2",
     "@vue-flow/core": "^1.42.5",
     "@vue-flow/minimap": "^1.5.3",
+    "@vue-flow/node-toolbar": "^1.1.1",
     "axios": "^1.8.2",
     "pinia": "^2.2.4",
     "sass": "^1.77.8",
