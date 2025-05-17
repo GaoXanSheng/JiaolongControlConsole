@@ -12,7 +12,12 @@
 ---
 
 ## 📦 安装依赖
-
+```bash
+winget install OpenJS.NodeJS
+```
+```bash
+winget install Microsoft.DotNet.SDK.8
+```
 ```bash
 npm install
 ```
@@ -20,13 +25,15 @@ npm install
 ## 🧪 启动开发模式
 
 ```bash
+powershell -ExecutionPolicy Bypass -File .\JiaoLongWMI\build.ps1
+```
+```bash
 npm run dev
 ```
-
 ## 🏗️ 构建项目
 
 ```bash
-npm run build
+powershell -ExecutionPolicy Bypass -File .\build.ps1
 ```
 
 ---
