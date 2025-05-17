@@ -3,7 +3,6 @@ import useStore from '@renderer/store'
 import { ref } from 'vue'
 import SettingCardComponent from '@renderer/components/RightComponent/setting/SettingCardComponent.vue'
 import { Message } from '@arco-design/web-vue'
-import { electronAPI } from '@electron-toolkit/preload'
 import electron from '@renderer/tools/electron'
 
 const store = useStore()
@@ -28,6 +27,9 @@ async function setCustomVideo() {
 	}
 	loading.value = false
 }
+function removeCustomVideo() {
+	store.$state.customVideo = ''
+}
 </script>
 
 <template>
@@ -45,6 +47,7 @@ async function setCustomVideo() {
 	</setting-card-component>
 	<setting-card-component title="自定义主页视频">
 		<template #extra>
+			<a-button :loading="loading" @click="removeCustomVideo">清空</a-button>
 			<a-button :loading="loading" @click="setCustomVideo">选择</a-button>
 		</template>
 	</setting-card-component>
