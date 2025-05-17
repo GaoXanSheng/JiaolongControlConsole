@@ -6,6 +6,7 @@ import LogoLight from '@renderer/components/RightComponent/setting/LogoLight.vue
 import Theme from '@renderer/components/RightComponent/setting/theme.vue'
 import PowerMode from '@renderer/components/RightComponent/setting/PowerMode.vue'
 import CpuBoost from '@renderer/components/RightComponent/setting/CPUBoost.vue'
+import InstallService from '@renderer/components/RightComponent/setting/InstallService.vue'
 </script>
 
 <template>
@@ -21,6 +22,7 @@ import CpuBoost from '@renderer/components/RightComponent/setting/CPUBoost.vue'
 			<CpuBoost></CpuBoost>
 			<theme></theme>
 			<power-mode></power-mode>
+			<install-service></install-service>
 		</a-row>
 	</div>
 </template>

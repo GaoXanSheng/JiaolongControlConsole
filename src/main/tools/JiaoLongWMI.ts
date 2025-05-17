@@ -16,4 +16,5 @@ async function initWMI(): Promise<ChildProcessWithoutNullStreams> {
 	})
 	return process
 }
+
 export default initWMI

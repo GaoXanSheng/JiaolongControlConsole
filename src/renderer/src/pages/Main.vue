@@ -1,17 +1,26 @@
-<script setup lang="ts">
+<script async setup lang="ts">
 import RightSide from '@renderer/components/rightSide.vue'
 import useStore, { HomeCardType } from '@renderer/store'
 import { HomeTab } from '@renderer/store/HomeTab'
 import information from '@renderer/assets/Information.png'
 import electron from '@renderer/tools/electron'
+import { Message } from '@arco-design/web-vue'
 const store = useStore()
 
-function onClickMenuItem(key: HomeTab) {
+async function onClickMenuItem(key: HomeTab) {
+	store.$state.ServiceOption = await electron.ipcRenderer.invoke('ServiceOption', {
+		type: 'status'
+	})
 	if (key != HomeTab.OpenProSettings) {
 		store.$state.SwitchPages = key
 		return
 	}
-	electron.ipcRenderer.invoke('OpenProSettings')
+	if (HomeTab.OpenProSettings && !store.$state.ServiceOption) {
+		Message.error('必须安装服务后才可使用')
+		return
+	} else {
+		await electron.ipcRenderer.invoke('OpenProSettings')
+	}
 }
 </script>
 

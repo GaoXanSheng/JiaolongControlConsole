@@ -27,6 +27,7 @@
     "@vue-flow/minimap": "^1.5.3",
     "@vue-flow/node-toolbar": "^1.1.1",
     "axios": "^1.8.2",
+    "iconv-lite": "^0.6.3",
     "pinia": "^2.2.4",
     "sass": "^1.77.8",
     "vue-data-ui": "^2.6.34",

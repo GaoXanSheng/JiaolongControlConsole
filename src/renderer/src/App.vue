@@ -1,6 +1,7 @@
-<script setup lang="ts">
+<script async setup lang="ts">
 import { onMounted } from 'vue'
 import useStore from '@renderer/store'
+
 const store = useStore()
 onMounted(() => {
 	document.body.setAttribute('arco-theme', store.$state.theme)
@@ -17,6 +18,7 @@ function LoadConfig() {
 		if (value) store.$state[key] = JSON.parse(value)
 	})
 	store.$state.RgbEventLoop = false
+
 	store.$subscribe(() => {
 		Object.keys(store.$state).map((key) => {
 			localStorage.setItem(key, JSON.stringify(store.$state[key]))

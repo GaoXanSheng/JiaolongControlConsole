@@ -1,10 +1,9 @@
 import { BrowserWindow, Menu, Tray } from 'electron'
-import { uninstallDriver } from '../tools/uninstallDriver'
-import JiaoLongWMI from '../tools/JiaoLongWMI'
+import { isServiceRunning, uninstallService } from '../tools/ServiceDriver'
+import { killWmi } from './store'
 
 export default async function (win: BrowserWindow, icon: string): Promise<void> {
 	const tray = new Tray(icon)
-	const wmi = await JiaoLongWMI()
 	const contextMenu = Menu.buildFromTemplate([
 		{
 			label: '显示界面',
@@ -12,9 +11,11 @@ export default async function (win: BrowserWindow, icon: string): Promise<void> 
 		},
 		{
 			label: '退出',
-			click: () => {
-				if (wmi) wmi.kill('SIGINT')
-				uninstallDriver('R0JiaoLongWMI')
+			click: async () => {
+				await killWmi()
+				if (await isServiceRunning('R0JiaoLongWMI')) {
+					await uninstallService('R0JiaoLongWMI')
+				}
 				process.exit(0)
 			}
 		}
