@@ -18,7 +18,8 @@ export default function (icon) {
 			preload: join(__dirname, '../preload/index.js'),
 			backgroundThrottling: true,
 			sandbox: false,
-			autoplayPolicy: 'no-user-gesture-required'
+			autoplayPolicy: 'no-user-gesture-required',
+			webSecurity: false
 		}
 	})
 	mainWindow.on('ready-to-show', () => {

@@ -3,16 +3,18 @@ import SettingCardComponent from '@renderer/components/RightComponent/setting/Se
 import { ref } from 'vue'
 import WMIOperation from '@renderer/tools/WMIOperation'
 const cpuboost = ref(await WMIOperation.CPU.GetCustomMode())
-
+const loading = ref(false)
 async function CpuBoost_handleClick() {
+	loading.value = true
 	await WMIOperation.CPU.OpenCustomMode(cpuboost.value)
+	loading.value = false
 }
 </script>
 
 <template>
 	<setting-card-component title="CPU增压">
 		<template #extra>
-			<a-switch v-model="cpuboost" @change="CpuBoost_handleClick">
+			<a-switch v-model="cpuboost" :loading="loading" @click="CpuBoost_handleClick">
 				<template #checked-icon>
 					<icon-check />
 				</template>

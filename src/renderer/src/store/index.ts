@@ -19,7 +19,8 @@ const useStore = defineStore('store', {
 			},
 			RgbEventLoop: false,
 			theme: 'light',
-			ServiceOption: false
+			ServiceOption: false,
+			customVideo: ''
 		}
 	}
 })

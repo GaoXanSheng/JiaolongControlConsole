@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain } from 'electron'
+import { app, BrowserWindow, ipcMain, dialog } from 'electron'
 import { electronApp, optimizer } from '@electron-toolkit/utils'
 import createWindow from './electron/createWindow'
 import RgbEventLoop from './tools/RgbEventLoop'
@@ -66,5 +66,16 @@ app.whenReady().then(async () => {
 		proSettingsWindow!.on('closed', () => {
 			proSettingsWindow = null
 		})
+	})
+	ipcMain.handle('dialog:openFile', async () => {
+		const { canceled, filePaths } = await dialog.showOpenDialog({
+			properties: ['openFile'],
+			filters: [{ name: 'Videos', extensions: ['mp4', 'avi', 'mkv'] }]
+		})
+		if (canceled) {
+			return null
+		} else {
+			return filePaths[0] // 返回选中的文件绝对路径
+		}
 	})
 })

@@ -2,14 +2,17 @@
 import { Message } from '@arco-design/web-vue'
 import WMIOperation, { PerformaceMode } from '@renderer/tools/WMIOperation'
 import SettingCardComponent from '@renderer/components/RightComponent/setting/SettingCardComponent.vue'
-
+import { ref } from 'vue'
+const loading = ref(false)
 async function PowerMode_handleClick(PowerMode: PerformaceMode) {
+	loading.value = true
 	const result = await WMIOperation.PerformaceMode.Set(PowerMode)
 	if (result == '拒绝访问') {
 		Message.error(result)
 	} else {
 		Message.success('应用成功')
 	}
+	loading.value = false
 }
 </script>
 
@@ -18,7 +21,7 @@ async function PowerMode_handleClick(PowerMode: PerformaceMode) {
 		<template #extra>
 			<a-space size="large">
 				<a-dropdown>
-					<a-button>选择</a-button>
+					<a-button :loading="loading">选择</a-button>
 					<template #content>
 						<a-doption @click="PowerMode_handleClick(PerformaceMode.OfficeMode)"
 							>办公模式
