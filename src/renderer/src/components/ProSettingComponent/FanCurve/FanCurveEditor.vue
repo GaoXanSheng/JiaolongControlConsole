@@ -30,7 +30,7 @@
 						r="8"
 						class="point"
 						@mousedown.prevent="onMouseDown(index)"
-						@contextmenu.prevent="onPointClick(index)"
+						@contextmenu.prevent="onPointClick(index, $event)"
 					/>
 					<text
 						:x="tempToX(point.temp) + 10"
@@ -46,8 +46,8 @@
 			<div v-if="selectedIndex !== null" class="toolbar" :style="toolbarStyle" @mousedown.stop>
 				<a-button size="small" @click="onAddNode">添加节点</a-button>
 				<a-button size="small" :disabled="points.length <= 2" @click="onRemoveNode"
-					>删除节点
-				</a-button>
+					>删除节点</a-button
+				>
 				<a-button size="small" @click.stop="showEdit = true">编辑节点</a-button>
 			</div>
 		</div>
@@ -58,11 +58,19 @@
 				direction="vertical"
 				size="large"
 			>
-				<a-input-number v-model="points[selectedIndex!].temp" allow-clear>
-					<template #prepend> 温度</template>
+				<a-input-number
+					v-model="points[selectedIndex].temp"
+					:min="tempRange[0]"
+					:max="tempRange[1]"
+				>
+					<template #prepend>温度</template>
 				</a-input-number>
-				<a-input-number v-model="points[selectedIndex!].speed" allow-clear>
-					<template #prepend> 温度</template>
+				<a-input-number
+					v-model="points[selectedIndex].speed"
+					:min="speedRange[0]"
+					:max="speedRange[1]"
+				>
+					<template #prepend>转速</template>
 				</a-input-number>
 			</a-space>
 		</a-modal>
@@ -70,63 +78,33 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, CSSProperties, reactive, ref } from 'vue'
-
-interface Point {
-	temp: number
-	speed: number
-}
+import { computed, ref, reactive, CSSProperties } from 'vue'
+import { useFanCurve } from './useFanCurve'
+import { useCoordinateTransform } from './useCoordinateTransform'
 
 const width = 840
 const height = 600
 const margin = 40
-
+const tempRange: [number, number] = [60, 100]
+const speedRange: [number, number] = [1500, 5800]
 const gridX = (width - 2 * margin) / 10
 const gridY = (height - 2 * margin) / 10
 
-const tempRange = [60, 100]
-const speedRange = [1500, 5800]
+const points = useFanCurve()
+const { tempToX, speedToY, xToTemp, yToSpeed } = useCoordinateTransform(
+	width,
+	height,
+	margin,
+	tempRange,
+	speedRange
+)
 
 const svgRef = ref<SVGSVGElement | null>(null)
 const chartWrapperRef = ref<HTMLDivElement | null>(null)
-
-const defaultPoints: Point[] = [
-	{ temp: 60, speed: 1500 },
-	{ temp: 80, speed: 3000 },
-	{ temp: 100, speed: 5800 }
-]
-
-const stored = localStorage.getItem('fanCurve')
-const parsed = stored ? (JSON.parse(stored) as Point[]) : defaultPoints
-
-const points = reactive<Point[]>(parsed)
-
-let lastSerialized = JSON.stringify(points.map((p) => ({ ...p })))
-
-setInterval(() => {
-	const currentSerialized = JSON.stringify(points.map((p) => ({ ...p })))
-	if (currentSerialized !== lastSerialized) {
-		localStorage.setItem('fanCurve', currentSerialized)
-		lastSerialized = currentSerialized
-	}
-}, 1000)
-
-const dragging = reactive({
-	index: null as number | null
-})
-
 const selectedIndex = ref<number | null>(null)
 const showEdit = ref(false)
 
-const tempToX = (t: number) =>
-	margin + ((t - tempRange[0]) / (tempRange[1] - tempRange[0])) * (width - 2 * margin)
-const speedToY = (s: number) =>
-	height - margin - ((s - speedRange[0]) / (speedRange[1] - speedRange[0])) * (height - 2 * margin)
-
-const xToTemp = (x: number) =>
-	tempRange[0] + ((x - margin) / (width - 2 * margin)) * (tempRange[1] - tempRange[0])
-const yToSpeed = (y: number) =>
-	speedRange[0] + ((height - margin - y) / (height - 2 * margin)) * (speedRange[1] - speedRange[0])
+const dragging = reactive({ index: null as number | null })
 
 const linePoints = computed(() =>
 	points.map((p) => `${tempToX(p.temp)},${speedToY(p.speed)}`).join(' ')
@@ -140,20 +118,17 @@ const toolbarStyle = computed<CSSProperties>(() => {
 
 	const rect = chartWrapperRef.value?.getBoundingClientRect()
 	const svgRect = svgRef.value?.getBoundingClientRect()
+	if (!rect || !svgRect) return {}
 
-	let offsetX = 0
-	let offsetY = 0
-	if (rect && svgRect) {
-		offsetX = svgRect.left - rect.left
-		offsetY = svgRect.top - rect.top
-	}
+	const offsetX = svgRect.left - rect.left
+	const offsetY = svgRect.top - rect.top
 
 	return {
 		position: 'absolute',
 		left: `${x + offsetX + 10}px`,
 		top: `${y + offsetY - 30}px`,
 		zIndex: 10,
-		backgroundColor: 'rgba(255,255,255,0.9)',
+		backgroundColor: 'rgba(255,255,255,0.95)',
 		padding: '6px',
 		borderRadius: '6px',
 		boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
@@ -168,20 +143,15 @@ function onMouseDown(index: number) {
 }
 
 function onMouseMove(event: MouseEvent) {
-	if (dragging.index === null) return
-	if (!svgRef.value) return
-
+	if (dragging.index === null || !svgRef.value) return
 	const rect = svgRef.value.getBoundingClientRect()
-	const x = event.clientX - rect.left
-	const y = event.clientY - rect.top
-
-	const clampedX = Math.max(margin, Math.min(x, width - margin))
-	const clampedY = Math.max(margin, Math.min(y, height - margin))
-
-	const newTemp = Math.round(xToTemp(clampedX))
-	const newSpeed = Math.round(yToSpeed(clampedY))
+	const x = Math.max(margin, Math.min(event.clientX - rect.left, width - margin))
+	const y = Math.max(margin, Math.min(event.clientY - rect.top, height - margin))
 
 	const idx = dragging.index
+	const newTemp = Math.round(xToTemp(x))
+	const newSpeed = Math.round(yToSpeed(y))
+
 	if (idx > 0 && newTemp <= points[idx - 1].temp) return
 	if (idx < points.length - 1 && newTemp >= points[idx + 1].temp) return
 
@@ -193,16 +163,16 @@ function onMouseUp() {
 	dragging.index = null
 }
 
-function onPointClick(index: number) {
+function onPointClick(index: number, event: MouseEvent) {
+	event.preventDefault()
 	selectedIndex.value = index
 }
 
 function onBackgroundClick(event: MouseEvent) {
-	if (event.target instanceof SVGElement || event.target instanceof HTMLElement) {
-		if (!(event.target as HTMLElement).classList.contains('point')) {
-			selectedIndex.value = null
-			showEdit.value = false
-		}
+	const el = event.target as HTMLElement
+	if (!el.classList.contains('point')) {
+		selectedIndex.value = null
+		showEdit.value = false
 	}
 }
 
@@ -211,23 +181,23 @@ function onAddNode() {
 	const idx = selectedIndex.value
 	const curr = points[idx]
 	const next = points[idx + 1] || { temp: tempRange[1], speed: curr.speed }
+
 	const newTemp = Math.min(tempRange[1] - 1, Math.round((curr.temp + next.temp) / 2))
 	const newSpeed = Math.round((curr.speed + next.speed) / 2)
+
 	points.splice(idx + 1, 0, { temp: newTemp, speed: newSpeed })
 	selectedIndex.value = idx + 1
 	showEdit.value = false
 }
 
 function onRemoveNode() {
-	if (selectedIndex.value === null) return
-	if (points.length <= 2) return
+	if (selectedIndex.value === null || points.length <= 2) return
 	points.splice(selectedIndex.value, 1)
 	selectedIndex.value = null
 	showEdit.value = false
 }
 
 function onEditOk() {
-	if (selectedIndex.value === null) return
 	showEdit.value = false
 }
 </script>
@@ -253,7 +223,6 @@ function onEditOk() {
 	padding: 10px;
 	border-radius: 8px;
 	border: 1px solid #e5e6eb;
-	overflow: visible;
 
 	svg {
 		width: 100%;
