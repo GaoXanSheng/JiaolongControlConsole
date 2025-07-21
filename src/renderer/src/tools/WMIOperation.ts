@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { Message } from '@arco-design/web-vue'
 import { HardwareMonitorInfo } from '@renderer/store/interfaces'
+import { Point } from '@renderer/components/ProSettingComponent/FanCurve/useFanCurve'
 
 export enum GPUMode {
 	DiscreteMode,
@@ -208,6 +209,13 @@ const WMIOperation = {
 		}
 	},
 	Fan: {
+		async SetFanCurve(data: Point[]) {
+			return await http({
+				type: 'SetFanCurve',
+				method: 'SetFanCurve',
+				args: data
+			})
+		},
 		async GetMaxFanSpeedSwitch() {
 			return http({
 				type: 'Fan',

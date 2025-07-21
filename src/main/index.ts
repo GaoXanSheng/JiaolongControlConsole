@@ -19,63 +19,90 @@ if (!isFirstInstance) {
 	app.quit()
 	process.exit()
 }
-app.whenReady().then(async () => {
-	// 拉起wmi
-	await getWmi()
-	electronApp.setAppUserModelId('top.yunmouren')
-	app.on('browser-window-created', (_, window) => {
-		optimizer.watchWindowShortcuts(window)
+
+async function setupApp() {
+	try {
+		// 初始化 WMI
+		await getWmi()
+
+		electronApp.setAppUserModelId('top.yunmouren')
+
+		app.on('browser-window-created', (_, window) => {
+			optimizer.watchWindowShortcuts(window)
+		})
+
+		await Tray(createWindow(icon), icon)
+
+		registerIpcHandlers()
+	} catch (err) {
+		console.error('应用启动异常:', err)
+		app.quit()
+	}
+}
+
+function registerIpcHandlers() {
+	ipcMain.handle('RgbEventLoop', async (_event, enabled: boolean) => {
+		try {
+			return await RgbEventLoop(enabled)
+		} catch (err) {
+			console.error('RgbEventLoop 错误:', err)
+			return false
+		}
 	})
-	await Tray(createWindow(icon), icon)
-	ipcMain.handle('RgbEventLoop', async (_event, args: boolean) => {
-		return await RgbEventLoop(args)
-	})
+
 	ipcMain.handle(
 		'ServiceOption',
-		async (
-			_event,
-			serviceType: {
-				type: 'start' | 'stop' | 'status'
-			}
-		) => {
-			if (serviceType.type === 'status') {
-				return await isServiceRunning('JiaoLongWMI')
-			}
-			console.log(serviceType.type)
-			// 参数为启动 且 服务未启动 默认为命令行启动 结束WMI命令行进程
-			if (serviceType.type === 'start') {
-				await killWmi()
-				// 安装为服务并启动
-				await installJiaoLongWMIService()
-				return true
-			}
-			if (serviceType.type === 'stop') {
-				await uninstallJiaoLongWMIService()
-				await getWmi()
-				return true
+		async (_event, { type }: { type: 'start' | 'stop' | 'status' }): Promise<boolean> => {
+			try {
+				if (type === 'status') {
+					return await isServiceRunning('JiaoLongWMI')
+				}
+
+				if (type === 'start') {
+					await killWmi()
+					await installJiaoLongWMIService()
+					return true
+				}
+
+				if (type === 'stop') {
+					await uninstallJiaoLongWMIService()
+					await getWmi()
+					return true
+				}
+			} catch (err) {
+				console.error(`ServiceOption ${type} 错误:`, err)
+				return false
 			}
 			return false
 		}
 	)
+
 	ipcMain.handle('OpenProSettings', async () => {
-		if (proSettingsWindow && !proSettingsWindow.isDestroyed()) {
+		if (proSettingsWindow?.isDestroyed() === false) {
 			proSettingsWindow.focus()
 			return
 		}
+
 		proSettingsWindow = new OpenProSettings().getWindow()
-		proSettingsWindow!.on('closed', () => {
+
+		proSettingsWindow?.on('closed', () => {
 			proSettingsWindow = null
 		})
 	})
+
 	ipcMain.handle('dialog:openFile', async () => {
-		const { canceled, filePaths } = await dialog.showOpenDialog({
-			properties: ['openFile'],
-			filters: [{ name: 'Videos', extensions: ['mp4', 'avi', 'mkv'] }]
-		})
-		if (canceled) {
+		try {
+			const { canceled, filePaths } = await dialog.showOpenDialog({
+				properties: ['openFile'],
+				filters: [{ name: 'Videos', extensions: ['mp4', 'avi', 'mkv'] }]
+			})
+			if (canceled) return null
+			return filePaths[0]
+		} catch (err) {
+			console.error('dialog:openFile 异常:', err)
 			return null
-		} else {
-			return filePaths[0] // 返回选中的文件绝对路径
 		}
 	})
-})
+}
+
+app.whenReady().then(setupApp)

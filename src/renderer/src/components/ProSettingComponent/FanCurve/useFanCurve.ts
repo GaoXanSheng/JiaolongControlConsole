@@ -1,6 +1,8 @@
-import { reactive } from 'vue'
+import { reactive, toRaw } from 'vue'
+import WMIOperation from '@renderer/tools/WMIOperation'
+import { Message } from '@arco-design/web-vue'
 
-interface Point {
+export interface Point {
 	temp: number
 	speed: number
 }
@@ -17,10 +19,13 @@ export function useFanCurve() {
 	const points = reactive<Point[]>(initial)
 
 	let lastSerialized = JSON.stringify(points.map((p) => ({ ...p })))
-
 	setInterval(() => {
 		const current = JSON.stringify(points.map((p) => ({ ...p })))
 		if (current !== lastSerialized) {
+			WMIOperation.Fan.SetFanCurve(toRaw(points)).then((res) => {
+				Message.success(res)
+				console.log(res)
+			})
 			localStorage.setItem('fanCurve', current)
 			lastSerialized = current
 		}
