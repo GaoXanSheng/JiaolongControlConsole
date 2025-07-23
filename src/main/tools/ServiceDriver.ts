@@ -42,7 +42,7 @@ export async function uninstallJiaoLongWMIService(): Promise<void> {
 	console.log(`服务停止成功: ${stopResult}`)
 	const uninstallResult = await execPromise(`"${JiaoLongWMI}" JiaoLongWMIService uninstall`)
 	console.log(`服务卸载成功: ${uninstallResult}`)
-	await new Promise((resolve) => setTimeout(resolve, 1000))
+	await new Promise((resolve) => setTimeout(resolve, 3000))
 }
 
 // 判断服务是否运行
