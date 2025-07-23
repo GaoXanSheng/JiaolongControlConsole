@@ -82,7 +82,7 @@ import { computed, ref, reactive, CSSProperties } from 'vue'
 import { useFanCurve } from './useFanCurve'
 import { useCoordinateTransform } from './useCoordinateTransform'
 
-const width = 840
+const width = 740
 const height = 600
 const margin = 40
 const tempRange: [number, number] = [60, 100]
