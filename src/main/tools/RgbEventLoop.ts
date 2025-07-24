@@ -8,7 +8,7 @@ const running: {
 export default async function RgbEventLoop(run: boolean) {
 	return new Promise((resolve) => {
 		if (run) {
-			running.process = spawn(WmiExe, ['RGBBreathingLightEffect', 'Start'])
+			running.process = spawn(WmiExe, ['RGBBreathingLightEffect', 'Start', '--parameter', ''])
 		} else {
 			if (running.process) running.process.kill()
 		}
