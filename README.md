@@ -10,7 +10,15 @@
 </p>
 
 ---
+## 📢 交流群
 
+<p align="left">
+  <a href="https://qm.qq.com/q/4ase4LoAJi">
+    <img src="https://img.shields.io/badge/QQ%20群-蛟龙工具箱问题反馈-EB1923?logo=tencentqq&logoColor=white" alt="QQ Group">
+  </a>
+</p>
+
+---
 ## 📦 安装依赖
 ```bash
 winget install OpenJS.NodeJS
@@ -36,4 +44,5 @@ npm run dev
 powershell -ExecutionPolicy Bypass -File .\build.ps1
 ```
 
----
+## 额外相关项目
+- [V55EC](https://github.com/GaoXanSheng/JiaoLong16Pro-EC_Modifier/releases/tag/V55)
